@@ -5,7 +5,7 @@ namespace SmartDormitory.Models.Models
 {
     public class Sensor : Entity
     {
-        public string ApiID { get; set; }
+        public string ApiId { get; set; }
 
         public string Name { get; set; }
 
@@ -14,6 +14,8 @@ namespace SmartDormitory.Models.Models
         public int MinPollingIntervalInSeconds { get; set; }
 
         public SensorTypes SensorType { get; set; }
+
+        public int SensorTypeId { get; set; }
 
         public ICollection<SensorDataHistory> DataHistory { get; set; }
 

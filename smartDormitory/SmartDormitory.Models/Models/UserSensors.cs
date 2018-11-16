@@ -4,9 +4,13 @@ namespace SmartDormitory.Models.Models
 {
     public class UserSensors
     {
-        public User UserID { get; set; }
+        public User User { get; set; }
 
-        public Sensor SensorId { get; set; }
+        public string UserId { get; set; }
+
+        public Sensor Sensor { get; set; }
+
+        public int SensorId { get; set; }
 
         public string Longitude { get; set; }
 

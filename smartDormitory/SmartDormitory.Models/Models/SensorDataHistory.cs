@@ -8,7 +8,9 @@ namespace SmartDormitory.Models.Models
     {
         public DateTime AddedOn { get; set; }
 
-        public Sensor SensorId { get; set; }
+        public Sensor Sensor { get; set; }
+
+        public int SensorId { get; set; }
 
         public string Value { get; set; }
     }
