@@ -8,13 +8,11 @@ namespace SmartDormitory.Web.Areas.API.Models
 {
     public class AllSensorsViewModel
     {
-        private IEnumerable<ApiSensor> sensors;
+        public IEnumerable<ApiSensor> sensors;
 
         public AllSensorsViewModel(IEnumerable<ApiSensor> sensors)
         {
             this.sensors = sensors;
         }
-
-
     }
 }

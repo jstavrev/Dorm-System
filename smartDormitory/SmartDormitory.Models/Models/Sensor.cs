@@ -18,7 +18,7 @@ namespace SmartDormitory.Models.Models
 
         public int SensorTypeId { get; set; }
 
-        public double CurrentValue { get; set; }
+        public string CurrentValue { get; set; }
 
         public DateTime LastUpdate { get; set; }
 

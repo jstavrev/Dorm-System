@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SmartDormitory.Services.Api__Temporary_.Providers;
+using SmartDormitory.Services.Services;
 
 namespace SmartDormitory.Web
 {
@@ -33,6 +35,8 @@ namespace SmartDormitory.Web
             });
 
             services.AddSingleton<HttpClient, HttpClient>();
+            services.AddSingleton<ApiHelper, ApiHelper>();
+            services.AddScoped<ApiService, ApiService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

@@ -6,18 +6,18 @@ namespace SmartDormitory.Services.ApiModels
 {
     public class ApiSensor
     {
-        public string Id { get; set; }
+        public string sensorId { get; set; }
 
         public string Tag { get; set; }
 
         public string Description { get; set; }
 
-        public int MinPollingInterval { get; set; }
+        public int MinPollingIntervalInSeconds { get; set; }
 
         public string MeasureType { get; set; }
 
-        public double Value { get; set; }
+        public string Value { get; set; }
 
-        public DateTime LastUpdate { get; set; }
+        public DateTime TimeStamp { get; set; }
     }
 }
