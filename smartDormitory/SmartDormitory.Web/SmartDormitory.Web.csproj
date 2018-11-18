@@ -12,9 +12,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SmartDormitory.Data\SmartDormitory.Data.csproj" />
+    <ProjectReference Include="..\SmartDormitory.Services\SmartDormitory.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\API\Data\" />
     <Folder Include="Areas\Identity\Services\" />
   </ItemGroup>
 

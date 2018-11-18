@@ -1,4 +1,5 @@
 ﻿using OnlineMovieStore.Models.Abstract;
+using System;
 using System.Collections.Generic;
 
 namespace SmartDormitory.Models.Models
@@ -16,6 +17,10 @@ namespace SmartDormitory.Models.Models
         public SensorTypes SensorType { get; set; }
 
         public int SensorTypeId { get; set; }
+
+        public double CurrentValue { get; set; }
+
+        public DateTime LastUpdate { get; set; }
 
         public ICollection<SensorDataHistory> DataHistory { get; set; }
 
