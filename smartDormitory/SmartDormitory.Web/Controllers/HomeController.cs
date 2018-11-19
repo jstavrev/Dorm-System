@@ -4,15 +4,36 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using SmartDormitory.Data.Data;
+using SmartDormitory.Data.Services.Contracts;
 using SmartDormitory.Web.Models;
 
 namespace SmartDormitory.Web.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly IHomeService _homeService;
+
+        public HomeController(IHomeService homeService)
         {
-            return View();
+            _homeService = homeService ?? throw new ArgumentNullException(nameof(homeService));
+        }
+
+        public async Task<IActionResult> Index()
+        {
+           var users = await _homeService.FilterSensorsAsync();
+            var newList = new List<IndexViewModel>();
+            foreach (var d in users)
+            {
+                var vm = new IndexViewModel {
+                    Latitude = d.Latitude,
+                    SensorName = d.Name,
+                    Longitude = d.Longitude
+                };
+                newList.Add(vm);
+            }
+
+            return View(newList);
         }
 
         public IActionResult About()
