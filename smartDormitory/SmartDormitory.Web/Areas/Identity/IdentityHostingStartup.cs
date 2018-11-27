@@ -15,13 +15,15 @@ namespace SmartDormitory.Web.Areas.Identity
     {
         public void Configure(IWebHostBuilder builder)
         {
-            builder.ConfigureServices((context, services) => {
+            builder.ConfigureServices((context, services) =>
+            {
                 services.AddDbContext<SmartDormitoryDbContext>(options =>
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("SmartDormitoryDbContextConnection")));
 
-                services.AddDefaultIdentity<User>()
-                    .AddEntityFrameworkStores<SmartDormitoryDbContext>();
+                services.AddIdentity<User, IdentityRole>()
+                     .AddEntityFrameworkStores<SmartDormitoryDbContext>()
+                        .AddDefaultTokenProviders();
             });
         }
     }
