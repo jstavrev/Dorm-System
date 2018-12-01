@@ -33,6 +33,7 @@ namespace SmartDormitory.Web
             services.AddScoped<IApiService, ApiService>();
             services.AddScoped<IHomeService, HomeService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ISensorService, SensorService>();
 
             services
                 .AddMvc(options =>

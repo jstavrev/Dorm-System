@@ -1,8 +1,114 @@
-﻿
+﻿@model RegisterSensorViewModel
 @{
     ViewData["Title"] = "Register";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Register</h2>
+<br />
+<br />
+<br />
+<br />
 
+<div class="row">
+    <div class="col-lg-6">
+        <form asp-controller="Sensor" asp-action="Register" method="post">
+
+            <label asp-for="Name">Name:</label><br />
+            <input asp-for="Name" class="form-control" /><br />
+            <span asp-validation-for="Name" class="text-danger"></span>
+
+            <label asp-for="Description">Description:</label><br />
+            <textarea asp-for="Description" class="form-control"></textarea><br />
+            <span asp-validation-for="Description" class="text-danger"></span>
+
+            <label asp-for="SensorId">Actors:</label><br />
+            <select asp-for="SensorId" asp-items="Model.Sensors" class="form-control">
+                <option>Select sensor</option>
+            </select><br />
+
+            <label asp-for="UpdateInterval">Update Interval:</label><br />
+            <input asp-for="UpdateInterval" class="form-control" /><br />
+            <span asp-validation-for="UpdateInterval" class="text-danger"></span>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <label asp-for="Latitude">Latitude:</label><br />
+                    <input asp-for="Latitude" class="form-control" id="disabledInput" disabled="" /><br />
+                    <span asp-validation-for="Latitude" class="text-danger"></span>
+                </div>
+
+                <div class="col-lg-6">
+                    <label asp-for="MinValue">Minimum Value:</label><br />
+                    <input asp-for="MinValue" class="form-control" /><br />
+                    <span asp-validation-for="MinValue" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <label asp-for="Longitude">Latitude:</label><br />
+                    <input asp-for="Longitude" class="form-control" id="disabledInput" disabled="" /><br />
+                    <span asp-validation-for="Longitude" class="text-danger"></span>
+                </div>
+
+                <div class="col-lg-6">
+                    <label asp-for="MaxValue">Maximum Value:</label><br />
+                    <input asp-for="MaxValue" class="form-control" /><br />
+                    <span asp-validation-for="MaxValue" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <input asp-for="IsPublic" type="checkbox" /> Public
+                </div>
+
+                <div class="col-lg-6">
+                    <input asp-for="IsRequiredNotification" type="checkbox"> Enable Notifications
+                </div>
+            </div>
+            <br />
+            <button type="submit" class="btn btn-primary center-block">Register</button>
+        </form>
+    </div>
+
+    <div class="col-lg-6">
+        <br />
+        <div>
+            <div id="map"></div>
+            <script>
+        var map;
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 42.694, lng: 23.312 },
+                zoom: 8
+            });
+            @foreach(var item in Model.Sensors)
+{
+                @:var marker = new google.maps.Marker({
+               // @:position: { lng: @item.Longitude, lat: @item.Latitude  },
+                @: map: map
+            @:})
+};
+        }
+            </script>
+            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCDteKY2bbicMlrP2DHSJmSciuIP-E_D6k&callback=initMap"
+                    async defer></script>
+
+        </div>
+    </div>
+</div>
+
+
+<style>
+    #map {
+        height: 500px;
+        width: 500px;
+    }
+
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+</style>
