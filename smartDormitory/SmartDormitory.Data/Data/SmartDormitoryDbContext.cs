@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using OnlineMovieStore.Models.Contracts;
@@ -30,9 +31,37 @@ namespace SmartDormitory.Data.Data
             builder.Entity<UserSensors>()
                 .HasKey(us => new { us.UserId, us.SensorId });
 
+            builder.Entity<IdentityRole>()
+                .HasData(new IdentityRole { Name = "Admin", Id = 1.ToString(), NormalizedName = "Admin".ToUpper(), ConcurrencyStamp = "aaa" });
+
+            builder.Entity<IdentityRole>()
+                .HasData(new IdentityRole { Name = "User", Id = 2.ToString(), NormalizedName = "User".ToUpper(), ConcurrencyStamp = "bbb" });
+
+            var adminUser = new User
+            {
+                Id = Guid.NewGuid().ToString(),
+                UserName = "ICBAdmin",
+                NormalizedUserName = "ICBAdmin".ToUpper(),
+                Email = "ICBAdmin@mail.com",
+                NormalizedEmail = "ICBAdmin@mail.com".ToUpper(),
+                EmailConfirmed = true,
+                PhoneNumber = "+55555",
+                PhoneNumberConfirmed = true,
+                SecurityStamp = Guid.NewGuid().ToString("D"),
+            };
+
+            var hashePass = new PasswordHasher<User>().HashPassword(adminUser, "!Password2018");
+            adminUser.PasswordHash = hashePass;
+
+            builder.Entity<User>().HasData(adminUser);
+
+            builder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
+            {
+                RoleId = 1.ToString(),
+                UserId = adminUser.Id
+            });
 
             base.OnModelCreating(builder);
-
         }
 
         public override int SaveChanges()

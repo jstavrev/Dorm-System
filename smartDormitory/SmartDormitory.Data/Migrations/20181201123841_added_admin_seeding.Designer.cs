@@ -10,8 +10,8 @@ using SmartDormitory.Data.Data;
 namespace SmartDormitory.Data.Migrations
 {
     [DbContext(typeof(SmartDormitoryDbContext))]
-    [Migration("20181114163644_Initial")]
-    partial class Initial
+    [Migration("20181201123841_added_admin_seeding")]
+    partial class added_admin_seeding
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -43,6 +43,11 @@ namespace SmartDormitory.Data.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new { Id = "1", ConcurrencyStamp = "aaa", Name = "Admin", NormalizedName = "ADMIN" },
+                        new { Id = "2", ConcurrencyStamp = "bbb", Name = "User", NormalizedName = "USER" }
+                    );
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -87,11 +92,9 @@ namespace SmartDormitory.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("ProviderKey")
-                        .HasMaxLength(128);
+                    b.Property<string>("ProviderKey");
 
                     b.Property<string>("ProviderDisplayName");
 
@@ -116,17 +119,19 @@ namespace SmartDormitory.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new { UserId = "081bc1c4-d938-4192-ab5f-cb1b10cc480e", RoleId = "1" }
+                    );
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId");
 
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(128);
+                    b.Property<string>("Name");
 
                     b.Property<string>("Value");
 
@@ -149,6 +154,10 @@ namespace SmartDormitory.Data.Migrations
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
+
+                    b.Property<string>("FirstName");
+
+                    b.Property<string>("LastName");
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -184,6 +193,120 @@ namespace SmartDormitory.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasData(
+                        new { Id = "081bc1c4-d938-4192-ab5f-cb1b10cc480e", AccessFailedCount = 0, ConcurrencyStamp = "58063bba-8a94-46db-8fcf-3c262c84b14b", Email = "ICBAdmin@mail.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "ICBADMIN@MAIL.COM", NormalizedUserName = "ICBADMIN", PasswordHash = "AQAAAAEAACcQAAAAEKx2tHN5RiWQ+Z30jDpBf6J+4AF+SO3a2KsukUsx+Kd6S44ojqk7RrBhgHQE+5m3zg==", PhoneNumber = "+55555", PhoneNumberConfirmed = true, SecurityStamp = "711b522d-ebaa-4b53-9209-c9c7b9666c4f", TwoFactorEnabled = false, UserName = "ICBAdmin" }
+                    );
+                });
+
+            modelBuilder.Entity("SmartDormitory.Models.DbModels.Sensor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ApiId");
+
+                    b.Property<string>("CurrentValue");
+
+                    b.Property<string>("Description");
+
+                    b.Property<DateTime>("LastUpdate");
+
+                    b.Property<int>("MinPollingIntervalInSeconds");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("SensorTypeId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SensorTypeId");
+
+                    b.ToTable("Sensors");
+                });
+
+            modelBuilder.Entity("SmartDormitory.Models.DbModels.SensorDataHistory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("AddedOn");
+
+                    b.Property<DateTime?>("CreatedOn");
+
+                    b.Property<DateTime?>("DeletedOn");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("ModifiedOn");
+
+                    b.Property<int>("SensorId");
+
+                    b.Property<string>("UserId");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SensorId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("SensorsDataHistory");
+                });
+
+            modelBuilder.Entity("SmartDormitory.Models.DbModels.SensorTypes", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreatedOn");
+
+                    b.Property<DateTime?>("DeletedOn");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("ModifiedOn");
+
+                    b.Property<string>("Type");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SensorTypes");
+                });
+
+            modelBuilder.Entity("SmartDormitory.Models.DbModels.UserSensors", b =>
+                {
+                    b.Property<string>("UserId");
+
+                    b.Property<int>("SensorId");
+
+                    b.Property<string>("Description");
+
+                    b.Property<bool>("IsPublic");
+
+                    b.Property<bool>("IsRequiredNotification");
+
+                    b.Property<string>("Latitude");
+
+                    b.Property<string>("Longitude");
+
+                    b.Property<int>("MaxValue");
+
+                    b.Property<int>("MinValue");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("UpdateInterval");
+
+                    b.HasKey("UserId", "SensorId");
+
+                    b.HasIndex("SensorId");
+
+                    b.ToTable("UserSensors");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -227,6 +350,39 @@ namespace SmartDormitory.Data.Migrations
                 {
                     b.HasOne("SmartDormitory.Data.Data.User")
                         .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("SmartDormitory.Models.DbModels.Sensor", b =>
+                {
+                    b.HasOne("SmartDormitory.Models.DbModels.SensorTypes", "SensorType")
+                        .WithMany("Sensors")
+                        .HasForeignKey("SensorTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("SmartDormitory.Models.DbModels.SensorDataHistory", b =>
+                {
+                    b.HasOne("SmartDormitory.Models.DbModels.Sensor", "Sensor")
+                        .WithMany("DataHistory")
+                        .HasForeignKey("SensorId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("SmartDormitory.Data.Data.User")
+                        .WithMany("DataHistory")
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("SmartDormitory.Models.DbModels.UserSensors", b =>
+                {
+                    b.HasOne("SmartDormitory.Models.DbModels.Sensor", "Sensor")
+                        .WithMany("UserSensors")
+                        .HasForeignKey("SensorId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("SmartDormitory.Data.Data.User", "User")
+                        .WithMany("UserSensor")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

@@ -4,8 +4,10 @@ using System.Collections.Generic;
 
 namespace SmartDormitory.Models.DbModels
 {
-    public class Sensor : Entity
+    public class Sensor
     {
+        public int Id { get; set; }
+
         public string ApiId { get; set; }
 
         public string Name { get; set; }
