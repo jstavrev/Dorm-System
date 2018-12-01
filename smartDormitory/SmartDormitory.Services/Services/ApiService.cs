@@ -88,7 +88,7 @@ namespace SmartDormitory.Services.Services
                         MinPollingIntervalInSeconds = sensor.MinPollingIntervalInSeconds,
                         CurrentValue = sensor.Value,
                         LastUpdate = sensor.TimeStamp,
-                        SensorTypeId = this.context.SensorTypes.Where(t => t.Type == type.Type).First().Id
+                        SensorTypeId = this.context.SensorTypes.Where(t => t.Type == sensor.MeasureType).First().Id
                     });
                 }
                 else

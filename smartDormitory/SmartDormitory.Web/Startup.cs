@@ -34,7 +34,27 @@ namespace SmartDormitory.Web
             services.AddScoped<IHomeService, HomeService>();
             services.AddScoped<IUserService, UserService>();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services
+                .AddMvc(options =>
+                    {
+                        options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+                    });
+
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                    .AddRazorPagesOptions(options =>
+                    {
+                        options.AllowAreas = true;
+                        options.Conventions.AuthorizeAreaFolder("Identity", "/Account/Manage");
+                        options.Conventions.AuthorizeAreaPage("Identity", "/Account/Logout");
+                    });
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = $"/Identity/Account/Login";
+                options.LogoutPath = $"/Identity/Account/Logout";
+                options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,7 +80,6 @@ namespace SmartDormitory.Web
                 routes.MapRoute(
                     name: "areas",
                     template: "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
-
 
                 routes.MapRoute(
                     name: "default",

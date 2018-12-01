@@ -2,16 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace SmartDormitory.Web.Areas.Administration.Controllers
+namespace SmartDormitory.Web.Areas.Users.Controllers
 {
-    [Area("administration")]
-    [Authorize(Roles = "Admin")]
+    [Area("users")]
     public class SensorController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        public IActionResult MySensors()
         {
             return View();
         }
