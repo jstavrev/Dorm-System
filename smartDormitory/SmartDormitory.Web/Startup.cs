@@ -32,6 +32,7 @@ namespace SmartDormitory.Web
             services.AddSingleton<ApiHelper, ApiHelper>();
             services.AddScoped<IApiService, ApiService>();
             services.AddScoped<IHomeService, HomeService>();
+            services.AddScoped<IUserService, UserService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

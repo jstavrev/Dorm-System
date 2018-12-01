@@ -17,8 +17,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\Administration\Data\" />
-    <Folder Include="Areas\Administration\Views\User\" />
-    <Folder Include="Areas\Administration\Views\Sensor\" />
   </ItemGroup>
 
   <ItemGroup>

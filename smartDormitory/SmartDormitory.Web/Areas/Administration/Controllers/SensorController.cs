@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace SmartDormitory.Web.Areas.Administration.Controllers
 {
+    [Area("administration")]
     public class SensorController : Controller
     {
         public IActionResult Index()
