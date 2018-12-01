@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SmartDormitory.Web.Areas.API.Models
+namespace SmartDormitory.Web.Areas.Administration.Models
 {
-    public class AllSensorsViewModel
+    public class AdminIndexViewModel
     {
         public IEnumerable<ApiSensor> sensors;
 
-        public AllSensorsViewModel(IEnumerable<ApiSensor> sensors)
+        public AdminIndexViewModel(IEnumerable<ApiSensor> sensors)
         {
             this.sensors = sensors;
         }

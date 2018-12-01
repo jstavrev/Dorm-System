@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
-using SmartDormitory.Models.Models;
+using SmartDormitory.Models.DbModels;
 
 namespace SmartDormitory.Data.Data
 {

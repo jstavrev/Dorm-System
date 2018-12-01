@@ -1,6 +1,6 @@
 ﻿using SmartDormitory.Data.Data;
 
-namespace SmartDormitory.Models.Models
+namespace SmartDormitory.Models.DbModels
 {
     public class UserSensors
     {

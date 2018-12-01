@@ -1,7 +1,7 @@
 ﻿using OnlineMovieStore.Models.Abstract;
 using System.Collections.Generic;
 
-namespace SmartDormitory.Models.Models
+namespace SmartDormitory.Models.DbModels
 
 {
     public class SensorTypes : Entity

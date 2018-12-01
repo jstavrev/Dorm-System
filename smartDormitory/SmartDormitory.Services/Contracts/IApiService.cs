@@ -11,5 +11,7 @@ namespace SmartDormitory.Services.Contracts
         Task<IEnumerable<ApiSensor>> GetAll();
 
         Task<ApiSensor> GetById(ApiSensor sensor, string id);
+
+        void SaveInDB(IEnumerable<ApiSensor> sensors);
     }
 }

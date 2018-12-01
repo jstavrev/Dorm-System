@@ -1,4 +1,4 @@
-﻿using SmartDormitory.Models.Models;
+﻿using SmartDormitory.Models.DbModels;
 
 namespace SmartDormitory.Web.Models
 {

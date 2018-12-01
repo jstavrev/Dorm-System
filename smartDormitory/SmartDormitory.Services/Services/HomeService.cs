@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SmartDormitory.Data.Data;
 using SmartDormitory.Data.Services.Contracts;
-using SmartDormitory.Models.Models;
+using SmartDormitory.Models.DbModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

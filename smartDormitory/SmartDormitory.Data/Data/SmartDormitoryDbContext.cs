@@ -3,7 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using OnlineMovieStore.Models.Contracts;
-using SmartDormitory.Models.Models;
+using SmartDormitory.Models.DbModels;
 
 namespace SmartDormitory.Data.Data
 {

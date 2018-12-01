@@ -16,11 +16,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\API\Data\" />
+    <Folder Include="Areas\Administration\Data\" />
+    <Folder Include="Areas\Administration\Views\User\" />
+    <Folder Include="Areas\Administration\Views\Sensor\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Areas\API\Views\_ViewImports.cshtml">
+    <Content Update="Areas\Administration\Views\_ViewImports.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
   </ItemGroup>

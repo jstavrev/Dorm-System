@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿using System.Net.Http;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SmartDormitory.Data.Services.Contracts;
 using SmartDormitory.Services.Api__Temporary_.Providers;
+using SmartDormitory.Services.Contracts;
 using SmartDormitory.Services.HomeService;
 using SmartDormitory.Services.Services;
 using SmartDormitory.Web.Areas.Identity.Services;
@@ -35,7 +30,7 @@ namespace SmartDormitory.Web
             services.AddSingleton<HttpClient, HttpClient>();
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddSingleton<ApiHelper, ApiHelper>();
-            services.AddScoped<ApiService, ApiService>();
+            services.AddScoped<IApiService, ApiService>();
             services.AddScoped<IHomeService, HomeService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
@@ -63,7 +58,7 @@ namespace SmartDormitory.Web
             {
                 routes.MapRoute(
                     name: "areas",
-                    template: "{area:exists}/{controller=Sensor}/{action=All}/{id?}");
+                    template: "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
 
 
                 routes.MapRoute(

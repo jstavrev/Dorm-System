@@ -2,7 +2,7 @@
 using SmartDormitory.Data.Data;
 using System;
 
-namespace SmartDormitory.Models.Models
+namespace SmartDormitory.Models.DbModels
 {
     public class SensorDataHistory : Entity
     {
