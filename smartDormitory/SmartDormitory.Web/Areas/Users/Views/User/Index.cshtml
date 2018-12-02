@@ -107,7 +107,7 @@
     </div>
     <div class="col-md-4">
         <div class="card card-user">
-            <div class="card-body">
+            <div class="card-user">
                 <p class="card-text">
                     <div class="author">
                         <div class="block block-one"></div>
@@ -120,7 +120,7 @@
                                 {
                                     var base64 = Convert.ToBase64String(Model.AvatarImage);
                                     var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-                                    <img src="@imgSrc" class="avatar" alt="Default avatar" />
+                                    <img src="@imgSrc" class="avatar-img-preview" alt="Default avatar" />
                                 }
                                 else
                                 {
@@ -129,7 +129,7 @@
                             }
                             <h5 class="title">@Model.Username</h5>
                         </a>
-                        <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#upload-modal">Change profile picture</button>
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#upload-modal">Change profile picture</button>
                     </div>
                 </p>
                 <div class="card-description">
@@ -157,7 +157,7 @@
         <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content">
-                <form asp-area="Identity" asp-controller="Manage" asp-action="Avatar" method="post" enctype="multipart/form-data">
+                <form asp-area="Users" asp-controller="User" asp-action="Avatar" method="post" enctype="multipart/form-data">
                     <div class="modal-body">
                         <label class="avatar-upload-label">
                             Drag or click to upload..

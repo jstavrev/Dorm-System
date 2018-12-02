@@ -38,7 +38,7 @@ namespace ESportStatistics.Web.Areas.Identity.Controllers
         [TempData]
         public string StatusMessage { get; set; }
 
-        [HttpGet("profile")]
+        [HttpGet("Profile")]
         [ResponseCache(CacheProfileName = "Short")]
         public async Task<IActionResult> Index()
         {
