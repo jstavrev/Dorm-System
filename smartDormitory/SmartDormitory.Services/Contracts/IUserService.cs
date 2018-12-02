@@ -1,7 +1,7 @@
 ﻿using SmartDormitory.Data.Data;
-using System;
 using System.Collections.Generic;
-using System.Text;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace SmartDormitory.Services.Contracts
 {
@@ -16,5 +16,7 @@ namespace SmartDormitory.Services.Contracts
         int Total();
 
         int TotalContainingText(string text);
+
+        Task SaveAvatarImageAsync(Stream stream, string userId);
     }
 }

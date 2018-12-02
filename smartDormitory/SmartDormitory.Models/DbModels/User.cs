@@ -11,6 +11,18 @@ namespace SmartDormitory.Data.Data
 
         public string LastName { get; set; }
 
+        public byte[] AvatarImage { get; set; }
+
+        public string Address { get; set; }
+
+        public string City { get; set; }
+
+        public string Country { get; set; }
+
+        public int PostalCode { get; set; }
+
+        public string Story { get; set; }
+
         public ICollection<SensorDataHistory> DataHistory { get; set; }
 
         public ICollection<UserSensors> UserSensor { get; set; }

@@ -1,8 +1,11 @@
 ﻿using SmartDormitory.Data.Data;
 using SmartDormitory.Services.Contracts;
+using SmartDormitory.Services.Utils;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SmartDormitory.Services.Services
 {
@@ -47,6 +50,27 @@ namespace SmartDormitory.Services.Services
         public int TotalContainingText(string searchText)
         {
             return this.context.Users.Where(u => u.UserName.Contains(searchText, StringComparison.InvariantCultureIgnoreCase)).ToList().Count();
+        }
+
+        public async Task SaveAvatarImageAsync(Stream stream, string userId)
+        {
+            Validator.ValidateNull(stream, "Image stream cannot be null!");
+            Validator.ValidateNull(userId, "User Id cannot be null!");
+            Validator.ValidateGuid(userId, "User id is not in the correct format.Unable to parse to Guid!");
+
+            User user = await this.context.Users.FindAsync(userId);
+
+            if (user == null)
+            {
+                throw new EntryPointNotFoundException();
+            }
+
+            using (BinaryReader br = new BinaryReader(stream))
+            {
+                user.AvatarImage = br.ReadBytes((int)stream.Length);
+            }
+
+            await this.context.SaveChangesAsync();
         }
     }
 }
