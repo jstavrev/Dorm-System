@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
+using X.PagedList;
 
 namespace SmartDormitory.Services.Contracts
 {
@@ -16,5 +18,8 @@ namespace SmartDormitory.Services.Contracts
         void DeleteSensor();
 
         IEnumerable<SensorTypes> GetAllTypes();
+
+        Task<IPagedList<UserSensors>> FilterUserSensorsAsync(string userId, string sortOrder = "", string filter = "", int pageNumber = 1, int pageSize = 10);
+
     }
 }

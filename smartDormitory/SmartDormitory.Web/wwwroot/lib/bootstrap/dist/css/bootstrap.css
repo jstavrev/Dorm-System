@@ -3526,8 +3526,9 @@ select[multiple].input-lg {
 .avatar_custom {
     width: auto;
     height: auto;
-    max-height: 500px;
-    max-width: 500px;
+    max-height: 200px;
+    max-width: 200px;
+    text-align:center;
     border: 5px solid lighten($black,5%);
     border-bottom-color: $transparent-bg;
     background-color: $transparent-bg;
