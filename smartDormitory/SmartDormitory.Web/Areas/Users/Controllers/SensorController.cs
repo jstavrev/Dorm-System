@@ -21,7 +21,8 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
         public IActionResult Register()
         {
             var sensors = this.sensorService.GetAll().ToList();
-            var model = new RegisterSensorViewModel(sensors);
+            var sensorTypes = this.sensorService.GetAllTypes().ToList();
+            var model = new RegisterSensorViewModel(sensors, sensorTypes);
 
             return View(model);
         }

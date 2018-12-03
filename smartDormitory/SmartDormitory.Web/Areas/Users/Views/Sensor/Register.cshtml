@@ -21,10 +21,23 @@
             <textarea asp-for="Description" class="form-control"></textarea><br />
             <span asp-validation-for="Description" class="text-danger"></span>
 
-            <label asp-for="SensorId">Sensors:</label><br />
-            <select asp-for="SensorId" asp-items="Model.Sensors" class="form-control">
-                <option>Select sensor</option>
-            </select><br />
+            <div class="row">
+                <div class="col-lg-6" id="sensortypes">
+                    <label asp-for="SensorTypeId">Sensor types:</label><br />
+                    <select asp-for="SensorTypeId" asp-items="Model.SensorTypes" class="form-control">
+                        <option>Select sensor type</option>
+                    </select>
+                </div>
+
+                <div class="col-lg-6" id="sensors">
+                    <label asp-for="SensorId">Sensors:</label><br />
+                    <select asp-for="SensorId" asp-items="Model.Sensors" class="form-control">
+                        <option>Select sensor</option>
+                    </select>
+                </div>
+            </div>
+
+            <br />
 
             <label asp-for="UpdateInterval">Update Interval:</label><br />
             <input asp-for="UpdateInterval" class="form-control" /><br />
@@ -47,7 +60,7 @@
             <div class="row">
                 <div class="col-lg-6">
                     <label asp-for="Longitude">Longitude:</label><br />
-                    <input asp-for="Longitude" class="form-control" id="longtitudeId"  disabled="" /><br />
+                    <input asp-for="Longitude" class="form-control" id="longtitudeId" disabled="" /><br />
                     <span asp-validation-for="Longitude" class="text-danger"></span>
                 </div>
 
@@ -78,30 +91,31 @@
             <div id="map"></div>
             <script>
                 var map, marker;
-        function initMap() {
-            map = new google.maps.Map(document.getElementById('map'), {
-                center: { lat: 42.694, lng: 23.312 },
-                zoom: 8
-            });
-
-            google.maps.event.addListener(map, 'click', function (event) {
-                if (marker) {
-                    marker.setPosition(event.latLng)
-
-                    $('#latitudeId').val(marker.position.lat)
-                    $('#longtitudeId').val(marker.position.lng)
-                }
-                else {
-                    marker = new google.maps.Marker({
-                        position: event.latLng,
-                        map: map
+                function initMap() {
+                    map = new google.maps.Map(document.getElementById('map'), {
+                        center: { lat: 42.694, lng: 23.312 },
+                        zoom: 8
                     });
 
-                    $('#latitudeId').val(marker.position.lat)
-                    $('#longtitudeId').val(marker.position.lng)
+                    google.maps.event.addListener(map, 'click', function (event) {
+                        if (marker) {
+                            marker.setPosition(event.latLng)
+
+                            $('#latitudeId').val(marker.position.lat)
+                            $('#longtitudeId').val(marker.position.lng)
+                        }
+                        else {
+                            marker = new google.maps.Marker({
+                                position: event.latLng,
+                                map: map,
+                            });
+                            marker.setAnimation(google.maps.Animation.BOUNCE);
+
+                            $('#latitudeId').val(marker.position.lat)
+                            $('#longtitudeId').val(marker.position.lng)
+                        }
+                    });
                 }
-            });
-        }
             </script>
             <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCDteKY2bbicMlrP2DHSJmSciuIP-E_D6k&callback=initMap"
                     async defer></script>

@@ -32,6 +32,11 @@ namespace SmartDormitory.Services.Services
             return this.context.Sensors.ToList();
         }
 
+        public IEnumerable<SensorTypes> GetAllTypes()
+        {
+            return this.context.SensorTypes.ToList();
+        }
+
         public void RegisterSensor()
         {
             throw new NotImplementedException();

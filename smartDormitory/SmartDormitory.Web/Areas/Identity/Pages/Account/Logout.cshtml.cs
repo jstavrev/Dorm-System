@@ -31,8 +31,10 @@ namespace SmartDormitory.Web.Areas.Identity.Pages.Account
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
+
             if (returnUrl != null)
             {
+                returnUrl = "/?page=%2FIndex";
                 return LocalRedirect(returnUrl);
             }
             else

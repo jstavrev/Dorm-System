@@ -14,5 +14,7 @@ namespace SmartDormitory.Services.Contracts
         void EditSensor();
 
         void DeleteSensor();
+
+        IEnumerable<SensorTypes> GetAllTypes();
     }
 }

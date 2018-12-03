@@ -12,11 +12,13 @@ namespace SmartDormitory.Web.Areas.Users.Models
         public RegisterSensorViewModel()
         {
             this.Sensors = new List<SelectListItem>();
+            this.SensorTypes = new List<SelectListItem>();
         }
 
-        public RegisterSensorViewModel(List<Sensor> sensors)
+        public RegisterSensorViewModel(List<Sensor> sensors, List<SensorTypes> types)
         {
             this.Sensors = sensors.Select(a => new SelectListItem { Value = a.Id.ToString(), Text = $"{a.Name}" }).ToList();
+            this.SensorTypes = types.Select(a => new SelectListItem { Value = a.Id.ToString(), Text = $"{a.Type}" }).ToList();
         }
 
         public string Longitude { get; set; }
@@ -39,6 +41,10 @@ namespace SmartDormitory.Web.Areas.Users.Models
 
         public IEnumerable<SelectListItem> Sensors { get; set; }
 
+        public IEnumerable<SelectListItem> SensorTypes { get; set; }
+
         public string SensorId { get; set; }
+
+        public string SensorTypeId { get; set; }
     }
 }
