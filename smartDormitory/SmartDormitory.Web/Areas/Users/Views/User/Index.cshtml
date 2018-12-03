@@ -106,7 +106,7 @@
         </div>
     </div>
     <div class="col-md-4">
-        <div class="card card-user">
+        <div class="avatar_custom">
             <div class="card-user">
                 <p class="card-text">
                     <div class="author">
@@ -120,14 +120,13 @@
                                 {
                                     var base64 = Convert.ToBase64String(Model.AvatarImage);
                                     var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-                                    <img src="@imgSrc" class="avatar-img-preview" alt="Default avatar" />
+                                    <img src="@imgSrc" class="avatar_custom" alt="Default avatar" />
                                 }
                                 else
                                 {
-                                    <img src="~/images/default-profile.png" class="avatar-upload-label" alt="Default avatar" />
+                                    <img src="~/images/default-profile.png" class="img-rounded" alt="Default avatar" />
                                 }
                             }
-                            <h5 class="title">@Model.Username</h5>
                         </a>
                         <button class="btn btn-primary" data-toggle="modal" data-target="#upload-modal">Change profile picture</button>
                     </div>
@@ -138,7 +137,7 @@
             </div>
         </div>
     </div>
-
+    
     @*upload modal*@
     <div id="upload-modal" class="modal fade" role="dialog">
         <div class="modal-dialog">
@@ -160,6 +159,8 @@
             </div>
         </div>
     </div>
+
+
 </div>
 
 @section Scripts {
