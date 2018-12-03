@@ -46,12 +46,7 @@ namespace SmartDormitory.Services.Services
 
         public async Task<IPagedList<UserSensors>> FilterUserSensorsAsync(string userId, string sortOrder = "", string filter = "", int pageNumber = 1, int pageSize = 10)
         {
-            Validator.ValidateNull(sortOrder, "SortOrder cannot be null!");
-            Validator.ValidateNull(filter, "Filter cannot be null!");
-
-            Validator.ValidateMinRange(pageNumber, 1, "Page number cannot be less then 1!");
-            Validator.ValidateMinRange(pageSize, 0, "Page size cannot be less then 0!");
-
+           
             var query = this.context.UserSensors
                 .Where(t => t.Name.Contains(filter) && t.UserId.Equals(userId));
 

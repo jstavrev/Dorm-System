@@ -1,0 +1,58 @@
+﻿@model TableViewModel<UserSensorsViewModel>
+
+<div id="statusMessage"></div>
+<div id="tablePartial">
+    <div>
+        <form asp-area="Users" asp-controller="Sensor" asp-action="Filter"
+              asp-route-pageNumber="1" asp-route-sortOrder="@Model.Pagination.SortOrder" asp-route-searchTerm="@Model.Pagination.SearchTerm"
+              method="get" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#tablePartial">
+            <label>Page size:</label>
+            <input name="pageSize" class="form-control" value="@Model.Pagination.PageSize" type="number" min="1" max="50" style="width:5em;" />
+        </form>
+    </div>
+    <div>
+        <table class="table table-striped table-hover">
+            <thead class="text-primary">
+                <tr>
+                    <th>
+                        Sensor Name
+                    </th>
+                    <th>
+                        Latitude
+                    </th>
+                    <th>
+                        Longitude
+                    </th>
+                    <th>
+                        IsPublic
+                    </th>
+                    <th>
+                        IsRequiredNotification
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var sensor in Model.Items)
+                {
+                    <tr>
+                        <td>@sensor.Name</td>
+                        <td>@sensor.Latitude</td>
+                        <td>@sensor.Longitude</td>
+                        <td>
+                            <input id="AllowRating" type="checkbox" checked="@sensor.IsPublic" onclick="return false;" />
+                        </td>
+                        <td>
+                            <input id="AllowRating" type="checkbox" checked="@sensor.IsRequiredNotification" onclick="return false;" />
+                        </td>
+                        <td>
+                            <button type="submit" class="btn btn-primary">Test</button>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+        @await Html.PartialAsync("_PaginationPartial", Model.Pagination)
+    </div>
+</div>
+
