@@ -25,6 +25,9 @@
     <Content Update="Areas\Administration\Views\_ViewImports.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Areas\Users\Views\Sensor\_SensorEditPartial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Areas\Users\Views\Sensor\_SensorsTablePartial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

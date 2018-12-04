@@ -29,7 +29,7 @@ namespace SmartDormitory.Data.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<UserSensors>()
-                .HasKey(us => new { us.UserId, us.SensorId });
+                .HasKey(us => us.Id );
 
             builder.Entity<IdentityRole>()
                 .HasData(new IdentityRole { Name = "Admin", Id = 1.ToString(), NormalizedName = "Admin".ToUpper(), ConcurrencyStamp = "aaa" });

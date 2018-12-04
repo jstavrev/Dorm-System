@@ -1,9 +1,12 @@
 ﻿using SmartDormitory.Data.Data;
+using System;
 
 namespace SmartDormitory.Models.DbModels
 {
     public class UserSensors
     {
+        public int Id { get; set; }
+
         public User User { get; set; }
 
         public string UserId { get; set; }
@@ -29,5 +32,7 @@ namespace SmartDormitory.Models.DbModels
         public bool IsPublic { get; set; }
 
         public bool IsRequiredNotification { get; set; }
+
+        public DateTime LastUpdatedOn { get; set; }
     }
 }

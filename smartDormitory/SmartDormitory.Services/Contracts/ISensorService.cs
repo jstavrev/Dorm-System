@@ -21,5 +21,7 @@ namespace SmartDormitory.Services.Contracts
 
         Task<IPagedList<UserSensors>> FilterUserSensorsAsync(string userId, string sortOrder = "", string filter = "", int pageNumber = 1, int pageSize = 10);
 
+        Task<UserSensors> FindAsync(int sensorId);
+
     }
 }

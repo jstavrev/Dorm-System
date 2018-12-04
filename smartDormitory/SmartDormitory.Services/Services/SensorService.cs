@@ -1,7 +1,6 @@
 ﻿using SmartDormitory.Data.Data;
 using SmartDormitory.Models.DbModels;
 using SmartDormitory.Services.Contracts;
-using SmartDormitory.Services.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,6 +60,13 @@ namespace SmartDormitory.Services.Services
             }
 
             return await query.ToPagedListAsync(pageNumber, pageSize);
+        }
+
+        public async Task<UserSensors> FindAsync(int sensorId)
+        {
+            var query = await this.context.UserSensors.FindAsync(sensorId);
+
+            return query;
         }
     }
 }

@@ -39,13 +39,16 @@
                         <td>@sensor.Latitude</td>
                         <td>@sensor.Longitude</td>
                         <td>
-                            <input id="AllowRating" type="checkbox" checked="@sensor.IsPublic" onclick="return false;" />
+                            <input type="checkbox" checked="@sensor.IsPublic" onclick="return false;" />
                         </td>
                         <td>
-                            <input id="AllowRating" type="checkbox" checked="@sensor.IsRequiredNotification" onclick="return false;" />
+                            <input type="checkbox" checked="@sensor.IsRequiredNotification" onclick="return false;" />
                         </td>
                         <td>
-                            <button type="submit" class="btn btn-primary">Test</button>
+                            <a class="page-link" asp-area="Users" asp-controller="Sensor" asp-action="Edit" asp-route-id="@sensor.SensorId">Details</a>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                Edit
+                            </button>
                         </td>
                     </tr>
                 }
@@ -56,3 +59,20 @@
     </div>
 </div>
 
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                <p>One fine body…</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

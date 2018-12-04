@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -64,6 +63,25 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
             }
 
             var model = new SensorDetailsViewModel(sensors);
+
+            return View(model);
+        }
+
+        [HttpGet("edit/{id}")]
+        public async Task<IActionResult> Edit(int id)
+        {
+            if (id == null)
+            {
+                throw new ApplicationException($"Passed ID parameter is absent.");
+            }
+
+            var sensor = await sensorService.FindAsync(id);
+            if (sensor == null)
+            {
+                throw new ApplicationException($"Unable to find sensor with ID '{id}'.");
+            }
+
+            var model = new SensorEditViewModel(sensor);
 
             return View(model);
         }

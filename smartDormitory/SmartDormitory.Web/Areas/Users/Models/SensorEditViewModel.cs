@@ -2,17 +2,15 @@
 
 namespace SmartDormitory.Web.Areas.Users.Models
 {
-    public class UserSensorsViewModel
+    public class SensorEditViewModel
     {
-        public UserSensorsViewModel()
+        public SensorEditViewModel()
         {
+
         }
 
-        public UserSensorsViewModel(UserSensors sensors)
+        public SensorEditViewModel(UserSensors sensors)
         {
-            this.Id = sensors.Id;
-            this.UserId = sensors.UserId;
-            this.SensorId = sensors.SensorId;
             this.Longitude = sensors.Longitude;
             this.Latitude = sensors.Latitude;
             this.MinValue = sensors.MinValue;
@@ -24,8 +22,6 @@ namespace SmartDormitory.Web.Areas.Users.Models
         }
 
         public string UserId { get; set; }
-
-        public int Id { get; set; }
 
         public int SensorId { get; set; }
 

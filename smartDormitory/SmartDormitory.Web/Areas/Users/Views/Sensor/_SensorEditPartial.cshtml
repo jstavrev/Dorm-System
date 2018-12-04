@@ -1,0 +1,40 @@
+﻿@using SmartDormitory.Web.Areas.Users.Models
+
+@model SensorEditViewModel
+@{
+    ViewData["Title"] = "SensorEdit";
+}
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="title">Edit Sensor</h5>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="row">
+                        <div class="col-md-5 pr-md-1">
+                            <div class="form-group">
+                                <label asp-for="Longitude"></label>
+                                <input asp-for="Longitude" type="email" class="form-control" value="@Model.Longitude" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3 px-md-1">
+                            <div class="form-group">
+                                <input asp-for="Latitude" type="text" class="form-control" placeholder="Username" value="@Model.Latitude" required>
+                                <span asp-validation-for="Latitude" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script src="~/js/upload.js"></script>
+}
+
