@@ -45,7 +45,7 @@ namespace SmartDormitory.Services.Services
 
         public async Task<IPagedList<UserSensors>> FilterUserSensorsAsync(string userId, string sortOrder = "", string filter = "", int pageNumber = 1, int pageSize = 10)
         {
-           
+
             var query = this.context.UserSensors
                 .Where(t => t.Name.Contains(filter) && t.UserId.Equals(userId));
 
@@ -67,6 +67,38 @@ namespace SmartDormitory.Services.Services
             var query = await this.context.UserSensors.FindAsync(sensorId);
 
             return query;
+        }
+
+        public async Task<UserSensors> ChangeCoordinatesAsync(int sensorId, string longitude, string latitude)
+        {
+            var sensor = await this.context.UserSensors.FindAsync(sensorId);
+
+            sensor.Longitude = longitude;
+            sensor.Latitude = latitude;
+            await context.SaveChangesAsync();
+
+            return sensor;
+        }
+
+        public async Task<UserSensors> ChangeMinMaxAsync(int sensorId, int min, int max)
+        {
+            var sensor = await this.context.UserSensors.FindAsync(sensorId);
+
+            sensor.MinValue = min;
+            sensor.MaxValue = max;
+            await context.SaveChangesAsync();
+
+            return sensor;
+        }
+
+        public async Task<UserSensors> ChangeIsPublic(int sensorId, bool isPublic)
+        {
+            var sensor = await this.context.UserSensors.FindAsync(sensorId);
+
+            sensor.IsPublic = isPublic;
+            await context.SaveChangesAsync();
+
+            return sensor;
         }
     }
 }

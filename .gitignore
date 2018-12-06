@@ -328,3 +328,4 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+/smartDormitory/SmartDormitory.Web/Areas/Users/Views/Sensor/Edit.cshtml

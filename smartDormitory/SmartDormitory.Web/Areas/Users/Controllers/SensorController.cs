@@ -12,7 +12,7 @@ using X.PagedList;
 
 namespace SmartDormitory.Web.Areas.Users.Controllers
 {
-    [Area("users")]
+    [Area("Users")]
     public class SensorController : Controller
     {
         private readonly ISensorService sensorService;
@@ -67,14 +67,9 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
             return View(model);
         }
 
-        [HttpGet("edit/{id}")]
+        [HttpGet("Users/Sensor/sensoredit/{id}")]
         public async Task<IActionResult> Edit(int id)
         {
-            if (id == null)
-            {
-                throw new ApplicationException($"Passed ID parameter is absent.");
-            }
-
             var sensor = await sensorService.FindAsync(id);
             if (sensor == null)
             {
@@ -83,7 +78,35 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
 
             var model = new SensorEditViewModel(sensor);
 
-            return View(model);
+            return PartialView(model);
+        }
+
+
+        [HttpPost("Users/Sensor/sensoredit/{id}")]
+        public async Task<IActionResult> Edit(SensorEditViewModel model)
+        {
+            var sensor = await sensorService.FindAsync(model.Id);
+            if (sensor == null)
+            {
+                throw new ApplicationException($"Unable to find sensor with ID '{model.Id}'.");
+            }
+
+            if (sensor.Longitude != model.Longitude || sensor.Latitude != model.Latitude)
+            {
+                await sensorService.ChangeCoordinatesAsync(model.Id, model.Longitude, model.Latitude);
+            }
+
+            if (sensor.MinValue != model.MinValue || sensor.MaxValue != model.MaxValue)
+            {
+                await sensorService.ChangeMinMaxAsync(model.Id, model.MinValue, model.MaxValue);
+            }
+
+            if (sensor.IsPublic != model.IsPublic)
+            {
+                await sensorService.ChangeIsPublic(model.Id, model.IsPublic);
+            }
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }
