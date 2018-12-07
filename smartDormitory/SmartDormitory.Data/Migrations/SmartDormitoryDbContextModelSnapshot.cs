@@ -119,7 +119,7 @@ namespace SmartDormitory.Data.Migrations
                     b.ToTable("AspNetUserRoles");
 
                     b.HasData(
-                        new { UserId = "d55e34c1-7550-47a4-9a0d-79e17f4cd3eb", RoleId = "1" }
+                        new { UserId = "2fa4ce85-df6a-4085-ba55-95d7055b4996", RoleId = "1" }
                     );
                 });
 
@@ -181,11 +181,9 @@ namespace SmartDormitory.Data.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
-                    b.Property<int>("PostalCode");
+                    b.Property<string>("PostalCode");
 
                     b.Property<string>("SecurityStamp");
-
-                    b.Property<string>("Story");
 
                     b.Property<bool>("TwoFactorEnabled");
 
@@ -205,7 +203,7 @@ namespace SmartDormitory.Data.Migrations
                     b.ToTable("AspNetUsers");
 
                     b.HasData(
-                        new { Id = "d55e34c1-7550-47a4-9a0d-79e17f4cd3eb", AccessFailedCount = 0, ConcurrencyStamp = "5bec9d43-f97d-47f0-94e4-87e6f352cc91", Email = "ICBAdmin@mail.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "ICBADMIN@MAIL.COM", NormalizedUserName = "ICBADMIN", PasswordHash = "AQAAAAEAACcQAAAAENtvgf4DK+dETKWisJpZ79G/B2qGcpDn0E8bw/aBZpAlKKkobmN7fN1r7vmlE2usgA==", PhoneNumber = "+55555", PhoneNumberConfirmed = true, PostalCode = 0, SecurityStamp = "c4de9f14-695d-4eba-bed7-7f05f8c84388", TwoFactorEnabled = false, UserName = "ICBAdmin" }
+                        new { Id = "2fa4ce85-df6a-4085-ba55-95d7055b4996", AccessFailedCount = 0, ConcurrencyStamp = "c06f86da-42d0-4ddf-b938-ac22b8474092", Email = "ICBAdmin@mail.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "ICBADMIN@MAIL.COM", NormalizedUserName = "ICBADMIN", PasswordHash = "AQAAAAEAACcQAAAAEFLm7v4/QzX28SbsA+kYG3meT9+NVrfo6blxRUm9dzsykSn5ODVQJ0rqHhI3ciHzYQ==", PhoneNumber = "+55555", PhoneNumberConfirmed = true, SecurityStamp = "1d444290-77c1-460e-9ba6-45ead37515f5", TwoFactorEnabled = false, UserName = "ICBAdmin" }
                     );
                 });
 
@@ -217,13 +215,17 @@ namespace SmartDormitory.Data.Migrations
 
                     b.Property<string>("ApiId");
 
-                    b.Property<string>("CurrentValue");
+                    b.Property<double>("CurrentValue");
 
                     b.Property<string>("Description");
 
                     b.Property<DateTime>("LastUpdate");
 
+                    b.Property<int>("MaxValue");
+
                     b.Property<int>("MinPollingIntervalInSeconds");
+
+                    b.Property<int>("MinValue");
 
                     b.Property<string>("Name");
 
@@ -256,7 +258,7 @@ namespace SmartDormitory.Data.Migrations
 
                     b.Property<string>("UserId");
 
-                    b.Property<string>("Value");
+                    b.Property<double>("Value");
 
                     b.HasKey("Id");
 
@@ -302,13 +304,13 @@ namespace SmartDormitory.Data.Migrations
 
                     b.Property<DateTime>("LastUpdatedOn");
 
-                    b.Property<string>("Latitude");
+                    b.Property<double>("Latitude");
 
-                    b.Property<string>("Longitude");
+                    b.Property<double>("Longitude");
 
-                    b.Property<int>("MaxValue");
+                    b.Property<double>("MaxValue");
 
-                    b.Property<int>("MinValue");
+                    b.Property<double>("MinValue");
 
                     b.Property<string>("Name");
 
@@ -317,6 +319,8 @@ namespace SmartDormitory.Data.Migrations
                     b.Property<int>("UpdateInterval");
 
                     b.Property<string>("UserId");
+
+                    b.Property<double>("Value");
 
                     b.HasKey("Id");
 

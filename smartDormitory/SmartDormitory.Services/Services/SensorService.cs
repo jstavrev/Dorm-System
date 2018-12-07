@@ -69,7 +69,7 @@ namespace SmartDormitory.Services.Services
             return query;
         }
 
-        public async Task<UserSensors> ChangeCoordinatesAsync(int sensorId, string longitude, string latitude)
+        public async Task<UserSensors> ChangeCoordinatesAsync(int sensorId, double longitude, double latitude)
         {
             var sensor = await this.context.UserSensors.FindAsync(sensorId);
 
@@ -80,7 +80,7 @@ namespace SmartDormitory.Services.Services
             return sensor;
         }
 
-        public async Task<UserSensors> ChangeMinMaxAsync(int sensorId, int min, int max)
+        public async Task<UserSensors> ChangeMinMaxAsync(int sensorId, double min, double max)
         {
             var sensor = await this.context.UserSensors.FindAsync(sensorId);
 
@@ -109,6 +109,46 @@ namespace SmartDormitory.Services.Services
             await context.SaveChangesAsync();
 
             return sensor;
+        }
+
+        public void RegisterSensor(double lng, double lat, double minValue, double maxValue, int updateInterval, string name, string description,
+            bool isPublic, bool notification, string defaultPosition, string userId, string sensorId)
+        {
+            var sensor = Find(int.Parse(sensorId));
+
+            var userSensor = new UserSensors()
+            {
+                Name = name,
+                Description = description,
+                UpdateInterval = updateInterval,
+                Latitude = lat,
+                Longitude = lng,
+                IsPublic = isPublic,
+                IsRequiredNotification = notification,
+                UserId = userId,
+                SensorId = int.Parse(sensorId),
+                Value = sensor.CurrentValue,
+                LastUpdatedOn = sensor.LastUpdate
+            };
+
+            if (defaultPosition == null)
+            {
+                userSensor.MinValue = minValue;
+                userSensor.MaxValue = maxValue;
+            }
+            else
+            {
+                userSensor.MinValue = int.Parse(defaultPosition);
+                userSensor.MaxValue = int.Parse(defaultPosition);
+            }
+
+            this.context.UserSensors.Add(userSensor);
+            this.context.SaveChanges();
+        }
+
+        public Sensor Find(int sensorId)
+        {
+            return this.context.Sensors.Find(sensorId);
         }
     }
 }

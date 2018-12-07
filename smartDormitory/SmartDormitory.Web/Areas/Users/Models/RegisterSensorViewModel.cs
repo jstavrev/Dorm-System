@@ -9,21 +9,23 @@ namespace SmartDormitory.Web.Areas.Users.Models
 {
     public class RegisterSensorViewModel
     {
+        public RegisterSensorViewModel(List<Sensor> sensorsSelect, List<SensorTypes> sensorTypes, List<Sensor> sensors)
+        {
+            this.SensorsSelect = sensorsSelect.Select(a => new SelectListItem { Value = a.Id.ToString(), Text = $"{a.Name}" }).ToList();
+            this.SensorTypes = sensorTypes.Select(a => new SelectListItem { Value = a.Id.ToString(), Text = $"{a.Type}" }).ToList();
+            this.Sensors = sensors;
+        }
+
         public RegisterSensorViewModel()
         {
-            this.Sensors = new List<SelectListItem>();
             this.SensorTypes = new List<SelectListItem>();
+            this.Sensors = new List<Sensor>();
+            this.SensorsSelect = new List<SelectListItem>();
         }
 
-        public RegisterSensorViewModel(List<Sensor> sensors, List<SensorTypes> types)
-        {
-            this.Sensors = sensors.Select(a => new SelectListItem { Value = a.Id.ToString(), Text = $"{a.Name}" }).ToList();
-            this.SensorTypes = types.Select(a => new SelectListItem { Value = a.Id.ToString(), Text = $"{a.Type}" }).ToList();
-        }
+        public double Longitude { get; set; }
 
-        public string Longitude { get; set; }
-
-        public string Latitude { get; set; }
+        public double Latitude { get; set; }
 
         public double MinValue { get; set; }
 
@@ -39,12 +41,16 @@ namespace SmartDormitory.Web.Areas.Users.Models
 
         public bool IsRequiredNotification { get; set; }
 
-        public IEnumerable<SelectListItem> Sensors { get; set; }
+        public List<SelectListItem> SensorsSelect { get; set; }
 
-        public IEnumerable<SelectListItem> SensorTypes { get; set; }
+        public List<SelectListItem> SensorTypes { get; set; }
+
+        public List<Sensor> Sensors { get; set; }
 
         public string SensorId { get; set; }
 
         public string SensorTypeId { get; set; }
+
+        public string Default { get; set; }
     }
 }

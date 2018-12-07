@@ -95,7 +95,6 @@ namespace ESportStatistics.Web.Areas.Identity.Controllers
             user.City = model.City;
             user.Country = model.Country;
             user.PostalCode = model.PostalCode;
-            user.Story = model.Story;
 
             await _userManager.UpdateAsync(user);
 

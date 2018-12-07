@@ -12,8 +12,8 @@ namespace SmartDormitory.Web.Areas.Users.Models
         public SensorEditViewModel(UserSensors sensors)
         {
             this.Id = sensors.Id;
-            this.Longitude = sensors.Longitude;
-            this.Latitude = sensors.Latitude;
+            this.Longitude = sensors.Longitude.ToString();
+            this.Latitude = sensors.Latitude.ToString();
             this.MinValue = sensors.MinValue;
             this.MaxValue = sensors.MaxValue;
             this.UpdateInterval = sensors.UpdateInterval;
@@ -32,9 +32,9 @@ namespace SmartDormitory.Web.Areas.Users.Models
 
         public string Latitude { get; set; }
 
-        public int MinValue { get; set; }
+        public double MinValue { get; set; }
 
-        public int MaxValue { get; set; }
+        public double MaxValue { get; set; }
 
         public int UpdateInterval { get; set; }
 

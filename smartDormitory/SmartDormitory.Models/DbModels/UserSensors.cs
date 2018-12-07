@@ -15,13 +15,13 @@ namespace SmartDormitory.Models.DbModels
 
         public int SensorId { get; set; }
 
-        public string Longitude { get; set; }
+        public double Longitude { get; set; }
 
-        public string Latitude { get; set; }
+        public double Latitude { get; set; }
 
-        public int MinValue { get; set; }
+        public double MinValue { get; set; }
 
-        public int MaxValue { get; set; }
+        public double MaxValue { get; set; }
 
         public int UpdateInterval { get; set; }
 
@@ -34,5 +34,7 @@ namespace SmartDormitory.Models.DbModels
         public bool IsRequiredNotification { get; set; }
 
         public DateTime LastUpdatedOn { get; set; }
+
+        public double Value { get; set; }
     }
 }

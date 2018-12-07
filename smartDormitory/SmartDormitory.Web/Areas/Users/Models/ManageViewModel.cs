@@ -23,7 +23,6 @@ namespace SmartDormitory.Web.Areas.Users.Models
             this.City = user.City;
             this.Country = user.Country;
             this.PostalCode = user.PostalCode;
-            this.Story = user.Story;
             this.StatusMessage = statusMessage;
         }
 
@@ -62,7 +61,7 @@ namespace SmartDormitory.Web.Areas.Users.Models
         [StringLength(40, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 3)]
         public string Country { get; set; }
 
-        public int PostalCode { get; set; }
+        public string PostalCode { get; set; }
 
         [StringLength(250, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 3)]
         public string Story { get; set; }

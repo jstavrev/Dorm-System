@@ -3,7 +3,6 @@
     ViewData["Title"] = "Register";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <br />
 <br />
 <br />
@@ -11,73 +10,70 @@
 
 <div class="row">
     <div class="col-lg-6">
-        <form asp-controller="Sensor" asp-action="Register" method="post">
+        <form asp-controller="Sensor" asp-action="Register" id="register-form" method="post">
 
             <label asp-for="Name">Name:</label><br />
-            <input asp-for="Name" class="form-control" /><br />
+            <input name="name" asp-for="Name" class="form-control" /><br />
             <span asp-validation-for="Name" class="text-danger"></span>
 
             <label asp-for="Description">Description:</label><br />
-            <textarea asp-for="Description" class="form-control"></textarea><br />
+            <textarea name="description" asp-for="Description" class="form-control"></textarea><br />
             <span asp-validation-for="Description" class="text-danger"></span>
 
             <div class="row">
-                <div class="col-lg-6" id="sensortypes">
+                <div class="col-lg-6">
                     <label asp-for="SensorTypeId">Sensor types:</label><br />
-                    <select asp-for="SensorTypeId" asp-items="Model.SensorTypes" class="form-control">
-                        <option>Select sensor type</option>
+                    <select name="SensorTypeId" id="SensorTypeId" asp-for="SensorTypeId" asp-items="Model.SensorTypes" class="form-control">
+                        <option value="">Select sensor type</option>
                     </select>
                 </div>
 
-                <div class="col-lg-6" id="sensors">
+                <div class="col-lg-6">
                     <label asp-for="SensorId">Sensors:</label><br />
-                    <select asp-for="SensorId" asp-items="Model.Sensors" class="form-control">
-                        <option>Select sensor</option>
+                    <select name="SensorId" id="SensorId" asp-for="SensorId" asp-items="Model.SensorsSelect" class="form-control">
+                        <option value="">Select sensor</option>
                     </select>
                 </div>
             </div>
+
 
             <br />
 
             <label asp-for="UpdateInterval">Update Interval:</label><br />
-            <input asp-for="UpdateInterval" class="form-control" /><br />
+            <input name="updateInterval" asp-for="UpdateInterval" class="form-control" /><br />
             <span asp-validation-for="UpdateInterval" class="text-danger"></span>
 
             <div class="row">
-                <div class="col-lg-6">
-                    <label asp-for="Latitude">Latitude:</label><br />
-                    <input asp-for="Latitude" class="form-control" id="latitudeId" disabled="" /><br />
+                <div class="form-group col-md-6">
+                    <label asp-for="Latitude">Latitude</label>
+                    <input name="Latitude" asp-for="Latitude" type="text" value="" class="form-control" id="latitude" placeholder="Read only field" readonly>
                     <span asp-validation-for="Latitude" class="text-danger"></span>
                 </div>
 
-                <div class="col-lg-6">
-                    <label asp-for="MinValue">Minimum Value:</label><br />
-                    <input asp-for="MinValue" class="form-control" /><br />
-                    <span asp-validation-for="MinValue" class="text-danger"></span>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-6">
-                    <label asp-for="Longitude">Longitude:</label><br />
-                    <input asp-for="Longitude" class="form-control" id="longtitudeId" disabled="" /><br />
+                <div class="form-group col-md-6">
+                    <label asp-for="Longitude">Longtitude</label>
+                    <input asp-for="Longitude" type="text" value="" class="form-control" id="longtitude" placeholder="Read only field" readonly>
                     <span asp-validation-for="Longitude" class="text-danger"></span>
                 </div>
-
-                <div class="col-lg-6">
-                    <label asp-for="MaxValue">Maximum Value:</label><br />
-                    <input asp-for="MaxValue" class="form-control" /><br />
-                    <span asp-validation-for="MaxValue" class="text-danger"></span>
-                </div>
             </div>
 
+            <div class="row" id="validation" name="validation"></div>
+            <br />
             <div class="row">
-                <div class="col-lg-6">
-                    <input asp-for="IsPublic" type="checkbox" /> Public
+                <div class="col-lg-6 form-group">
+                    <label class="" id="checkbox">
+                        <input asp-for="IsPublic" type="checkbox" autocomplete="off">
+                        <label asp-for="IsPublic">Public</label>
+                        <span class="checkmark"></span>
+                    </label>
                 </div>
 
-                <div class="col-lg-6">
-                    <input asp-for="IsRequiredNotification" type="checkbox"> Enable Notifications
+                <div class="col-lg-6 form-group">
+                    <label class="" id="checkbox">
+                        <input asp-for="IsRequiredNotification" type="checkbox" autocomplete="off">
+                        <label asp-for="IsRequiredNotification">Notifications</label>
+                        <span class="checkmark"></span>
+                    </label>
                 </div>
             </div>
             <br />
@@ -96,13 +92,11 @@
                         center: { lat: 42.694, lng: 23.312 },
                         zoom: 8
                     });
-
                     google.maps.event.addListener(map, 'click', function (event) {
                         if (marker) {
                             marker.setPosition(event.latLng)
-
-                            $('#latitudeId').val(marker.position.lat)
-                            $('#longtitudeId').val(marker.position.lng)
+                            $('#latitude').attr('value', marker.position.lat)
+                            $('#longtitude').attr('value', marker.position.lng)
                         }
                         else {
                             marker = new google.maps.Marker({
@@ -110,16 +104,14 @@
                                 map: map,
                             });
                             marker.setAnimation(google.maps.Animation.BOUNCE);
-
-                            $('#latitudeId').val(marker.position.lat)
-                            $('#longtitudeId').val(marker.position.lng)
+                            $('#latitude').attr('value', marker.position.lat)
+                            $('#longtitude').attr('value', marker.position.lng)
                         }
                     });
                 }
             </script>
             <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCDteKY2bbicMlrP2DHSJmSciuIP-E_D6k&callback=initMap"
                     async defer></script>
-
         </div>
     </div>
 </div>
@@ -137,3 +129,94 @@
         padding: 0;
     }
 </style>
+@section Scripts {
+    <script>
+        jQuery.validator.setDefaults({
+            errorClass: 'text-danger'
+        });
+
+        var validator = $("#register-form").validate({
+            rules: {
+                name: "required",
+                description: "required",
+                updateInterval: {
+                    required: true,
+                    range: [1, 99999]
+                },
+                minValue: {
+                    required: true,
+                    range: [1, 10]
+                },
+                maxValue: {
+                    required: true,
+                    range: [1, 10]
+                },
+                SensorId: "required",
+                Latitude: "required"
+            },
+            messages: {
+                name: "Please enter a name for your sensor.",
+                description: "A description for your sensor is required.",
+                updateInterval: {
+                    required: "A interval for sensor updates is required",
+                    range: "Update interval cannot be smaller lower than 30 seconds."
+                },
+                minValue: {
+                    required: "Please first select a sensor.",
+                    range: "Please first select a sensor."
+                },
+                maxValue: {
+                    required: "Please first select a sensor.",
+                    range: "Please first select a sensor."
+                },
+                SensorId: "Please select a sensor.",
+                Latitude: "Latitude and Longtitude are required (select them using our map)."
+            }
+        });
+
+        function updateValidations(min, max, interval) {
+            console.log(1)
+            var validator = $("#register-form").validate({
+                rules: {
+                    name: "required",
+                    description: "required",
+                    updateInterval: {
+                        required: true,
+                        range: [interval, 99999]
+                    },
+                    minValue: {
+                        required: true,
+                        range: [min, max]
+                    },
+                    maxValue: {
+                        required: true,
+                        range: [min, max]
+                    },
+                    SensorId: "required",
+                    Latitude: "required"
+                },
+                messages: {
+                    name: "Please enter a name for your sensor.",
+                    description: "A description for your sensor is required.",
+                    updateInterval: {
+                        required: "A interval for sensor updates is required",
+                        range: function () { return "Update interval cannot be smaller than " + interval + " seconds." }
+                    },
+                    minValue: {
+                        required: "A minimum value is required.",
+                        range: function () { return "Acceptable range values cannot be outside " + min + "-" + max + "." }
+                    },
+                    maxValue: {
+                        required: "A maximum value is required.",
+                        range: function () { return "Acceptable range values cannot be outside " + min + "-" + max + "." }
+                    },
+                    SensorId: "Please select a sensor.",
+                    Latitude: "Latitude and Longtitude are required (select them using our map)."
+                }
+            });
+        }
+    </script>
+    <script src="~/js/SensorRegisterSelection.js"></script>
+    <script src="~/js/SensorRegisterValidation.js"></script>
+}
+

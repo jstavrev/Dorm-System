@@ -23,12 +23,17 @@ namespace SmartDormitory.Services.Contracts
 
         Task<UserSensors> FindAsync(int sensorId);
 
-        Task<UserSensors> ChangeCoordinatesAsync(int sensorId, string longitude, string latitude);
+        Task<UserSensors> ChangeCoordinatesAsync(int sensorId, double longitude, double latitude);
 
-        Task<UserSensors> ChangeMinMaxAsync(int sensorId, int min, int max);
+        Task<UserSensors> ChangeMinMaxAsync(int sensorId, double min, double max);
 
         Task<UserSensors> ChangeIsPublic(int sensorId, bool isPublic);
 
         Task<UserSensors> ChangeIsRequiredNotification(int sensorId, bool isRequiredNotification);
+
+        void RegisterSensor(double lng, double lat, double minValue, double maxValue, int updateInterval, string name, string description,
+            bool isPublic, bool notification, string defaultPosition, string userId, string sensorId);
+
+        Sensor Find(int sensorId);
     }
 }

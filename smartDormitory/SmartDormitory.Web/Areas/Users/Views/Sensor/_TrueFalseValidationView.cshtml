@@ -1,0 +1,12 @@
+﻿@model RegisterSensorViewModel
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+<div class="col-lg-6">
+    <label asp-for="Default">Select default option:</label><br />
+    <select asp-for="Default" class="form-control center-block">
+        <option value="0">Open (Not occupied)</option>
+        <option value="1">Closed (Occupied)</option>
+    </select>
+</div>

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SmartDormitory.Data.Migrations
 {
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -42,7 +42,12 @@ namespace SmartDormitory.Data.Migrations
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true)
+                    LastName = table.Column<string>(nullable: true),
+                    AvatarImage = table.Column<byte[]>(nullable: true),
+                    Address = table.Column<string>(nullable: true),
+                    City = table.Column<string>(nullable: true),
+                    Country = table.Column<string>(nullable: true),
+                    PostalCode = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -181,9 +186,11 @@ namespace SmartDormitory.Data.Migrations
                     ApiId = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
+                    MinValue = table.Column<int>(nullable: false),
+                    MaxValue = table.Column<int>(nullable: false),
                     MinPollingIntervalInSeconds = table.Column<int>(nullable: false),
                     SensorTypeId = table.Column<int>(nullable: false),
-                    CurrentValue = table.Column<string>(nullable: true),
+                    CurrentValue = table.Column<double>(nullable: false),
                     LastUpdate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -209,7 +216,7 @@ namespace SmartDormitory.Data.Migrations
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     AddedOn = table.Column<DateTime>(nullable: false),
                     SensorId = table.Column<int>(nullable: false),
-                    Value = table.Column<string>(nullable: true),
+                    Value = table.Column<double>(nullable: false),
                     UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -233,21 +240,25 @@ namespace SmartDormitory.Data.Migrations
                 name: "UserSensors",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<string>(nullable: true),
                     SensorId = table.Column<int>(nullable: false),
-                    Longitude = table.Column<string>(nullable: true),
-                    Latitude = table.Column<string>(nullable: true),
-                    MinValue = table.Column<int>(nullable: false),
-                    MaxValue = table.Column<int>(nullable: false),
+                    Longitude = table.Column<double>(nullable: false),
+                    Latitude = table.Column<double>(nullable: false),
+                    MinValue = table.Column<double>(nullable: false),
+                    MaxValue = table.Column<double>(nullable: false),
                     UpdateInterval = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     IsPublic = table.Column<bool>(nullable: false),
-                    IsRequiredNotification = table.Column<bool>(nullable: false)
+                    IsRequiredNotification = table.Column<bool>(nullable: false),
+                    LastUpdatedOn = table.Column<DateTime>(nullable: false),
+                    Value = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserSensors", x => new { x.UserId, x.SensorId });
+                    table.PrimaryKey("PK_UserSensors", x => x.Id);
                     table.ForeignKey(
                         name: "FK_UserSensors_Sensors_SensorId",
                         column: x => x.SensorId,
@@ -259,7 +270,7 @@ namespace SmartDormitory.Data.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.InsertData(
@@ -274,13 +285,13 @@ namespace SmartDormitory.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "67c2878c-f66e-477d-b688-fa4fe3160d5d", 0, "b8792c4d-5d76-4404-933a-075eefae30b5", "vksn@mail.com", true, null, null, false, null, "VKS@MAIL.COM", "VKSADMIN", "AQAAAAEAACcQAAAAENY+67dayz49mL9ZnG5LgSOYqcSK8Jf+dBP6B5yPsxQMhYoxiOFpLfYfaGnntn2qHA==", "+55555", true, "108ce727-6471-4d79-86d2-c97034c611d7", false, "VksAdmin" });
+                columns: new[] { "Id", "AccessFailedCount", "Address", "AvatarImage", "City", "ConcurrencyStamp", "Country", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PostalCode", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "2fa4ce85-df6a-4085-ba55-95d7055b4996", 0, null, null, null, "c06f86da-42d0-4ddf-b938-ac22b8474092", null, "ICBAdmin@mail.com", true, null, null, false, null, "ICBADMIN@MAIL.COM", "ICBADMIN", "AQAAAAEAACcQAAAAEFLm7v4/QzX28SbsA+kYG3meT9+NVrfo6blxRUm9dzsykSn5ODVQJ0rqHhI3ciHzYQ==", "+55555", true, null, "1d444290-77c1-460e-9ba6-45ead37515f5", false, "ICBAdmin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "UserId", "RoleId" },
-                values: new object[] { "67c2878c-f66e-477d-b688-fa4fe3160d5d", "1" });
+                values: new object[] { "2fa4ce85-df6a-4085-ba55-95d7055b4996", "1" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -340,6 +351,11 @@ namespace SmartDormitory.Data.Migrations
                 name: "IX_UserSensors_SensorId",
                 table: "UserSensors",
                 column: "SensorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserSensors_UserId",
+                table: "UserSensors",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

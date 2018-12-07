@@ -19,9 +19,7 @@ namespace SmartDormitory.Data.Data
 
         public string Country { get; set; }
 
-        public int PostalCode { get; set; }
-
-        public string Story { get; set; }
+        public string PostalCode { get; set; }
 
         public ICollection<SensorDataHistory> DataHistory { get; set; }
 

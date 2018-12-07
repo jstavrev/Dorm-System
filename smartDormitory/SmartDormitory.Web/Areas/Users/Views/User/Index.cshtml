@@ -1,11 +1,9 @@
 ﻿@using SmartDormitory.Web.Areas.Users.Models
-
 @model ManageViewModel
 @{
     ViewData["Title"] = "Profile";
     Layout = "_Layout";
 }
-
 <div class="row">
     <div class="col-md-6">
         <div class="card">
@@ -97,7 +95,6 @@
                     </div>
                     <div class="card-footer" data-color="blue">
                         <button type="submit" class="btn btn-primary">Save</button>
-
                         <a asp-area="Users" asp-controller="User" asp-action="ChangePassword" class="btn btn-primary">Change password</a>
                     </div>
                 </form>
@@ -136,7 +133,7 @@
             </div>
         </div>
     </div>
-    
+
     @*upload modal*@
     <div id="upload-modal" class="modal fade" role="dialog">
         <div class="modal-dialog">
@@ -159,11 +156,8 @@
         </div>
     </div>
 
-
 </div>
-
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
     <script src="~/js/upload.js"></script>
 }
-

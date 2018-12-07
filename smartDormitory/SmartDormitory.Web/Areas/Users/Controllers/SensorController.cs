@@ -31,7 +31,7 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
         {
             var sensors = this.sensorService.GetAll().ToList();
             var sensorTypes = this.sensorService.GetAllTypes().ToList();
-            var model = new RegisterSensorViewModel(sensors, sensorTypes);
+            var model = new RegisterSensorViewModel(sensors, sensorTypes, sensors);
 
             return View(model);
         }
@@ -39,7 +39,10 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
         [HttpPost]
         public IActionResult Register(RegisterSensorViewModel model)
         {
-            return View();
+            string userId = this._userManager.GetUserId(User);
+            this.sensorService.RegisterSensor(model.Longitude, model.Latitude, model.MinValue, model.MaxValue, model.UpdateInterval, model.Name, model.Description, model.IsPublic, model.IsRequiredNotification, model.Default, userId, model.SensorId);
+
+            return RedirectToAction("Index", "Sensor");
         }
 
         public IActionResult MySensors()
@@ -92,9 +95,9 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
                 throw new ApplicationException($"Unable to find sensor with ID '{model.Id}'.");
             }
 
-            if (sensor.Longitude != model.Longitude || sensor.Latitude != model.Latitude)
+            if (sensor.Longitude != double.Parse(model.Longitude) || sensor.Latitude != double.Parse(model.Latitude))
             {
-                await sensorService.ChangeCoordinatesAsync(model.Id, model.Longitude, model.Latitude);
+                await sensorService.ChangeCoordinatesAsync(model.Id, double.Parse(model.Longitude), double.Parse(model.Latitude));
             }
 
             if (sensor.MinValue != model.MinValue || sensor.MaxValue != model.MaxValue)
@@ -126,6 +129,52 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
 
             var model = new SensorMapViewModel(sensor);
             return PartialView(model);
+        }
+
+        [HttpGet]
+        [IgnoreAntiforgeryToken]
+        public IActionResult SensorSelect(int typeId)
+        {
+            var result = new List<SensorSelectViewModel>();
+
+            if (typeId == 0)
+            {
+                result = this.sensorService.GetAll().Select(s => new SensorSelectViewModel { Id = s.Id, Name = s.Name }).ToList();
+            }
+            else
+            {
+                result = this.sensorService.GetAll().Where(s => s.SensorTypeId == typeId).Select(s => new SensorSelectViewModel { Id = s.Id, Name = s.Name }).ToList();
+            }
+
+            return Json(result);
+        }
+
+        [HttpGet]
+        [IgnoreAntiforgeryToken]
+        public IActionResult SensorValidationInfo(int sensorId)
+        {
+            var sensor = this.sensorService.Find(sensorId);
+            var sensorType = this.sensorService.GetAllTypes().Where(s => s.Id == sensor.SensorTypeId).FirstOrDefault();
+            var result = new SensorValidationViewModel
+            {
+                MaxValue = sensor.MaxValue,
+                MinValue = sensor.MinValue,
+                UpdateInterval = sensor.MinPollingIntervalInSeconds,
+                Type = sensorType.Type
+            };
+
+            return Json(result);
+        }
+
+        [HttpGet]
+        [IgnoreAntiforgeryToken]
+        public IActionResult ValidationView(string type)
+        {
+            if (type == "(true/false)")
+            {
+                return PartialView("_TrueFalseValidationView");
+            }
+            return PartialView("_MinMaxValidationView");
         }
     }
 }

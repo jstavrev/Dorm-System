@@ -10,8 +10,8 @@ using SmartDormitory.Data.Data;
 namespace SmartDormitory.Data.Migrations
 {
     [DbContext(typeof(SmartDormitoryDbContext))]
-    [Migration("20181201123841_added_admin_seeding")]
-    partial class added_admin_seeding
+    [Migration("20181207204553_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -121,7 +121,7 @@ namespace SmartDormitory.Data.Migrations
                     b.ToTable("AspNetUserRoles");
 
                     b.HasData(
-                        new { UserId = "081bc1c4-d938-4192-ab5f-cb1b10cc480e", RoleId = "1" }
+                        new { UserId = "2fa4ce85-df6a-4085-ba55-95d7055b4996", RoleId = "1" }
                     );
                 });
 
@@ -147,8 +147,16 @@ namespace SmartDormitory.Data.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
+                    b.Property<string>("Address");
+
+                    b.Property<byte[]>("AvatarImage");
+
+                    b.Property<string>("City");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
+
+                    b.Property<string>("Country");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
@@ -175,6 +183,8 @@ namespace SmartDormitory.Data.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
+                    b.Property<string>("PostalCode");
+
                     b.Property<string>("SecurityStamp");
 
                     b.Property<bool>("TwoFactorEnabled");
@@ -195,7 +205,7 @@ namespace SmartDormitory.Data.Migrations
                     b.ToTable("AspNetUsers");
 
                     b.HasData(
-                        new { Id = "081bc1c4-d938-4192-ab5f-cb1b10cc480e", AccessFailedCount = 0, ConcurrencyStamp = "58063bba-8a94-46db-8fcf-3c262c84b14b", Email = "ICBAdmin@mail.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "ICBADMIN@MAIL.COM", NormalizedUserName = "ICBADMIN", PasswordHash = "AQAAAAEAACcQAAAAEKx2tHN5RiWQ+Z30jDpBf6J+4AF+SO3a2KsukUsx+Kd6S44ojqk7RrBhgHQE+5m3zg==", PhoneNumber = "+55555", PhoneNumberConfirmed = true, SecurityStamp = "711b522d-ebaa-4b53-9209-c9c7b9666c4f", TwoFactorEnabled = false, UserName = "ICBAdmin" }
+                        new { Id = "2fa4ce85-df6a-4085-ba55-95d7055b4996", AccessFailedCount = 0, ConcurrencyStamp = "c06f86da-42d0-4ddf-b938-ac22b8474092", Email = "ICBAdmin@mail.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "ICBADMIN@MAIL.COM", NormalizedUserName = "ICBADMIN", PasswordHash = "AQAAAAEAACcQAAAAEFLm7v4/QzX28SbsA+kYG3meT9+NVrfo6blxRUm9dzsykSn5ODVQJ0rqHhI3ciHzYQ==", PhoneNumber = "+55555", PhoneNumberConfirmed = true, SecurityStamp = "1d444290-77c1-460e-9ba6-45ead37515f5", TwoFactorEnabled = false, UserName = "ICBAdmin" }
                     );
                 });
 
@@ -207,13 +217,17 @@ namespace SmartDormitory.Data.Migrations
 
                     b.Property<string>("ApiId");
 
-                    b.Property<string>("CurrentValue");
+                    b.Property<double>("CurrentValue");
 
                     b.Property<string>("Description");
 
                     b.Property<DateTime>("LastUpdate");
 
+                    b.Property<int>("MaxValue");
+
                     b.Property<int>("MinPollingIntervalInSeconds");
+
+                    b.Property<int>("MinValue");
 
                     b.Property<string>("Name");
 
@@ -246,7 +260,7 @@ namespace SmartDormitory.Data.Migrations
 
                     b.Property<string>("UserId");
 
-                    b.Property<string>("Value");
+                    b.Property<double>("Value");
 
                     b.HasKey("Id");
 
@@ -280,9 +294,9 @@ namespace SmartDormitory.Data.Migrations
 
             modelBuilder.Entity("SmartDormitory.Models.DbModels.UserSensors", b =>
                 {
-                    b.Property<string>("UserId");
-
-                    b.Property<int>("SensorId");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description");
 
@@ -290,21 +304,31 @@ namespace SmartDormitory.Data.Migrations
 
                     b.Property<bool>("IsRequiredNotification");
 
-                    b.Property<string>("Latitude");
+                    b.Property<DateTime>("LastUpdatedOn");
 
-                    b.Property<string>("Longitude");
+                    b.Property<double>("Latitude");
 
-                    b.Property<int>("MaxValue");
+                    b.Property<double>("Longitude");
 
-                    b.Property<int>("MinValue");
+                    b.Property<double>("MaxValue");
+
+                    b.Property<double>("MinValue");
 
                     b.Property<string>("Name");
 
+                    b.Property<int>("SensorId");
+
                     b.Property<int>("UpdateInterval");
 
-                    b.HasKey("UserId", "SensorId");
+                    b.Property<string>("UserId");
+
+                    b.Property<double>("Value");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("SensorId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("UserSensors");
                 });
@@ -383,8 +407,7 @@ namespace SmartDormitory.Data.Migrations
 
                     b.HasOne("SmartDormitory.Data.Data.User", "User")
                         .WithMany("UserSensor")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }

@@ -14,13 +14,17 @@ namespace SmartDormitory.Models.DbModels
 
         public string Description { get; set; }
 
+        public int MinValue { get; set; }
+
+        public int MaxValue { get; set; }
+
         public int MinPollingIntervalInSeconds { get; set; }
 
         public SensorTypes SensorType { get; set; }
 
         public int SensorTypeId { get; set; }
 
-        public string CurrentValue { get; set; }
+        public double CurrentValue { get; set; }
 
         public DateTime LastUpdate { get; set; }
 

@@ -54,7 +54,21 @@ namespace SmartDormitory.Services.Services
                 sD = JsonConvert.DeserializeObject<SensorData>(await response.Content.ReadAsStringAsync());
             }
 
-            sensor.Value = sD.Value;
+            if (sensor.MeasureType == "(true/false)")
+            {
+                if (sD.Value == "true")
+                {
+                    sensor.Value = 1;
+                }
+                else
+                {
+                    sensor.Value = 0;
+                }
+            }
+            else
+            {
+                sensor.Value = double.Parse(sD.Value);
+            }
             sensor.TimeStamp = DateTime.Now;
 
             return sensor;
