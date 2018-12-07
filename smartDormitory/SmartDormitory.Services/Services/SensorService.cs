@@ -100,5 +100,15 @@ namespace SmartDormitory.Services.Services
 
             return sensor;
         }
+
+        public async Task<UserSensors> ChangeIsRequiredNotification(int sensorId, bool isRequiredNotification)
+        {
+            var sensor = await this.context.UserSensors.FindAsync(sensorId);
+
+            sensor.IsRequiredNotification = isRequiredNotification;
+            await context.SaveChangesAsync();
+
+            return sensor;
+        }
     }
 }

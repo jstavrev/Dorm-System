@@ -1,0 +1,36 @@
+﻿@using SmartDormitory.Web.Areas.Users.Models
+
+@model SensorMapViewModel
+@{
+    ViewData["Title"] = "ShowMap";
+}
+
+<style>
+    #showmap {
+        height: 500px;
+        width: 630px;
+    }
+
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+</style>
+
+<div class="row">
+    <div id="showmap"></div>
+    <script>
+        var map;
+        function initMap() {
+            var sensor = { lat: @Model.Latitude, lng: @Model.Longitude };
+            var map = new google.maps.Map(
+                document.getElementById('showmap'), { zoom: 4, center: sensor });
+            var marker = new google.maps.Marker({ position: sensor, map: map });
+            
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCDteKY2bbicMlrP2DHSJmSciuIP-E_D6k&callback=initMap"
+            async defer></script>
+
+</div>

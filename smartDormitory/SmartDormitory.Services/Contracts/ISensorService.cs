@@ -28,5 +28,7 @@ namespace SmartDormitory.Services.Contracts
         Task<UserSensors> ChangeMinMaxAsync(int sensorId, int min, int max);
 
         Task<UserSensors> ChangeIsPublic(int sensorId, bool isPublic);
+
+        Task<UserSensors> ChangeIsRequiredNotification(int sensorId, bool isRequiredNotification);
     }
 }

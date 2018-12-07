@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -106,7 +107,25 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
                 await sensorService.ChangeIsPublic(model.Id, model.IsPublic);
             }
 
+            if (sensor.IsRequiredNotification != model.IsRequiredNotification)
+            {
+                await sensorService.ChangeIsRequiredNotification(model.Id, model.IsRequiredNotification);
+            }
+
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet("Users/Sensor/showmap/{id}")]
+        public async Task<IActionResult> ShowMap(int id)
+        {
+            var sensor = await sensorService.FindAsync(id);
+            if (sensor == null)
+            {
+                throw new ApplicationException($"Unable to find sensor with ID '{id}'.");
+            }
+
+            var model = new SensorMapViewModel(sensor);
+            return PartialView(model);
         }
     }
 }
