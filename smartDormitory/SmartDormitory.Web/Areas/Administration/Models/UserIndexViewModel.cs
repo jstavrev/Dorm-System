@@ -1,35 +1,33 @@
 ﻿using SmartDormitory.Data.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using SmartDormitory.Web.Models;
+using X.PagedList;
 
 namespace SmartDormitory.Web.Areas.Administration.Models
 {
     public class UserIndexViewModel
     {
-        public IEnumerable<User> users;
 
-        public UserIndexViewModel(IEnumerable<User> users)
+        public UserIndexViewModel(IPagedList<User> users, string sortOrder = "", string searchTerm = "")
         {
-            this.users = users;
+            this.Table = new TableViewModel<UserTableViewModel>()
+            {
+                Items = users.Select(u => new UserTableViewModel(u)),
+                Pagination = new PaginationViewModel()
+                {
+                    PageCount = users.PageCount,
+                    PageNumber = users.PageNumber,
+                    PageSize = users.PageSize,
+                    HasNextPage = users.HasNextPage,
+                    HasPreviousPage = users.HasPreviousPage,
+                    SearchTerm = searchTerm,
+                    SortOrder = sortOrder,
+                    AreaRoute = "Administration",
+                    ControllerRoute = "User",
+                    ActionRoute = "Filter"
+                }
+            };
         }
 
-        public UserIndexViewModel()
-        {
-
-        }
-
-        public int TotalPages { get; set; }
-
-        public int Page { get; set; } = 1;
-
-        public int PreviousPage => this.Page ==
-            1 ? 1 : this.Page - 1;
-
-        public int NextPage => this.Page ==
-            this.TotalPages ? this.TotalPages : this.Page + 1;
-
-        public string SearchText { get; set; } = string.Empty;
+        public TableViewModel<UserTableViewModel> Table { get; set; }
     }
 }

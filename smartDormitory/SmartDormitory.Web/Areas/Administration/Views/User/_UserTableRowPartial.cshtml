@@ -1,0 +1,13 @@
+﻿@model UserTableViewModel
+
+<td>@Model.Username</td>
+<td>@Model.Email</td>
+<td>@Model.FirstName</td>
+<td>@Model.LastName</td>
+<td>@Model.PhoneNumber</td>
+
+<td>
+    <div class="dark-theme">
+        <a class="page-link" asp-area="Administration" asp-controller="User" asp-action="Details" asp-route-id="@Model.Id">Edit</a>
+    </div>
+</td>
