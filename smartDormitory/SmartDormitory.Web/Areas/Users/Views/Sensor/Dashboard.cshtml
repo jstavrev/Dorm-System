@@ -1,0 +1,44 @@
+﻿@model DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Dashboard</h2>
+
+@foreach (var sensor in Model.Sensors)
+{
+    <div class="col-lg-4">
+        <div class="card">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Name: @sensor.Name</li>
+                <li class="list-group-item">Description: @sensor.Description</li>
+                <li class="list-group-item">Sensor acceptable range: @sensor.MinValue - @sensor.MaxValue</li>
+                <li class="list-group-item">Current value: @sensor.Value</li>
+                <li class="list-group-item">
+                    <div class="gauge--2">
+                        <div class="mask">
+                            <div class="semi-circle"></div>
+                            <div class="semi-circle--mask"></div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+}
+
+@section Scripts {
+
+    <script>
+        setInterval(function () {
+            var newVal = Math.floor((Math.random() * 179) + 1);
+
+            $('.gauge--2 .semi-circle--mask').attr({
+                style: '-webkit-transform: rotate(' + newVal + 'deg);' +
+                    '-moz-transform: rotate(' + newVal + 'deg);' +
+                    'transform: rotate(' + newVal + 'deg);'
+            });
+        }, 1000);
+    </script>
+}

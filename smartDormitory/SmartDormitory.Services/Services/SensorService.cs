@@ -150,5 +150,28 @@ namespace SmartDormitory.Services.Services
         {
             return this.context.Sensors.Find(sensorId);
         }
+
+        public IEnumerable<UserSensors> GetAllUserSensorsByUser(string Id)
+        {
+            return this.context.UserSensors.Where(uS => uS.UserId == Id).ToList();
+        }
+
+        public UserSensors GetUserSensorsById(int id)
+        {
+            return this.context.UserSensors.Where(uS => uS.Id == id).FirstOrDefault();
+        }
+
+        public IDictionary<int, UserSensors> GetAllUserSensorsByUserDictionary(string Id)
+        {
+            var userSensorsList =  this.context.UserSensors.Where(uS => uS.UserId == Id).ToList();
+            var userSensorsDict = new Dictionary<int, UserSensors>();
+
+            foreach (var userSensor in userSensorsList)
+            {
+                userSensorsDict[userSensor.Id] = userSensor;
+            }
+
+            return userSensorsDict;
+        }
     }
 }

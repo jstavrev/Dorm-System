@@ -16,6 +16,7 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
     [Area("Users")]
     public class SensorController : Controller
     {
+        private int pageSize = 10;
         private readonly ISensorService sensorService;
         private readonly UserManager<User> _userManager;
         private readonly IMemoryCache _memoryCache;
@@ -175,6 +176,59 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
                 return PartialView("_TrueFalseValidationView");
             }
             return PartialView("_MinMaxValidationView");
+        }
+
+        [HttpGet]
+        public IActionResult CreateDashboard()
+        {
+            var userId = _userManager.GetUserId(User);
+
+            CreateDashboardViewModel model = new CreateDashboardViewModel(this.sensorService.GetAllUserSensorsByUser(userId)
+                .Select(s => new CreateDashboardSensorSelectionViewModel { Id = s.Id, Name = s.Name }).ToList());
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult CreateDashboard(CreateDashboardViewModel model)
+        {
+            var userId = _userManager.GetUserId(User);
+
+            var selectedDashboardSensors = new List<DashboardSensorViewModel>();
+            var allUserSensorsDictionary = this.sensorService.GetAllUserSensorsByUserDictionary(userId);
+
+            foreach (var userSensor in model.SensorSelection)
+            {
+                if (userSensor.IsSelected)
+                {
+                    var uS = allUserSensorsDictionary[userSensor.Id];
+                    var dashboardSensor = 
+                        new DashboardSensorViewModel { Description = uS.Description, Id = uS.Id, MaxValue = uS.MaxValue, MinValue = uS.MinValue,
+                            Name = uS.Name, Value = uS.Value, UpdateInterval = uS.UpdateInterval};
+                    dashboardSensor.GraphicalId = userSensor.GraphicalRepresentationId;
+
+                    selectedDashboardSensors.Add(dashboardSensor);
+                }
+            }
+
+            var dashboardModel = new DashboardViewModel(selectedDashboardSensors);
+
+            TempData.Put("dashboard", dashboardModel);
+
+            return RedirectToAction("Dashboard", "Sensor");
+        }
+
+        [HttpGet]
+        public IActionResult Dashboard(DashboardViewModel model)
+        {
+            model = TempData.Get<DashboardViewModel>("dashboard");
+
+            if (model == null || model.IsEmpty)
+            {
+                return RedirectToAction("CreateDashboard", "Sensor");
+            }
+
+            return View(model);
         }
     }
 }
