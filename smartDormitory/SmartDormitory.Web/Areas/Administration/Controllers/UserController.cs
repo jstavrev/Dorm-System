@@ -49,14 +49,14 @@ namespace SmartDormitory.Web.Areas.Administration.Controllers
                 throw new ApplicationException($"Unable to find user with ID '{id}'.");
             }
 
-            var model = new DetailsViewModel(user, await _userManager.IsInRoleAsync(user, adminRole));
+            var model = new UserDetailsViewModel(user, await _userManager.IsInRoleAsync(user, adminRole));
 
             return View(model);
         }
 
         [HttpPost("users/details/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Details(DetailsViewModel model)
+        public async Task<IActionResult> Details(UserDetailsViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -131,7 +131,7 @@ namespace SmartDormitory.Web.Areas.Administration.Controllers
                 throw new ApplicationException(string.Format("User promotion operation was unsuccessful."));
             }
 
-            var model = new DetailsViewModel(user, await _userManager.IsInRoleAsync(user, adminRole));
+            var model = new UserDetailsViewModel(user, await _userManager.IsInRoleAsync(user, adminRole));
 
             return View("Details", model);
         }
@@ -154,7 +154,7 @@ namespace SmartDormitory.Web.Areas.Administration.Controllers
                 throw new ApplicationException(string.Format("User demotion operation was unsuccessful."));
             }
 
-            var model = new DetailsViewModel(user, await _userManager.IsInRoleAsync(user, adminRole));
+            var model = new UserDetailsViewModel(user, await _userManager.IsInRoleAsync(user, adminRole));
 
             return View("Details", model);
         }

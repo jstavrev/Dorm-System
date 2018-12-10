@@ -35,5 +35,7 @@ namespace SmartDormitory.Services.Contracts
             bool isPublic, bool notification, string defaultPosition, string userId, string sensorId);
 
         Sensor Find(int sensorId);
+
+        Task<IPagedList<UserSensors>> FilterAllSensorsAsync(string sortOrder = "", string filter = "", int pageNumber = 1, int pageSize = 10);
     }
 }

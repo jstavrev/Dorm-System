@@ -1,0 +1,25 @@
+﻿@model SensorDetailsViewModel
+@{
+    ViewData["Title"] = "Sensor Details";
+}
+<h2>Users Administration</h2>
+<form asp-area="Administration" asp-action="Details" asp-controller="User" method="post">
+    <input type="hidden" value="@Model.Id">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-5 pr-md-1">
+                            <div class="form-group">
+                                <label asp-for="Name">Name</label>
+                                <input asp-for="Name" type="text" class="form-control" value="@Model.Name" maxlength="25" minlength="3">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="submit" value="Save" class="btn btn-primary">
+</form>

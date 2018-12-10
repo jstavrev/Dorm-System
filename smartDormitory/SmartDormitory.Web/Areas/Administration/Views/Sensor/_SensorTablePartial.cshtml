@@ -1,8 +1,8 @@
-﻿@model TableViewModel<UserTableViewModel>
+﻿@model TableViewModel<SensorTableViewModel>
 
 <div id="tablePartial">
     <div>
-        <form asp-area="Administration" asp-controller="User" asp-action="Filter"
+        <form asp-area="Administration" asp-controller="Sensor" asp-action="Filter"
               asp-route-pageNumber="@Model.Pagination.PageNumber" asp-route-sortOrder="@Model.Pagination.SortOrder" asp-route-searchTerm="@Model.Pagination.SearchTerm"
               method="get" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#tablePartial">
             <label>Page size:</label>
@@ -17,28 +17,31 @@
                         User Name
                     </th>
                     <th>
-                        Email
+                        Sensor Name
                     </th>
                     <th>
-                        First Name
+                        MinValue
                     </th>
                     <th>
-                        Last Name
+                        MaxValue
                     </th>
                     <th>
-                        Phone Number
+                        Update Interval
                     </th>
                     <th>
-                        Actions
+                        Public
+                    </th>
+                    <th>
+                        Notifications
                     </th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var user in Model.Items)
+                @foreach (var sensor in Model.Items)
                 {
-                <tr id="@user.Id">
-                    @await Html.PartialAsync("_UserTableRowPartial", user)
-                </tr>
+                    <tr id="@sensor.Id">
+                        @await Html.PartialAsync("_SensorTableRowPartial", sensor)
+                    </tr>
                 }
             </tbody>
         </table>

@@ -1,0 +1,16 @@
+﻿@model SensorTableViewModel
+
+<td>@Model.User.UserName</td>
+<td>@Model.Name</td>
+<td>@Model.MinValue</td>
+<td>@Model.MaxValue</td>
+<td>@Model.UpdateInterval</td>
+<td><input type="checkbox" checked="@Model.IsPublic" onclick="return false;" /></td>
+<td><input type="checkbox" checked="@Model.IsRequiredNotification" onclick="return false;" /></td>
+
+
+<td>
+    <div class="dark-theme">
+        <a class="page-link" asp-area="Administration" asp-controller="Sensor" asp-action="Details" asp-route-id="@Model.Id">Edit</a>
+    </div>
+</td>

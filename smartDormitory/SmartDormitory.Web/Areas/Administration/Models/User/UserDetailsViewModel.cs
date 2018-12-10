@@ -2,13 +2,13 @@
 
 namespace SmartDormitory.Web.Areas.Administration.Models
 {
-    public class DetailsViewModel
+    public class UserDetailsViewModel
     {
-        public DetailsViewModel()
+        public UserDetailsViewModel()
         {
         }
 
-        public DetailsViewModel(User user, bool isAdmin)
+        public UserDetailsViewModel(User user, bool isAdmin)
         {
             this.Id = user.Id;
             this.Username = user.UserName;

@@ -1,4 +1,5 @@
-﻿using SmartDormitory.Data.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using SmartDormitory.Data.Data;
 using SmartDormitory.Models.DbModels;
 using SmartDormitory.Services.Contracts;
 using System;
@@ -58,6 +59,14 @@ namespace SmartDormitory.Services.Services
                     query = query.OrderByDescending(c => c.Name);
                     break;
             }
+
+            return await query.ToPagedListAsync(pageNumber, pageSize);
+        }
+
+        public async Task<IPagedList<UserSensors>> FilterAllSensorsAsync( string sortOrder = "", string filter = "", int pageNumber = 1, int pageSize = 10)
+        {
+
+            var query = this.context.UserSensors.Include(u => u.User);
 
             return await query.ToPagedListAsync(pageNumber, pageSize);
         }
