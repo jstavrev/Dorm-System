@@ -93,17 +93,14 @@
 </div>
 
 @section scripts {
-    @* The normal bootstrap behavior is to only grab the content for the modal once, if you need to pull in different partial views then the data on the modal will have to be cleared.*@
     <script type="text/javascript">
         $(function () {
 
-            // boostrap 4 load modal example from docs
             $('#modal-container').on('show.bs.modal', function (event) {
-                var button = $(event.relatedTarget); // Button that triggered the modal
+                var button = $(event.relatedTarget); 
                 var url = button.attr("href");
                 var modal = $(this);
 
-                // note that this will replace the content of modal-content ever time the modal is opened
                 modal.find('.modal-content').load(url);
             });
         });

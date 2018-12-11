@@ -100,7 +100,17 @@ namespace SmartDormitory.Services.Services
             return sensor;
         }
 
-        public async Task<UserSensors> ChangeIsPublic(int sensorId, bool isPublic)
+        public async Task<UserSensors> ChangeNameAsync(int sensorId, string name)
+        {
+            var sensor = await this.context.UserSensors.FindAsync(sensorId);
+
+            sensor.Name = name;
+            await context.SaveChangesAsync();
+
+            return sensor;
+        }
+
+        public async Task<UserSensors> ChangeIsPublicAsync(int sensorId, bool isPublic)
         {
             var sensor = await this.context.UserSensors.FindAsync(sensorId);
 
@@ -110,7 +120,17 @@ namespace SmartDormitory.Services.Services
             return sensor;
         }
 
-        public async Task<UserSensors> ChangeIsRequiredNotification(int sensorId, bool isRequiredNotification)
+        public async Task<UserSensors> ChangeUpdatenIntervalAsync(int sensorId, int updateInterval)
+        {
+            var sensor = await this.context.UserSensors.FindAsync(sensorId);
+
+            sensor.UpdateInterval = updateInterval;
+            await context.SaveChangesAsync();
+
+            return sensor;
+        }
+
+        public async Task<UserSensors> ChangeIsRequiredNotificationAsync(int sensorId, bool isRequiredNotification)
         {
             var sensor = await this.context.UserSensors.FindAsync(sensorId);
 
