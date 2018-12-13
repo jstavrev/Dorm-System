@@ -1,4 +1,4 @@
-﻿using SmartDormitory.Data.Data;
+﻿using SmartDormitory.Models.DbModels;
 using SmartDormitory.Web.Models;
 using X.PagedList;
 
@@ -9,9 +9,9 @@ namespace SmartDormitory.Web.Areas.Administration.Models
 
         public UserIndexViewModel(IPagedList<User> users, string sortOrder = "", string searchTerm = "")
         {
-            this.Table = new TableViewModel<UserTableViewModel>()
+            this.Table = new TableViewModel<UserViewModel>()
             {
-                Items = users.Select(u => new UserTableViewModel(u)),
+                Items = users.Select(u => new UserViewModel(u)),
                 Pagination = new PaginationViewModel()
                 {
                     PageCount = users.PageCount,
@@ -26,8 +26,8 @@ namespace SmartDormitory.Web.Areas.Administration.Models
                     ActionRoute = "Filter"
                 }
             };
-        }
 
-        public TableViewModel<UserTableViewModel> Table { get; set; }
+        }
+        public TableViewModel<UserViewModel> Table { get; set; }
     }
 }

@@ -3,6 +3,11 @@
 @{
 
 }
+<br />
+<br />
+<br />
+
+
 <div id="statusMessage"></div>
 <div id="tablePartial">
     <div>
@@ -76,6 +81,7 @@
         @await Html.PartialAsync("_PaginationPartial", Model.Pagination)
     </div>
 </div>
+
 <div id="modal-container" class="modal fade hidden-print" tabindex="-1" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -97,7 +103,7 @@
         $(function () {
 
             $('#modal-container').on('show.bs.modal', function (event) {
-                var button = $(event.relatedTarget); 
+                var button = $(event.relatedTarget);
                 var url = button.attr("href");
                 var modal = $(this);
 

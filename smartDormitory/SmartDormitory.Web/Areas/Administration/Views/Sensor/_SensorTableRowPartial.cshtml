@@ -2,15 +2,13 @@
 
 <td>@Model.User.UserName</td>
 <td>@Model.Name</td>
-<td>@Model.MinValue</td>
-<td>@Model.MaxValue</td>
-<td>@Model.UpdateInterval</td>
-<td><input type="checkbox" checked="@Model.IsPublic" onclick="return false;" /></td>
-<td><input type="checkbox" checked="@Model.IsRequiredNotification" onclick="return false;" /></td>
+<td class="col-md-2">@Model.UpdateInterval</td>
+<td class="col-md-1"><input type="checkbox" checked="@Model.IsPublic" onclick="return false;" /></td>
+<td class="col-md-1"><input type="checkbox" checked="@Model.IsRequiredNotification" onclick="return false;" /></td>
 
 
-<td>
+<td class="col-lg-2">
     <div class="dark-theme">
-        <a class="page-link" asp-area="Administration" asp-controller="Sensor" asp-action="Details" asp-route-id="@Model.Id">Edit</a>
+        <a class="page-link" asp-area="Administration" asp-controller="Sensor" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
     </div>
 </td>

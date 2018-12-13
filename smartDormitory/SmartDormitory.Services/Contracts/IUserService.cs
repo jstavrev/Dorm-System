@@ -1,4 +1,4 @@
-﻿using SmartDormitory.Data.Data;
+﻿using SmartDormitory.Models.DbModels;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;

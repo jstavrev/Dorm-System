@@ -8,7 +8,7 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
-                <h5 class="title">Edit Profile</h5>
+                <h2 class="title">Edit Profile</h2>
             </div>
             <div class="card-body">
                 <form method="post">
@@ -84,15 +84,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-8">
-                            <div class="form-group">
-                                <label>About Me</label>
-                                <textarea asp-for="Story" rows="4" cols="80" class="form-control" placeholder="Here can be your description" value="@Model.Story" maxlength="250" minlength="3"></textarea>
-                                <span asp-validation-for="Story" class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
                     <div class="card-footer" data-color="blue">
                         <button type="submit" class="btn btn-primary">Save</button>
                         <a asp-area="Users" asp-controller="User" asp-action="ChangePassword" class="btn btn-primary">Change password</a>
@@ -127,9 +118,6 @@
                         <button class="btn btn-primary" data-toggle="modal" data-target="#upload-modal">Change profile picture</button>
                     </div>
                 </p>
-                <div class="card-description">
-                    @Model.Story
-                </div>
             </div>
         </div>
     </div>

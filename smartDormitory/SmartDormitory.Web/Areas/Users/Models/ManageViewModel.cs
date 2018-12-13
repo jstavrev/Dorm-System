@@ -1,4 +1,4 @@
-﻿using SmartDormitory.Data.Data;
+﻿using SmartDormitory.Models.DbModels;
 using System.ComponentModel.DataAnnotations;
 
 namespace SmartDormitory.Web.Areas.Users.Models
@@ -62,9 +62,6 @@ namespace SmartDormitory.Web.Areas.Users.Models
         public string Country { get; set; }
 
         public string PostalCode { get; set; }
-
-        [StringLength(250, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 3)]
-        public string Story { get; set; }
 
         public string StatusMessage { get; set; }
     }

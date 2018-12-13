@@ -1,5 +1,4 @@
-﻿using SmartDormitory.Data.Data;
-using System;
+﻿using System;
 
 namespace SmartDormitory.Models.DbModels
 {

@@ -1,5 +1,4 @@
-﻿using SmartDormitory.Data.Data;
-using SmartDormitory.Models.DbModels;
+﻿using SmartDormitory.Models.DbModels;
 
 namespace SmartDormitory.Web.Areas.Administration.Models.Sensor
 {
@@ -13,8 +12,6 @@ namespace SmartDormitory.Web.Areas.Administration.Models.Sensor
             this.SensorId = userSensors.SensorId;
             this.Longitude = userSensors.Longitude;
             this.Latitude = userSensors.Latitude;
-            this.MinValue = userSensors.MinValue;
-            this.MaxValue = userSensors.MaxValue;
             this.UpdateInterval = userSensors.UpdateInterval;
             this.Name = userSensors.Name;
             this.Description = userSensors.Description;
@@ -34,10 +31,6 @@ namespace SmartDormitory.Web.Areas.Administration.Models.Sensor
         public double Longitude { get; set; }
 
         public double Latitude { get; set; }
-
-        public double MinValue { get; set; }
-
-        public double MaxValue { get; set; }
 
         public int UpdateInterval { get; set; }
 

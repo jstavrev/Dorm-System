@@ -20,6 +20,7 @@ namespace SmartDormitory.Web.Areas.Users.Models
             this.Name = sensors.Name;
             this.IsPublic = sensors.IsPublic;
             this.IsRequiredNotification = sensors.IsRequiredNotification;
+            this.Description = sensors.Description;
         }
 
         public int Id { get; set; }

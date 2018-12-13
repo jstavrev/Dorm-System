@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using SmartDormitory.Data.Data;
+using SmartDormitory.Models.DbModels;
 using SmartDormitory.Services.Contracts;
 using SmartDormitory.Web.Areas.Users.Models;
 using X.PagedList;
@@ -46,7 +46,7 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
             return View();
         }
 
-        [HttpGet("sensors")]
+        [HttpGet("Sensors")]
         public async Task<IActionResult> Index()
         {
 
@@ -102,6 +102,16 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
                 await sensorService.ChangeIsRequiredNotificationAsync(model.Id, model.IsRequiredNotification);
             }
 
+            if (sensor.Name != model.Name)
+            {
+                await sensorService.ChangeNameAsync(model.Id, model.Name);
+            }
+
+            if (sensor.Description != model.Description)
+            {
+                await sensorService.ChangeDescriptionAsync(model.Id, model.Description);
+            }
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -117,6 +127,20 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
             var model = new SensorMapViewModel(sensor);
             return PartialView(model);
         }
+
+       [HttpGet("Sensors/Filter")]
+       public async Task<IActionResult> Filter(string sortOrder, string searchTerm, int? pageSize, int? pageNumber)
+       {
+           sortOrder = sortOrder ?? string.Empty;
+           searchTerm = searchTerm ?? string.Empty;
+
+            var user = _userManager.GetUserId(User);
+            var sensors = await sensorService.FilterUserSensorsAsync(user, sortOrder, searchTerm, pageNumber ?? 1, pageSize ?? 10);
+
+            var model = new SensorDetailsViewModel(sensors);
+
+            return View("Index",model);
+       }
 
         [HttpGet]
         [IgnoreAntiforgeryToken]

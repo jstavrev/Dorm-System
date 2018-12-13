@@ -44,6 +44,7 @@ namespace SmartDormitory.Services.Services
             throw new NotImplementedException();
         }
 
+
         public async Task<IPagedList<UserSensors>> FilterUserSensorsAsync(string userId, string sortOrder = "", string filter = "", int pageNumber = 1, int pageSize = 10)
         {
 
@@ -105,6 +106,16 @@ namespace SmartDormitory.Services.Services
             var sensor = await this.context.UserSensors.FindAsync(sensorId);
 
             sensor.Name = name;
+            await context.SaveChangesAsync();
+
+            return sensor;
+        }
+
+        public async Task<UserSensors> ChangeDescriptionAsync(int sensorId, string description)
+        {
+            var sensor = await this.context.UserSensors.FindAsync(sensorId);
+
+            sensor.Description = description;
             await context.SaveChangesAsync();
 
             return sensor;

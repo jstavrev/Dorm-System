@@ -1,4 +1,5 @@
 ﻿using SmartDormitory.Data.Data;
+using SmartDormitory.Models.DbModels;
 using SmartDormitory.Services.Contracts;
 using System;
 using System.Collections.Generic;

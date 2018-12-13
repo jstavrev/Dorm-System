@@ -2,20 +2,16 @@
 
 namespace SmartDormitory.Web.Areas.Administration.Models
 {
-    public class UserDetailsViewModel
+    public class UserViewModel
     {
-        public UserDetailsViewModel()
-        {
-        }
-
-        public UserDetailsViewModel(User user, bool isAdmin)
+        public UserViewModel(User user)
         {
             this.Id = user.Id;
             this.Username = user.UserName;
             this.Email = user.Email;
+            this.PhoneNumber = user.PhoneNumber;
             this.FirstName = user.FirstName;
             this.LastName = user.LastName;
-            this.UserRole = new UserRoleViewModel(user, isAdmin);
         }
 
         public string Id { get; set; }
@@ -24,10 +20,13 @@ namespace SmartDormitory.Web.Areas.Administration.Models
 
         public string LastName { get; set; }
 
-        public string Email { get; set; }
-
         public string Username { get; set; }
 
-        public UserRoleViewModel UserRole { get; set; }
+        public string Email { get; set; }
+
+        public string PhoneNumber { get; set; }
+
+        public bool IsAdmin { get; set; }
+
     }
 }

@@ -22,13 +22,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Areas\Administration\Views\Sensor\Details.cshtml">
+    <Content Update="Areas\Administration\Views\Sensors\Details.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Areas\Administration\Views\Sensor\_SensorTableRowPartial.cshtml">
+    <Content Update="Areas\Administration\Views\Sensors\_SensorTableRowPartial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Areas\Administration\Views\Sensor\_SensorTablePartial.cshtml">
+    <Content Update="Areas\Administration\Views\Sensors\_SensorTablePartial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Administration\Views\Sensor\RegisterSensor.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Areas\Administration\Views\User\Details.cshtml">

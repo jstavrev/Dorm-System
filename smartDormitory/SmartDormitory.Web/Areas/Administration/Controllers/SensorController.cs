@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using SmartDormitory.Data.Data;
+using SmartDormitory.Models.DbModels;
 using SmartDormitory.Services.Contracts;
 using SmartDormitory.Web.Areas.Administration.Models.Sensor;
 
@@ -20,7 +20,7 @@ namespace SmartDormitory.Web.Areas.Administration.Controllers
             _roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
         }
 
-        [HttpGet("usersensors")]
+        [HttpGet("Administration/Sensors")]
         public async Task<IActionResult> Index()
         {
             var usersensors = await _sensorService.FilterAllSensorsAsync();
@@ -30,9 +30,20 @@ namespace SmartDormitory.Web.Areas.Administration.Controllers
             return View(model);
         }
 
-        [HttpGet("sensors/details/{id}")]
-        [ResponseCache(CacheProfileName = "Short")]
-        public async Task<IActionResult> Details(int id)
+        [HttpGet("administration/sensor/filter")]
+        public async Task<IActionResult> Filter(string sortOrder, string searchTerm, int? pageSize, int? pageNumber)
+        {
+            sortOrder = sortOrder ?? string.Empty;
+            searchTerm = searchTerm ?? string.Empty;
+
+            var users = await _sensorService.FilterAllSensorsAsync(sortOrder, searchTerm, pageNumber ?? 1, pageSize ?? 10);
+            var model = new SensorIndexViewModel(users);
+
+            return View("Index",model);
+        }
+
+        [HttpGet("Administration/Sensors/Edit/{id}")]
+        public async Task<IActionResult> Edit(int id)
         {
 
             var sensor = await _sensorService.FindAsync(id);
@@ -46,9 +57,9 @@ namespace SmartDormitory.Web.Areas.Administration.Controllers
             return View(model);
         }
 
-        [HttpPost("sensors/details/{id}")]
+        [HttpPost("Administration/Sensors/Edit/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Details(SensorEditViewModel model)
+        public async Task<IActionResult> Edit(SensorEditViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -61,7 +72,7 @@ namespace SmartDormitory.Web.Areas.Administration.Controllers
                 throw new ApplicationException($"Unable to find sensor with ID '{model.Id}'.");
             }
 
-            if (sensor.Longitude != model.Longitude || sensor.Latitude !=model.Latitude)
+            if (sensor.Longitude != model.Longitude || sensor.Latitude != model.Latitude)
             {
                 await _sensorService.ChangeCoordinatesAsync(model.Id, model.Longitude, model.Latitude);
             }
@@ -91,7 +102,27 @@ namespace SmartDormitory.Web.Areas.Administration.Controllers
                 await _sensorService.ChangeUpdatenIntervalAsync(model.Id, model.UpdateInterval);
             }
 
-            return RedirectToAction(nameof(Details));
+
+
+            return RedirectToAction(nameof(Edit));
+        }
+
+        [HttpGet("Administration/Users/Registersensor/{sensorid}/{userid}")]
+        [ResponseCache(CacheProfileName = "Short")]
+        public IActionResult Register(int sensorId, string userId)
+        {
+            ViewBag.sensorId = sensorId;
+            ViewBag.userId = userId;
+            return View("RegisterSensor");
+        }
+
+        [HttpPost("Administration/Users/Registersensor/{sensorid}/{userid}")]
+        public IActionResult Register(RegisterSensorViewModel model)
+        {
+            _sensorService.RegisterSensor(model.Longitude, model.Latitude, model.MinValue, model.MaxValue, model.UpdateInterval, model.Name, model.Description,
+                model.IsPublic, model.IsRequiredNotification, "2",model.UserId, model.SensorId.ToString());
+
+            return RedirectToAction("Index", "Sensor");
         }
     }
 }
