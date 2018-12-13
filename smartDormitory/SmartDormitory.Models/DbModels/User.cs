@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
-using SmartDormitory.Models.DbModels;
 
-namespace SmartDormitory.Data.Data
+namespace SmartDormitory.Models.DbModels
 {
     // Add profile data for application users by adding properties to the User class
     public class User : IdentityUser

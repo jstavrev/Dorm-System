@@ -1,7 +1,8 @@
-﻿using SmartDormitory.Data.Data;
+﻿using SmartDormitory.Models.DbModels;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using X.PagedList;
 
 namespace SmartDormitory.Services.Contracts
 {
@@ -18,5 +19,7 @@ namespace SmartDormitory.Services.Contracts
         int TotalContainingText(string text);
 
         Task SaveAvatarImageAsync(Stream stream, string userId);
+
+        Task<IPagedList<User>> FilterUsersAsync(string sortOrder = "", string filter = "", int pageNumber = 1, int pageSize = 10);
     }
 }
