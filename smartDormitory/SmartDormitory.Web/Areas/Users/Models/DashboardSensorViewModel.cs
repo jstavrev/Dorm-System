@@ -26,5 +26,9 @@ namespace SmartDormitory.Web.Areas.Users.Models
         public double UserMinValue { get; set; }
 
         public double UserMaxValue { get; set; }
+
+        public DateTime LastUpdate { get; set; }
+
+        public double DefaultPosition { get; set; }
     }
 }

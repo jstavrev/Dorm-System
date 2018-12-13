@@ -186,7 +186,7 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
             var userId = _userManager.GetUserId(User);
 
             CreateDashboardViewModel model = new CreateDashboardViewModel(this.sensorService.GetAllUserSensorsByUser(userId)
-                .Select(s => new CreateDashboardSensorSelectionViewModel { Id = s.Id, Name = s.Name, Description = s.Description }).ToList());
+                .Select(s => new CreateDashboardSensorSelectionViewModel { Id = s.Id, Name = s.Name, Description = s.Description, Type = s.Type }).ToList());
 
             return View(model);
         }
@@ -206,7 +206,7 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
                     var uS = allUserSensorsDictionary[userSensor.Id];
                     var dashboardSensor = 
                         new DashboardSensorViewModel { Description = uS.Description, Id = uS.Id, MaxValue = uS.MaxValue, MinValue = uS.MinValue,
-                            Name = uS.Name, Value = uS.Value, UpdateInterval = uS.UpdateInterval, UserMaxValue = uS.UserMaxValue, UserMinValue = uS.UserMinValue};
+                            Name = uS.Name, Value = uS.Value, UpdateInterval = uS.UpdateInterval, UserMaxValue = uS.UserMaxValue, UserMinValue = uS.UserMinValue, LastUpdate = uS.LastUpdatedOn, DefaultPosition = uS.UserMaxValue};
                     dashboardSensor.GraphicalId = userSensor.GraphicalRepresentationId;
 
                     selectedDashboardSensors.Add(dashboardSensor);
@@ -231,6 +231,27 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
             }
 
             return View(model);
+        }
+
+        [HttpGet]
+        [IgnoreAntiforgeryToken]
+        public IActionResult UpdateDashboard(string ids)
+        {
+            List<UpdateDashboardViewModel> updatedSensors = new List<UpdateDashboardViewModel>();
+
+            for (int i = 0; i < ids.Length; i++)
+            {
+                var userSensor = this.sensorService.GetUserSensorsById((int)Char.GetNumericValue(ids[i]));
+                var updatedSensor = new UpdateDashboardViewModel
+                {
+                    Value = userSensor.Value,
+                    Id = userSensor.Id,
+                    LastUpdate = userSensor.LastUpdatedOn
+                };
+                updatedSensors.Add(updatedSensor);
+            }
+
+            return Json(updatedSensors);
         }
     }
 }

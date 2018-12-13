@@ -256,7 +256,8 @@ namespace SmartDormitory.Data.Migrations
                     IsPublic = table.Column<bool>(nullable: false),
                     IsRequiredNotification = table.Column<bool>(nullable: false),
                     LastUpdatedOn = table.Column<DateTime>(nullable: false),
-                    Value = table.Column<double>(nullable: false)
+                    Value = table.Column<double>(nullable: false),
+                    Type = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -288,12 +289,12 @@ namespace SmartDormitory.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "Address", "AvatarImage", "City", "ConcurrencyStamp", "Country", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PostalCode", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "e62f1773-d704-4466-91e2-f84fe7a652d0", 0, null, null, null, "a7c0ffc6-9589-4e17-8be7-168b568d31b9", null, "ICBAdmin@mail.com", true, null, null, false, null, "ICBADMIN@MAIL.COM", "ICBADMIN", "AQAAAAEAACcQAAAAECdPDZKFv/4NHO5P3qYKs+8L8ju5z6E3N7caHp0bwlbJTPcbo67TMYT1fxIDtd0Pkg==", "+55555", true, null, "8e207b6e-10ce-4d99-8786-a317c8083b20", false, "ICBAdmin" });
+                values: new object[] { "e613f2f6-c8b0-47e9-912b-e77fd1020126", 0, null, null, null, "cdc5ee45-7590-46bf-bfe1-9ab4708e2b4c", null, "ICBAdmin@mail.com", true, null, null, false, null, "ICBADMIN@MAIL.COM", "ICBADMIN", "AQAAAAEAACcQAAAAED6ZU/kD5MlrALaGtSeMVMplLM2UEP/y8i4Mk6nIAMz8rS+c1xBM3urAANyfLjJ7wQ==", "+55555", true, null, "e5e8ebcb-a1a4-42a2-8c3e-8c909a3185a9", false, "ICBAdmin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "UserId", "RoleId" },
-                values: new object[] { "e62f1773-d704-4466-91e2-f84fe7a652d0", "1" });
+                values: new object[] { "e613f2f6-c8b0-47e9-912b-e77fd1020126", "1" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

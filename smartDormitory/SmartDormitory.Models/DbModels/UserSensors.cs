@@ -40,5 +40,7 @@ namespace SmartDormitory.Models.DbModels
         public DateTime LastUpdatedOn { get; set; }
 
         public double Value { get; set; }
+
+        public int Type { get; set; }
     }
 }

@@ -16,5 +16,7 @@ namespace SmartDormitory.Web.Areas.Users.Models
         public string GraphicalRepresentationId { get; set; }
 
         public string Description { get; set; }
+
+        public int Type { get; set; }
     }
 }

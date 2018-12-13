@@ -85,3 +85,15 @@ a.disabled {
     width: 99%;
     margin: 0 auto;
 }
+
+body {
+    background: url(/images/bg.jpg);
+    /*padding-top: 0px;*/
+    background-size:cover;
+    /*background-size: 100% 100%;*/
+    background-repeat: no-repeat;
+}
+
+html, body {
+    height: 100%;
+}

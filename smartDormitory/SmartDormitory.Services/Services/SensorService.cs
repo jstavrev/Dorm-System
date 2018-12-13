@@ -128,7 +128,8 @@ namespace SmartDormitory.Services.Services
                 UserId = userId,
                 SensorId = int.Parse(sensorId),
                 Value = sensor.CurrentValue,
-                LastUpdatedOn = sensor.LastUpdate
+                LastUpdatedOn = sensor.LastUpdate,
+                Type = sensor.SensorTypeId
             };
 
             if (defaultPosition == null)
@@ -140,8 +141,10 @@ namespace SmartDormitory.Services.Services
             }
             else
             {
-                userSensor.MinValue = int.Parse(defaultPosition);
-                userSensor.MaxValue = int.Parse(defaultPosition);
+                userSensor.MinValue = 0;
+                userSensor.MaxValue = 1;
+                userSensor.UserMaxValue = int.Parse(defaultPosition);
+                userSensor.UserMinValue = int.Parse(defaultPosition);
             }
 
             this.context.UserSensors.Add(userSensor);
