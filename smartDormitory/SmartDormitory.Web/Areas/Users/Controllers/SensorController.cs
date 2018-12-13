@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
@@ -88,6 +89,7 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
 
 
         [HttpPost("Users/Sensor/sensoredit/{id}")]
+        [Authorize]
         public async Task<IActionResult> Edit(SensorEditViewModel model)
         {
             var sensor = await sensorService.FindAsync(model.Id);
@@ -204,7 +206,7 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
                     var uS = allUserSensorsDictionary[userSensor.Id];
                     var dashboardSensor = 
                         new DashboardSensorViewModel { Description = uS.Description, Id = uS.Id, MaxValue = uS.MaxValue, MinValue = uS.MinValue,
-                            Name = uS.Name, Value = uS.Value, UpdateInterval = uS.UpdateInterval};
+                            Name = uS.Name, Value = uS.Value, UpdateInterval = uS.UpdateInterval, UserMaxValue = uS.UserMaxValue, UserMinValue = uS.UserMinValue};
                     dashboardSensor.GraphicalId = userSensor.GraphicalRepresentationId;
 
                     selectedDashboardSensors.Add(dashboardSensor);

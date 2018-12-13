@@ -1,4 +1,5 @@
 ﻿@model DashboardViewModel
+
 @{
     ViewData["Title"] = "Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -12,33 +13,83 @@
         <div class="card">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">Name: @sensor.Name</li>
-                <li class="list-group-item">Description: @sensor.Description</li>
-                <li class="list-group-item">Sensor acceptable range: @sensor.MinValue - @sensor.MaxValue</li>
-                <li class="list-group-item">Current value: @sensor.Value</li>
                 <li class="list-group-item">
-                    <div class="gauge--2">
-                        <div class="mask">
-                            <div class="semi-circle"></div>
-                            <div class="semi-circle--mask"></div>
+                    <div class="text-center center-block">
+                        <div class="@sensor.Id" style="height: 100px;">
+                            <canvas id="@sensor.Id" style="height: 100px;"></canvas>
                         </div>
                     </div>
                 </li>
+                <li class="list-group-item">Sensor range: @sensor.MinValue - @sensor.MaxValue</li>
+                <li class="list-group-item">User acceptable range: @sensor.UserMinValue - @sensor.UserMaxValue</li>
+                <li class="list-group-item">Current value: @sensor.Value</li>
             </ul>
         </div>
     </div>
 }
 
 @section Scripts {
-
+    <script src="~/js/Gauge.js"></script>
+    <script src="~/js/Progressbar.js"></script>
     <script>
-        setInterval(function () {
-            var newVal = Math.floor((Math.random() * 179) + 1);
+        var json = @Html.Raw(Json.Serialize(Model.Sensors));
+        console.log(json);
+        var opts, target, gauge;
 
-            $('.gauge--2 .semi-circle--mask').attr({
-                style: '-webkit-transform: rotate(' + newVal + 'deg);' +
-                    '-moz-transform: rotate(' + newVal + 'deg);' +
-                    'transform: rotate(' + newVal + 'deg);'
-            });
-        }, 1000);
+        $.each(json, function (index, value) {
+            console.log(value.graphicalId);
+            if (value.graphicalId === '1') {
+                opts = {
+                    angle: 0.07, // The span of the gauge arc
+                    lineWidth: 0.2, // The line thickness
+                    radiusScale: 1, // Relative radius
+                    pointer: {
+                        length: 0.6, // // Relative to gauge radius
+                        strokeWidth: 0.035, // The thickness
+                        color: '#000000' // Fill color
+                    },
+                    limitMax: false,     // If false, max value increases automatically if value > maxValue
+                    limitMin: false,     // If true, the min value of the gauge will be fixed
+                    colorStart: '#6FADCF',   // Colors
+                    colorStop: '#8FC0DA',    // just experiment with them
+                    strokeColor: '#E0E0E0',  // to see which ones work best for you
+                    generateGradient: true,
+                    highDpiSupport: true,     // High resolution support
+                    staticZones: [
+                        { strokeStyle: "#3EF456", min: value.userMinValue, max: value.userMaxValue }, // Green
+                        { strokeStyle: "#FD0909", min: value.minValue, max: value.userMinValue }, // Red
+                        { strokeStyle: "#FD0909", min: value.userMaxValue, max: value.maxValue } // Red
+                    ],
+                    staticLabels: {
+                        font: "10px sans-serif",  // Specifies font
+                        labels: [value.minValue, value.userMinValue, value.userMaxValue, value.maxValue],  // Print labels at these values
+                        color: "#000000",  // Optional: Label text color
+                        fractionDigits: 0  // Optional: Numerical precision. 0=round off.
+                    },
+                };
+
+                target = document.getElementById('' + value.id); // your canvas element
+                gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
+
+                gauge.maxValue = value.maxValue; // set max gauge value
+                gauge.setMinValue(value.minValue);  // Prefer setter over gauge.minValue = 0
+                gauge.animationSpeed = 32; // set animation speed (32 is default value)
+                gauge.set(value.value); // set actual value
+            } else if (value.graphicalId === '2') {
+                $('.' + value.id).empty();
+                $('.' + value.id).LineProgressbar();
+
+            } else if (value.graphicalId === '3') {
+                if (value.value >= value.userMinValue && value.value <= value.userMaxValue) {
+
+                    $('.' + value.id).empty();
+                    $('.' + value.id).append("<status-indicator positive pulse></status-indicator>");
+
+                } else {
+                    $('.' + value.id).empty();
+                    $('.' + value.id).append("<status-indicator negative pulse></status-indicator>");
+                }
+            }
+        });
     </script>
 }

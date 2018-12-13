@@ -133,8 +133,10 @@ namespace SmartDormitory.Services.Services
 
             if (defaultPosition == null)
             {
-                userSensor.MinValue = minValue;
-                userSensor.MaxValue = maxValue;
+                userSensor.UserMinValue = minValue;
+                userSensor.UserMaxValue = maxValue;
+                userSensor.MinValue = sensor.MinValue;
+                userSensor.MaxValue = sensor.MaxValue;
             }
             else
             {

@@ -22,5 +22,9 @@ namespace SmartDormitory.Web.Areas.Users.Models
         public int UpdateInterval { get; set; }
 
         public string GraphicalId { get; set; }
+
+        public double UserMinValue { get; set; }
+
+        public double UserMaxValue { get; set; }
     }
 }

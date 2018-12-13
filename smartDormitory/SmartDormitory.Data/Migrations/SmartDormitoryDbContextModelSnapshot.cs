@@ -119,7 +119,7 @@ namespace SmartDormitory.Data.Migrations
                     b.ToTable("AspNetUserRoles");
 
                     b.HasData(
-                        new { UserId = "2fa4ce85-df6a-4085-ba55-95d7055b4996", RoleId = "1" }
+                        new { UserId = "e62f1773-d704-4466-91e2-f84fe7a652d0", RoleId = "1" }
                     );
                 });
 
@@ -203,7 +203,7 @@ namespace SmartDormitory.Data.Migrations
                     b.ToTable("AspNetUsers");
 
                     b.HasData(
-                        new { Id = "2fa4ce85-df6a-4085-ba55-95d7055b4996", AccessFailedCount = 0, ConcurrencyStamp = "c06f86da-42d0-4ddf-b938-ac22b8474092", Email = "ICBAdmin@mail.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "ICBADMIN@MAIL.COM", NormalizedUserName = "ICBADMIN", PasswordHash = "AQAAAAEAACcQAAAAEFLm7v4/QzX28SbsA+kYG3meT9+NVrfo6blxRUm9dzsykSn5ODVQJ0rqHhI3ciHzYQ==", PhoneNumber = "+55555", PhoneNumberConfirmed = true, SecurityStamp = "1d444290-77c1-460e-9ba6-45ead37515f5", TwoFactorEnabled = false, UserName = "ICBAdmin" }
+                        new { Id = "e62f1773-d704-4466-91e2-f84fe7a652d0", AccessFailedCount = 0, ConcurrencyStamp = "a7c0ffc6-9589-4e17-8be7-168b568d31b9", Email = "ICBAdmin@mail.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "ICBADMIN@MAIL.COM", NormalizedUserName = "ICBADMIN", PasswordHash = "AQAAAAEAACcQAAAAECdPDZKFv/4NHO5P3qYKs+8L8ju5z6E3N7caHp0bwlbJTPcbo67TMYT1fxIDtd0Pkg==", PhoneNumber = "+55555", PhoneNumberConfirmed = true, SecurityStamp = "8e207b6e-10ce-4d99-8786-a317c8083b20", TwoFactorEnabled = false, UserName = "ICBAdmin" }
                     );
                 });
 
@@ -319,6 +319,10 @@ namespace SmartDormitory.Data.Migrations
                     b.Property<int>("UpdateInterval");
 
                     b.Property<string>("UserId");
+
+                    b.Property<double>("UserMaxValue");
+
+                    b.Property<double>("UserMinValue");
 
                     b.Property<double>("Value");
 

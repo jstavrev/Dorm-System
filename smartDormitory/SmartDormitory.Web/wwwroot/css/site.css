@@ -80,3 +80,8 @@ a.disabled {
         Font-Size: .5em;
         Opacity: .8;
     }
+
+#inner {
+    width: 99%;
+    margin: 0 auto;
+}
