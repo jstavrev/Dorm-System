@@ -1,4 +1,5 @@
-﻿using SmartDormitory.Data.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using SmartDormitory.Data.Data;
 using SmartDormitory.Models.DbModels;
 using SmartDormitory.Services.Contracts;
 using System;
@@ -43,6 +44,7 @@ namespace SmartDormitory.Services.Services
             throw new NotImplementedException();
         }
 
+
         public async Task<IPagedList<UserSensors>> FilterUserSensorsAsync(string userId, string sortOrder = "", string filter = "", int pageNumber = 1, int pageSize = 10)
         {
 
@@ -58,6 +60,14 @@ namespace SmartDormitory.Services.Services
                     query = query.OrderByDescending(c => c.Name);
                     break;
             }
+
+            return await query.ToPagedListAsync(pageNumber, pageSize);
+        }
+
+        public async Task<IPagedList<UserSensors>> FilterAllSensorsAsync( string sortOrder = "", string filter = "", int pageNumber = 1, int pageSize = 10)
+        {
+
+            var query = this.context.UserSensors.Include(u => u.User);
 
             return await query.ToPagedListAsync(pageNumber, pageSize);
         }
@@ -91,7 +101,27 @@ namespace SmartDormitory.Services.Services
             return sensor;
         }
 
-        public async Task<UserSensors> ChangeIsPublic(int sensorId, bool isPublic)
+        public async Task<UserSensors> ChangeNameAsync(int sensorId, string name)
+        {
+            var sensor = await this.context.UserSensors.FindAsync(sensorId);
+
+            sensor.Name = name;
+            await context.SaveChangesAsync();
+
+            return sensor;
+        }
+
+        public async Task<UserSensors> ChangeDescriptionAsync(int sensorId, string description)
+        {
+            var sensor = await this.context.UserSensors.FindAsync(sensorId);
+
+            sensor.Description = description;
+            await context.SaveChangesAsync();
+
+            return sensor;
+        }
+
+        public async Task<UserSensors> ChangeIsPublicAsync(int sensorId, bool isPublic)
         {
             var sensor = await this.context.UserSensors.FindAsync(sensorId);
 
@@ -101,7 +131,17 @@ namespace SmartDormitory.Services.Services
             return sensor;
         }
 
-        public async Task<UserSensors> ChangeIsRequiredNotification(int sensorId, bool isRequiredNotification)
+        public async Task<UserSensors> ChangeUpdatenIntervalAsync(int sensorId, int updateInterval)
+        {
+            var sensor = await this.context.UserSensors.FindAsync(sensorId);
+
+            sensor.UpdateInterval = updateInterval;
+            await context.SaveChangesAsync();
+
+            return sensor;
+        }
+
+        public async Task<UserSensors> ChangeIsRequiredNotificationAsync(int sensorId, bool isRequiredNotification)
         {
             var sensor = await this.context.UserSensors.FindAsync(sensorId);
 

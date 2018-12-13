@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using SmartDormitory.Data.Data;
+using SmartDormitory.Models.DbModels;
 using SmartDormitory.Services.Contracts;
 using SmartDormitory.Web.Areas.Users.Models;
 using SmartDormitory.Web.Utilities;

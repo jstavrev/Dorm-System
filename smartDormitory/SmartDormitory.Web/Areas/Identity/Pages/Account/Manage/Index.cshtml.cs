@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using SmartDormitory.Data.Data;
+using SmartDormitory.Models.DbModels;
 
 namespace SmartDormitory.Web.Areas.Identity.Pages.Account.Manage
 {

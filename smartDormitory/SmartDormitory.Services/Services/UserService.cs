@@ -1,11 +1,12 @@
 ﻿using SmartDormitory.Data.Data;
+using SmartDormitory.Models.DbModels;
 using SmartDormitory.Services.Contracts;
-using SmartDormitory.Services.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using X.PagedList;
 
 namespace SmartDormitory.Services.Services
 {
@@ -54,10 +55,7 @@ namespace SmartDormitory.Services.Services
 
         public async Task SaveAvatarImageAsync(Stream stream, string userId)
         {
-            Validator.ValidateNull(stream, "Image stream cannot be null!");
-            Validator.ValidateNull(userId, "User Id cannot be null!");
-            Validator.ValidateGuid(userId, "User id is not in the correct format.Unable to parse to Guid!");
-
+            //to add validation
             User user = await this.context.Users.FindAsync(userId);
 
             if (user == null)
@@ -72,5 +70,32 @@ namespace SmartDormitory.Services.Services
 
             await this.context.SaveChangesAsync();
         }
+
+        public async Task<IPagedList<User>> FilterUsersAsync(string sortOrder = "", string filter = "", int pageNumber = 1, int pageSize = 10)
+        {
+            //to add validation
+
+            var query = this.context.Users
+                .Where(u => u.UserName.Contains(filter) || u.Email.Contains(filter));
+
+            switch (sortOrder)
+            {
+                case "username_asc":
+                    query = query.OrderBy(u => u.UserName);
+                    break;
+                case "username_desc":
+                    query = query.OrderByDescending(u => u.UserName);
+                    break;
+                case "email_asc":
+                    query = query.OrderBy(u => u.Email);
+                    break;
+                case "email_desc":
+                    query = query.OrderByDescending(u => u.Email);
+                    break;
+            }
+
+            return await query.ToPagedListAsync(pageNumber, pageSize);
+        }
+
     }
 }

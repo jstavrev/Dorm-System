@@ -27,15 +27,23 @@ namespace SmartDormitory.Services.Contracts
 
         Task<UserSensors> ChangeMinMaxAsync(int sensorId, double min, double max);
 
-        Task<UserSensors> ChangeIsPublic(int sensorId, bool isPublic);
+        Task<UserSensors> ChangeIsPublicAsync(int sensorId, bool isPublic);
 
-        Task<UserSensors> ChangeIsRequiredNotification(int sensorId, bool isRequiredNotification);
+        Task<UserSensors> ChangeIsRequiredNotificationAsync(int sensorId, bool isRequiredNotification);
 
         void RegisterSensor(double lng, double lat, double minValue, double maxValue, int updateInterval, string name, string description,
             bool isPublic, bool notification, string defaultPosition, string userId, string sensorId);
 
         Sensor Find(int sensorId);
 
+        Task<IPagedList<UserSensors>> FilterAllSensorsAsync(string sortOrder = "", string filter = "", int pageNumber = 1, int pageSize = 10);
+
+        Task<UserSensors> ChangeNameAsync(int sensorId, string name);
+
+        Task<UserSensors> ChangeUpdatenIntervalAsync(int sensorId, int updateInterval);
+
+        Task<UserSensors> ChangeDescriptionAsync(int sensorId, string description);
+      
         IEnumerable<UserSensors> GetAllUserSensorsByUser(string Id);
 
         UserSensors GetUserSensorsById(int id);

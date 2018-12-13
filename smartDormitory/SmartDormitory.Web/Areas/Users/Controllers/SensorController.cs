@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
-using SmartDormitory.Data.Data;
 using SmartDormitory.Models.DbModels;
 using SmartDormitory.Services.Contracts;
 using SmartDormitory.Web.Areas.Users.Models;
@@ -20,12 +18,10 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
         private int pageSize = 10;
         private readonly ISensorService sensorService;
         private readonly UserManager<User> _userManager;
-        private readonly IMemoryCache _memoryCache;
 
-        public SensorController(ISensorService sensorService, IMemoryCache memoryCache, UserManager<User> userManager)
+        public SensorController(ISensorService sensorService,  UserManager<User> userManager)
         {
             this.sensorService = sensorService;
-            _memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
             _userManager = userManager;
         }
 
@@ -52,21 +48,12 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
             return View();
         }
 
-        [HttpGet("sensors")]
+        [HttpGet("Sensors")]
         public async Task<IActionResult> Index()
         {
-            if (!_memoryCache.TryGetValue("ListOfSensors", out IPagedList<UserSensors> sensors))
-            {
-                var user = _userManager.GetUserId(User);
-                sensors = await sensorService.FilterUserSensorsAsync(user);
-                MemoryCacheEntryOptions options = new MemoryCacheEntryOptions
-                {
-                    AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(25),
-                    SlidingExpiration = TimeSpan.FromSeconds(5)
-                };
 
-                _memoryCache.Set("ListOfSensors", sensors, options);
-            }
+            var user = _userManager.GetUserId(User);
+            var sensors = await sensorService.FilterUserSensorsAsync(user);
 
             var model = new SensorDetailsViewModel(sensors);
 
@@ -110,12 +97,22 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
 
             if (sensor.IsPublic != model.IsPublic)
             {
-                await sensorService.ChangeIsPublic(model.Id, model.IsPublic);
+                await sensorService.ChangeIsPublicAsync(model.Id, model.IsPublic);
             }
 
             if (sensor.IsRequiredNotification != model.IsRequiredNotification)
             {
-                await sensorService.ChangeIsRequiredNotification(model.Id, model.IsRequiredNotification);
+                await sensorService.ChangeIsRequiredNotificationAsync(model.Id, model.IsRequiredNotification);
+            }
+
+            if (sensor.Name != model.Name)
+            {
+                await sensorService.ChangeNameAsync(model.Id, model.Name);
+            }
+
+            if (sensor.Description != model.Description)
+            {
+                await sensorService.ChangeDescriptionAsync(model.Id, model.Description);
             }
 
             return RedirectToAction(nameof(Index));
@@ -133,6 +130,20 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
             var model = new SensorMapViewModel(sensor);
             return PartialView(model);
         }
+
+       [HttpGet("Sensors/Filter")]
+       public async Task<IActionResult> Filter(string sortOrder, string searchTerm, int? pageSize, int? pageNumber)
+       {
+           sortOrder = sortOrder ?? string.Empty;
+           searchTerm = searchTerm ?? string.Empty;
+
+            var user = _userManager.GetUserId(User);
+            var sensors = await sensorService.FilterUserSensorsAsync(user, sortOrder, searchTerm, pageNumber ?? 1, pageSize ?? 10);
+
+            var model = new SensorDetailsViewModel(sensors);
+
+            return View("Index",model);
+       }
 
         [HttpGet]
         [IgnoreAntiforgeryToken]

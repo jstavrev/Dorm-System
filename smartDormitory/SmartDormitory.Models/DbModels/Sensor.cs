@@ -1,5 +1,4 @@
-﻿using OnlineMovieStore.Models.Abstract;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace SmartDormitory.Models.DbModels

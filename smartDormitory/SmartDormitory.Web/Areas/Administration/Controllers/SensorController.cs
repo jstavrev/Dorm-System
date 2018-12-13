@@ -1,19 +1,128 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using SmartDormitory.Models.DbModels;
+using SmartDormitory.Services.Contracts;
+using SmartDormitory.Web.Areas.Administration.Models.Sensor;
 
 namespace SmartDormitory.Web.Areas.Administration.Controllers
 {
-    [Area("administration")]
-    [Authorize(Roles = "Admin")]
+    [Area("Administration")]
     public class SensorController : Controller
     {
-        public IActionResult Index()
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly ISensorService _sensorService;
+
+        public SensorController(ISensorService sensorService, RoleManager<IdentityRole> roleManager, UserManager<User> userManager)
         {
-            return View();
+            _sensorService = sensorService ?? throw new ArgumentNullException(nameof(sensorService));
+            _roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
+        }
+
+        [HttpGet("Administration/Sensors")]
+        public async Task<IActionResult> Index()
+        {
+            var usersensors = await _sensorService.FilterAllSensorsAsync();
+
+            var model = new SensorIndexViewModel(usersensors);
+
+            return View(model);
+        }
+
+        [HttpGet("administration/sensor/filter")]
+        public async Task<IActionResult> Filter(string sortOrder, string searchTerm, int? pageSize, int? pageNumber)
+        {
+            sortOrder = sortOrder ?? string.Empty;
+            searchTerm = searchTerm ?? string.Empty;
+
+            var users = await _sensorService.FilterAllSensorsAsync(sortOrder, searchTerm, pageNumber ?? 1, pageSize ?? 10);
+            var model = new SensorIndexViewModel(users);
+
+            return View("Index",model);
+        }
+
+        [HttpGet("Administration/Sensors/Edit/{id}")]
+        public async Task<IActionResult> Edit(int id)
+        {
+
+            var sensor = await _sensorService.FindAsync(id);
+            if (sensor == null)
+            {
+                throw new ApplicationException($"Unable to find sensor with ID '{id}'.");
+            }
+
+            var model = new SensorDetailsViewModel(sensor);
+
+            return View(model);
+        }
+
+        [HttpPost("Administration/Sensors/Edit/{id}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(SensorEditViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var sensor = await _sensorService.FindAsync(model.Id);
+            if (sensor == null)
+            {
+                throw new ApplicationException($"Unable to find sensor with ID '{model.Id}'.");
+            }
+
+            if (sensor.Longitude != model.Longitude || sensor.Latitude != model.Latitude)
+            {
+                await _sensorService.ChangeCoordinatesAsync(model.Id, model.Longitude, model.Latitude);
+            }
+
+            if (sensor.MinValue != model.MinValue || sensor.MaxValue != model.MaxValue)
+            {
+                await _sensorService.ChangeMinMaxAsync(model.Id, model.MinValue, model.MaxValue);
+            }
+
+            if (sensor.IsPublic != model.IsPublic)
+            {
+                await _sensorService.ChangeIsPublicAsync(model.Id, model.IsPublic);
+            }
+
+            if (sensor.IsRequiredNotification != model.IsRequiredNotification)
+            {
+                await _sensorService.ChangeIsRequiredNotificationAsync(model.Id, model.IsRequiredNotification);
+            }
+
+            if (sensor.Name != model.Name)
+            {
+                await _sensorService.ChangeNameAsync(model.Id, model.Name);
+            }
+
+            if (sensor.UpdateInterval != model.UpdateInterval)
+            {
+                await _sensorService.ChangeUpdatenIntervalAsync(model.Id, model.UpdateInterval);
+            }
+
+
+
+            return RedirectToAction(nameof(Edit));
+        }
+
+        [HttpGet("Administration/Users/Registersensor/{sensorid}/{userid}")]
+        [ResponseCache(CacheProfileName = "Short")]
+        public IActionResult Register(int sensorId, string userId)
+        {
+            ViewBag.sensorId = sensorId;
+            ViewBag.userId = userId;
+            return View("RegisterSensor");
+        }
+
+        [HttpPost("Administration/Users/Registersensor/{sensorid}/{userid}")]
+        public IActionResult Register(RegisterSensorViewModel model)
+        {
+            _sensorService.RegisterSensor(model.Longitude, model.Latitude, model.MinValue, model.MaxValue, model.UpdateInterval, model.Name, model.Description,
+                model.IsPublic, model.IsRequiredNotification, "2",model.UserId, model.SensorId.ToString());
+
+            return RedirectToAction("Index", "Sensor");
         }
     }
 }
