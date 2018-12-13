@@ -43,5 +43,11 @@ namespace SmartDormitory.Services.Contracts
         Task<UserSensors> ChangeUpdatenIntervalAsync(int sensorId, int updateInterval);
 
         Task<UserSensors> ChangeDescriptionAsync(int sensorId, string description);
+
+        IEnumerable<UserSensors> GetAllUserSensorsByUser(string Id);
+
+        UserSensors GetUserSensorsById(int id);
+
+        IDictionary<int, UserSensors> GetAllUserSensorsByUserDictionary(string Id);
     }
 }
