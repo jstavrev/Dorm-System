@@ -168,18 +168,23 @@ namespace SmartDormitory.Services.Services
                 UserId = userId,
                 SensorId = int.Parse(sensorId),
                 Value = sensor.CurrentValue,
-                LastUpdatedOn = sensor.LastUpdate
+                LastUpdatedOn = sensor.LastUpdate,
+                Type = sensor.SensorTypeId
             };
 
             if (defaultPosition == null)
             {
-                userSensor.MinValue = minValue;
-                userSensor.MaxValue = maxValue;
+                userSensor.UserMinValue = minValue;
+                userSensor.UserMaxValue = maxValue;
+                userSensor.MinValue = sensor.MinValue;
+                userSensor.MaxValue = sensor.MaxValue;
             }
             else
             {
-                userSensor.MinValue = int.Parse(defaultPosition);
-                userSensor.MaxValue = int.Parse(defaultPosition);
+                userSensor.MinValue = 0;
+                userSensor.MaxValue = 1;
+                userSensor.UserMaxValue = int.Parse(defaultPosition);
+                userSensor.UserMinValue = int.Parse(defaultPosition);
             }
 
             this.context.UserSensors.Add(userSensor);
@@ -189,6 +194,29 @@ namespace SmartDormitory.Services.Services
         public Sensor Find(int sensorId)
         {
             return this.context.Sensors.Find(sensorId);
+        }
+
+        public IEnumerable<UserSensors> GetAllUserSensorsByUser(string Id)
+        {
+            return this.context.UserSensors.Where(uS => uS.UserId == Id).ToList();
+        }
+
+        public UserSensors GetUserSensorsById(int id)
+        {
+            return this.context.UserSensors.Where(uS => uS.Id == id).FirstOrDefault();
+        }
+
+        public IDictionary<int, UserSensors> GetAllUserSensorsByUserDictionary(string Id)
+        {
+            var userSensorsList =  this.context.UserSensors.Where(uS => uS.UserId == Id).ToList();
+            var userSensorsDict = new Dictionary<int, UserSensors>();
+
+            foreach (var userSensor in userSensorsList)
+            {
+                userSensorsDict[userSensor.Id] = userSensor;
+            }
+
+            return userSensorsDict;
         }
     }
 }

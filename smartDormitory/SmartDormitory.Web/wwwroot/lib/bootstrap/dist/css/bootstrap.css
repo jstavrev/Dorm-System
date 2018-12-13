@@ -8225,3 +8225,8 @@ button.close {
         color: #fff;
     }
 }
+
+.equal {
+    display: -webkit-flex;
+    display: flex;
+}

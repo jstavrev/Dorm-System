@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SmartDormitory.Models.DbModels;
@@ -14,6 +15,7 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
     [Area("Users")]
     public class SensorController : Controller
     {
+        private int pageSize = 10;
         private readonly ISensorService sensorService;
         private readonly UserManager<User> _userManager;
 
@@ -74,6 +76,7 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
 
 
         [HttpPost("Users/Sensor/sensoredit/{id}")]
+        [Authorize]
         public async Task<IActionResult> Edit(SensorEditViewModel model)
         {
             var sensor = await sensorService.FindAsync(model.Id);
@@ -186,6 +189,80 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
                 return PartialView("_TrueFalseValidationView");
             }
             return PartialView("_MinMaxValidationView");
+        }
+
+        [HttpGet]
+        public IActionResult CreateDashboard()
+        {
+            var userId = _userManager.GetUserId(User);
+
+            CreateDashboardViewModel model = new CreateDashboardViewModel(this.sensorService.GetAllUserSensorsByUser(userId)
+                .Select(s => new CreateDashboardSensorSelectionViewModel { Id = s.Id, Name = s.Name, Description = s.Description, Type = s.Type }).ToList());
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult CreateDashboard(CreateDashboardViewModel model)
+        {
+            var userId = _userManager.GetUserId(User);
+
+            var selectedDashboardSensors = new List<DashboardSensorViewModel>();
+            var allUserSensorsDictionary = this.sensorService.GetAllUserSensorsByUserDictionary(userId);
+
+            foreach (var userSensor in model.SensorSelection)
+            {
+                if (userSensor.IsSelected)
+                {
+                    var uS = allUserSensorsDictionary[userSensor.Id];
+                    var dashboardSensor = 
+                        new DashboardSensorViewModel { Description = uS.Description, Id = uS.Id, MaxValue = uS.MaxValue, MinValue = uS.MinValue,
+                            Name = uS.Name, Value = uS.Value, UpdateInterval = uS.UpdateInterval, UserMaxValue = uS.UserMaxValue, UserMinValue = uS.UserMinValue, LastUpdate = uS.LastUpdatedOn, DefaultPosition = uS.UserMaxValue};
+                    dashboardSensor.GraphicalId = userSensor.GraphicalRepresentationId;
+
+                    selectedDashboardSensors.Add(dashboardSensor);
+                }
+            }
+
+            var dashboardModel = new DashboardViewModel(selectedDashboardSensors);
+
+            TempData.Put("dashboard", dashboardModel);
+
+            return RedirectToAction("Dashboard", "Sensor");
+        }
+
+        [HttpGet]
+        public IActionResult Dashboard(DashboardViewModel model)
+        {
+            model = TempData.Get<DashboardViewModel>("dashboard");
+
+            if (model == null || model.IsEmpty)
+            {
+                return RedirectToAction("CreateDashboard", "Sensor");
+            }
+
+            return View(model);
+        }
+
+        [HttpGet]
+        [IgnoreAntiforgeryToken]
+        public IActionResult UpdateDashboard(string ids)
+        {
+            List<UpdateDashboardViewModel> updatedSensors = new List<UpdateDashboardViewModel>();
+
+            for (int i = 0; i < ids.Length; i++)
+            {
+                var userSensor = this.sensorService.GetUserSensorsById((int)Char.GetNumericValue(ids[i]));
+                var updatedSensor = new UpdateDashboardViewModel
+                {
+                    Value = userSensor.Value,
+                    Id = userSensor.Id,
+                    LastUpdate = userSensor.LastUpdatedOn
+                };
+                updatedSensors.Add(updatedSensor);
+            }
+
+            return Json(updatedSensors);
         }
     }
 }
