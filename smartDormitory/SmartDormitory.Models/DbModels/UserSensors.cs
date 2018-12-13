@@ -23,6 +23,10 @@ namespace SmartDormitory.Models.DbModels
 
         public double MaxValue { get; set; }
 
+        public double UserMinValue { get; set; }
+
+        public double UserMaxValue { get; set; }
+
         public int UpdateInterval { get; set; }
 
         public string Name { get; set; }
@@ -36,5 +40,7 @@ namespace SmartDormitory.Models.DbModels
         public DateTime LastUpdatedOn { get; set; }
 
         public double Value { get; set; }
+
+        public int Type { get; set; }
     }
 }

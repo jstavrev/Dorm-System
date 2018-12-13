@@ -248,13 +248,16 @@ namespace SmartDormitory.Data.Migrations
                     Latitude = table.Column<double>(nullable: false),
                     MinValue = table.Column<double>(nullable: false),
                     MaxValue = table.Column<double>(nullable: false),
+                    UserMinValue = table.Column<double>(nullable: false),
+                    UserMaxValue = table.Column<double>(nullable: false),
                     UpdateInterval = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     IsPublic = table.Column<bool>(nullable: false),
                     IsRequiredNotification = table.Column<bool>(nullable: false),
                     LastUpdatedOn = table.Column<DateTime>(nullable: false),
-                    Value = table.Column<double>(nullable: false)
+                    Value = table.Column<double>(nullable: false),
+                    Type = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -286,12 +289,12 @@ namespace SmartDormitory.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "Address", "AvatarImage", "City", "ConcurrencyStamp", "Country", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PostalCode", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "2fa4ce85-df6a-4085-ba55-95d7055b4996", 0, null, null, null, "c06f86da-42d0-4ddf-b938-ac22b8474092", null, "ICBAdmin@mail.com", true, null, null, false, null, "ICBADMIN@MAIL.COM", "ICBADMIN", "AQAAAAEAACcQAAAAEFLm7v4/QzX28SbsA+kYG3meT9+NVrfo6blxRUm9dzsykSn5ODVQJ0rqHhI3ciHzYQ==", "+55555", true, null, "1d444290-77c1-460e-9ba6-45ead37515f5", false, "ICBAdmin" });
+                values: new object[] { "e613f2f6-c8b0-47e9-912b-e77fd1020126", 0, null, null, null, "cdc5ee45-7590-46bf-bfe1-9ab4708e2b4c", null, "ICBAdmin@mail.com", true, null, null, false, null, "ICBADMIN@MAIL.COM", "ICBADMIN", "AQAAAAEAACcQAAAAED6ZU/kD5MlrALaGtSeMVMplLM2UEP/y8i4Mk6nIAMz8rS+c1xBM3urAANyfLjJ7wQ==", "+55555", true, null, "e5e8ebcb-a1a4-42a2-8c3e-8c909a3185a9", false, "ICBAdmin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "UserId", "RoleId" },
-                values: new object[] { "2fa4ce85-df6a-4085-ba55-95d7055b4996", "1" });
+                values: new object[] { "e613f2f6-c8b0-47e9-912b-e77fd1020126", "1" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

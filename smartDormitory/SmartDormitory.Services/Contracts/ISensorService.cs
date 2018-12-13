@@ -35,5 +35,11 @@ namespace SmartDormitory.Services.Contracts
             bool isPublic, bool notification, string defaultPosition, string userId, string sensorId);
 
         Sensor Find(int sensorId);
+
+        IEnumerable<UserSensors> GetAllUserSensorsByUser(string Id);
+
+        UserSensors GetUserSensorsById(int id);
+
+        IDictionary<int, UserSensors> GetAllUserSensorsByUserDictionary(string Id);
     }
 }
