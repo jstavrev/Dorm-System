@@ -186,7 +186,7 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
             var userId = _userManager.GetUserId(User);
 
             CreateDashboardViewModel model = new CreateDashboardViewModel(this.sensorService.GetAllUserSensorsByUser(userId)
-                .Select(s => new CreateDashboardSensorSelectionViewModel { Id = s.Id, Name = s.Name }).ToList());
+                .Select(s => new CreateDashboardSensorSelectionViewModel { Id = s.Id, Name = s.Name, Description = s.Description }).ToList());
 
             return View(model);
         }

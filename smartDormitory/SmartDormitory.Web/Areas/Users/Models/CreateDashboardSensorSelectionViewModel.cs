@@ -14,5 +14,7 @@ namespace SmartDormitory.Web.Areas.Users.Models
         public bool IsSelected { get; set; }
 
         public string GraphicalRepresentationId { get; set; }
+
+        public string Description { get; set; }
     }
 }

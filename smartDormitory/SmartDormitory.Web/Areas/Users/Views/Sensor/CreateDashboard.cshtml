@@ -20,9 +20,10 @@
 
         <thead>
             <tr>
-                <th class="col-xs-1">Select:</th>
-                <th>Name:</th>
-                <th>Graphical Representation:</th>
+                <th class="col-xs-1 text-center">Select:</th>
+                <th class="text-center">Name:</th>
+                <th class="col-lg-5 text-center">Description:</th>
+                <th class="text-center">Graphical Representation:</th>
             </tr>
         </thead>
         <tbody>
@@ -32,15 +33,18 @@
                     <td>
                         <input type="checkbox" asp-for="@Model.SensorSelection[i].IsSelected" />
                         <input type="hidden" asp-for="@Model.SensorSelection[i].Id" />
-                        <input type="hidden" asp-for="@Model.SensorSelection[i].Name" />
+                            <input type="hidden" asp-for="@Model.SensorSelection[i].Name" />
                     </td>
                     <td>@Model.SensorSelection[i].Name</td>
+                    <td>@Model.SensorSelection[i].Description</td>
                     <td>
-                        <select asp-for="@Model.SensorSelection[i].GraphicalRepresentationId" class="form-control">
-                            <option value="1">Gauge</option>
-                            <option value="2">Bar</option>
-                            <option value="3">State indicator</option>
-                        </select>
+                        <div>
+                            <select asp-for="@Model.SensorSelection[i].GraphicalRepresentationId" class="form-control">
+                                <option value="1">Gauge</option>
+                                <option value="2">Bar</option>
+                                <option value="3">State indicator</option>
+                            </select>
+                        </div>
                     </td>
                 </tr>
             }

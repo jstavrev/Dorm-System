@@ -13,6 +13,8 @@
         <div class="card">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">Name: @sensor.Name</li>
+                <li class="list-group-item">Sensor range: @sensor.MinValue - @sensor.MaxValue</li>
+                <li class="list-group-item">User acceptable range: @sensor.UserMinValue - @sensor.UserMaxValue</li>
                 <li class="list-group-item">
                     <div class="text-center center-block">
                         <div class="@sensor.Id" style="height: 100px;">
@@ -20,8 +22,6 @@
                         </div>
                     </div>
                 </li>
-                <li class="list-group-item">Sensor range: @sensor.MinValue - @sensor.MaxValue</li>
-                <li class="list-group-item">User acceptable range: @sensor.UserMinValue - @sensor.UserMaxValue</li>
                 <li class="list-group-item">Current value: @sensor.Value</li>
             </ul>
         </div>
