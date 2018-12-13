@@ -12,24 +12,24 @@
     <div class="col-lg-6">
         <form asp-controller="Sensor" asp-action="Register" id="register-form" method="post">
 
-            <label asp-for="Name">Name:</label><br />
+            <label asp-for="Name" style="color: white">Name:</label><br />
             <input name="name" asp-for="Name" class="form-control" /><br />
             <span asp-validation-for="Name" class="text-danger"></span>
 
-            <label asp-for="Description">Description:</label><br />
+            <label asp-for="Description" style="color: white">Description:</label><br />
             <textarea name="description" asp-for="Description" class="form-control"></textarea><br />
             <span asp-validation-for="Description" class="text-danger"></span>
 
             <div class="row">
                 <div class="col-lg-6">
-                    <label asp-for="SensorTypeId">Sensor types:</label><br />
+                    <label asp-for="SensorTypeId" style="color: white">Sensor types:</label><br />
                     <select name="SensorTypeId" id="SensorTypeId" asp-for="SensorTypeId" asp-items="Model.SensorTypes" class="form-control">
                         <option value="">Select sensor type</option>
                     </select>
                 </div>
 
                 <div class="col-lg-6">
-                    <label asp-for="SensorId">Sensors:</label><br />
+                    <label asp-for="SensorId" style="color: white">Sensors:</label><br />
                     <select name="SensorId" id="SensorId" asp-for="SensorId" asp-items="Model.SensorsSelect" class="form-control">
                         <option value="">Select sensor</option>
                     </select>
@@ -39,19 +39,19 @@
 
             <br />
 
-            <label asp-for="UpdateInterval">Update Interval:</label><br />
+            <label asp-for="UpdateInterval" style="color: white">Update Interval:</label><br />
             <input name="updateInterval" asp-for="UpdateInterval" class="form-control" /><br />
             <span asp-validation-for="UpdateInterval" class="text-danger"></span>
 
             <div class="row">
                 <div class="form-group col-md-6">
-                    <label asp-for="Latitude">Latitude</label>
+                    <label asp-for="Latitude" style="color: white">Latitude</label>
                     <input name="Latitude" asp-for="Latitude" type="text" value="" class="form-control" id="latitude" placeholder="Read only field" readonly>
                     <span asp-validation-for="Latitude" class="text-danger"></span>
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label asp-for="Longitude">Longtitude</label>
+                    <label asp-for="Longitude" style="color: white">Longtitude</label>
                     <input asp-for="Longitude" type="text" value="" class="form-control" id="longtitude" placeholder="Read only field" readonly>
                     <span asp-validation-for="Longitude" class="text-danger"></span>
                 </div>
@@ -63,7 +63,7 @@
                 <div class="col-lg-6 form-group">
                     <label class="" id="checkbox">
                         <input asp-for="IsPublic" type="checkbox" autocomplete="off">
-                        <label asp-for="IsPublic">Public</label>
+                        <label asp-for="IsPublic" style="color: white">Public</label>
                         <span class="checkmark"></span>
                     </label>
                 </div>
@@ -71,7 +71,7 @@
                 <div class="col-lg-6 form-group">
                     <label class="" id="checkbox">
                         <input asp-for="IsRequiredNotification" type="checkbox" autocomplete="off">
-                        <label asp-for="IsRequiredNotification">Notifications</label>
+                        <label asp-for="IsRequiredNotification" style="color: white">Notifications</label>
                         <span class="checkmark"></span>
                     </label>
                 </div>

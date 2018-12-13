@@ -10,7 +10,7 @@ using SmartDormitory.Data.Data;
 namespace SmartDormitory.Data.Migrations
 {
     [DbContext(typeof(SmartDormitoryDbContext))]
-    [Migration("20181207204553_Initial")]
+    [Migration("20181213182540_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -121,7 +121,7 @@ namespace SmartDormitory.Data.Migrations
                     b.ToTable("AspNetUserRoles");
 
                     b.HasData(
-                        new { UserId = "2fa4ce85-df6a-4085-ba55-95d7055b4996", RoleId = "1" }
+                        new { UserId = "e613f2f6-c8b0-47e9-912b-e77fd1020126", RoleId = "1" }
                     );
                 });
 
@@ -205,7 +205,7 @@ namespace SmartDormitory.Data.Migrations
                     b.ToTable("AspNetUsers");
 
                     b.HasData(
-                        new { Id = "2fa4ce85-df6a-4085-ba55-95d7055b4996", AccessFailedCount = 0, ConcurrencyStamp = "c06f86da-42d0-4ddf-b938-ac22b8474092", Email = "ICBAdmin@mail.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "ICBADMIN@MAIL.COM", NormalizedUserName = "ICBADMIN", PasswordHash = "AQAAAAEAACcQAAAAEFLm7v4/QzX28SbsA+kYG3meT9+NVrfo6blxRUm9dzsykSn5ODVQJ0rqHhI3ciHzYQ==", PhoneNumber = "+55555", PhoneNumberConfirmed = true, SecurityStamp = "1d444290-77c1-460e-9ba6-45ead37515f5", TwoFactorEnabled = false, UserName = "ICBAdmin" }
+                        new { Id = "e613f2f6-c8b0-47e9-912b-e77fd1020126", AccessFailedCount = 0, ConcurrencyStamp = "cdc5ee45-7590-46bf-bfe1-9ab4708e2b4c", Email = "ICBAdmin@mail.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "ICBADMIN@MAIL.COM", NormalizedUserName = "ICBADMIN", PasswordHash = "AQAAAAEAACcQAAAAED6ZU/kD5MlrALaGtSeMVMplLM2UEP/y8i4Mk6nIAMz8rS+c1xBM3urAANyfLjJ7wQ==", PhoneNumber = "+55555", PhoneNumberConfirmed = true, SecurityStamp = "e5e8ebcb-a1a4-42a2-8c3e-8c909a3185a9", TwoFactorEnabled = false, UserName = "ICBAdmin" }
                     );
                 });
 
@@ -318,9 +318,15 @@ namespace SmartDormitory.Data.Migrations
 
                     b.Property<int>("SensorId");
 
+                    b.Property<string>("Type");
+
                     b.Property<int>("UpdateInterval");
 
                     b.Property<string>("UserId");
+
+                    b.Property<double>("UserMaxValue");
+
+                    b.Property<double>("UserMinValue");
 
                     b.Property<double>("Value");
 
