@@ -8,15 +8,15 @@
 <h2>CreateDashboard</h2>
 
 <div class="row">
-        <div class="col-md-6">
-            <input type="text" id="search" class="form-control" placeholder="Search..." />
-        </div>
+    <div class="col-md-6">
+        <input type="text" id="search" class="form-control" placeholder="Search..." onkeyup="myFunction()" />
+    </div>
 </div>
 
 <br />
 
 <form asp-controller="Sensor" asp-action="CreateDashboard" id="register-form" method="post">
-    <table class="table table-bordered table-hover">
+    <table class="table table-bordered table-hover" id="myTable">
 
         <thead>
             <tr>
@@ -34,7 +34,7 @@
                         <input type="hidden" asp-for="@Model.SensorSelection[i].Id" />
                         <input type="hidden" asp-for="@Model.SensorSelection[i].Name" />
                     </td>
-                        <td>@Model.SensorSelection[i].Name</td>
+                    <td>@Model.SensorSelection[i].Name</td>
                     <td>
                         <select asp-for="@Model.SensorSelection[i].GraphicalRepresentationId" class="form-control">
                             <option value="1">Gauge</option>
@@ -51,26 +51,24 @@
 
 @section Scripts {
     <script>
-        $(document).ready(function () {
-
-            function Contains(text_one, text_two) {
-                if (text_one.indexOf(text_two) != -1)
-                    return true;
+        function myFunction() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("search");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
             }
-
-            $('#search').keyup(function () {
-                var searchText = $('#search').val().toLowerCase();
-
-                $('.search').each(function () {
-                    if (!Contains($(this).text().toLowerCase(), searchText)) {
-                        $(this).hide();
-                    }
-                    else {
-                        $(this).show();
-                    }
-                });
-            });
-        });
+        }
     </script>
 }
 
