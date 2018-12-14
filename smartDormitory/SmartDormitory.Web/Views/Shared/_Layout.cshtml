@@ -19,7 +19,7 @@
     </environment>
 </head>
 <body>
-    <nav class="navbar navbar-default navbar-fixed-top">
+    <nav class="navbar navbar-default navbar-fixed-top" id="navigationBar">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -84,5 +84,14 @@
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
     </environment>
     @RenderSection("Scripts", required: false)
+    <script>
+        $(function () {
+            $(document).scroll(function () {
+                var $nav = $("#navigationBar");
+                $nav.toggleClass('scrolled', $(this).scrollTop() > $nav.height());
+            });
+        });
+    </script>
+
 </body>
 </html>

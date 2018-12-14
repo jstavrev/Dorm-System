@@ -101,3 +101,22 @@ html, body {
 .paddingGauge {
     padding-top: 9%;
 }
+
+.navbar {
+    background-color: transparent;
+    background: transparent;
+    border-color: transparent;
+}
+
+#navigationBar .nav-link {
+    color: white;
+}
+
+#navigationBar.scrolled {
+    background-color: #e95420;
+    transition: background-color 200ms linear;
+}
+
+#navigationBar.scrolled .nav-link {
+    color: black;
+}

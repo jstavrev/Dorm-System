@@ -3528,7 +3528,7 @@ select[multiple].input-lg {
     height: auto;
     max-height: 200px;
     max-width: 200px;
-    text-align:center;
+    text-align: center;
     border: 5px solid lighten($black,5%);
     border-bottom-color: $transparent-bg;
     background-color: $transparent-bg;
