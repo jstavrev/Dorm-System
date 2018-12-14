@@ -106,8 +106,8 @@
         });
 
         function updateSensors() {
-            $.ajax({
-                url: 'https://localhost:44398/Users/Sensor/UpdateDashboard?ids=' + sensorsForUpdate,
+            $.get({
+                url: '/Users/Sensor/UpdateDashboard?ids=' + sensorsForUpdate,
                 method: "get",
             }).done(function (data) {
                 var userSensors = jQuery.parseJSON(JSON.stringify(data));
