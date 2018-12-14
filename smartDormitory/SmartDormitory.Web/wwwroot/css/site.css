@@ -86,12 +86,17 @@ a.disabled {
     margin: 0 auto;
 }
 
+/*html {
+    height: 100%;
+}*/
+
 body {
     background: url(/images/bg.jpg);
     /*padding-top: 0px;*/
-    background-size:cover;
-    /*background-size: 100% 100%;*/
+    background-size: cover;
+    background-size: 100% 100%;
     background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 html, body {
