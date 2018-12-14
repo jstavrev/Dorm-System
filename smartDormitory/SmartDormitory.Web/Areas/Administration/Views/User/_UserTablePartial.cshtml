@@ -6,7 +6,7 @@
         <form asp-area="Administration" asp-controller="User" asp-action="Filter"
               asp-route-pageNumber="@Model.Users.Table.Pagination.PageNumber" asp-route-sortOrder="@Model.Users.Table.Pagination.SortOrder" asp-route-searchTerm="@Model.Users.Table.Pagination.SearchTerm"
               method="get" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#tablePartial">
-            <label>Page size:</label>
+            <label style="color: white" align="center">Page size:</label>
             <input name="pageSize" class="form-control" value="@Model.Users.Table.Pagination.PageSize" type="number" min="1" max="50" style="width:5em;" />
         </form>
     </div>

@@ -5,7 +5,7 @@
 <br />
 <br />
 
-<h2>Sensor Administration</h2>
+<h2 style="color: white" align="center">Sensor Administration</h2>
 <div class="row">
     <div class="col-lg-6">
         <form asp-area="Administration" asp-action="Edit" asp-controller="Sensor" method="post">
@@ -14,12 +14,12 @@
             <input type="hidden" value="@ViewBag.userId">
             <div class="row">
                 <div class="col-lg-6">
-                    <label asp-for="Name">Name:</label><br />
+                    <label asp-for="Name" style="color: white" align="center">Name:</label><br />
                     <input name="name" asp-for="Name" class="form-control" required maxlength="50" minlength="3" /><br />
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
                 <div class="col-lg-6">
-                    <label asp-for="UpdateInterval">Update Interval:</label><br />
+                    <label asp-for="UpdateInterval" style="color: white" align="center">Update Interval:</label><br />
                     <input name="updateInterval" asp-for="UpdateInterval" class="form-control" required /><br />
                     <span asp-validation-for="UpdateInterval" class="text-danger"></span>
                 </div>
@@ -27,13 +27,13 @@
 
             <div class="row">
                 <div class="form-group col-md-6">
-                    <label asp-for="MinValue">Min Value</label>
+                    <label asp-for="MinValue" style="color: white" align="center">Min Value</label>
                     <input asp-for="MinValue" type="number" value="@Model.MinValue" class="form-control" required>
                     <span asp-validation-for="MinValue" class="text-danger"></span>
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label asp-for="MaxValue">Max Value</label>
+                    <label asp-for="MaxValue" style="color: white" align="center">Max Value</label>
                     <input asp-for="MaxValue" type="number" value="@Model.MaxValue" class="form-control" required>
                     <span asp-validation-for="MaxValue" class="text-danger"></span>
                 </div>
@@ -41,13 +41,13 @@
 
             <div class="row">
                 <div class="form-group col-md-6">
-                    <label asp-for="Latitude">Latitude</label>
+                    <label asp-for="Latitude" style="color: white" align="center">Latitude</label>
                     <input name="Latitude" asp-for="Latitude" type="text" value="@Model.Latitude" class="form-control" id="latitude" placeholder="Select from map" readonly required>
                     <span asp-validation-for="Latitude" class="text-danger"></span>
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label asp-for="Longitude">Longtitude</label>
+                    <label asp-for="Longitude" style="color: white" align="center">Longtitude</label>
                     <input asp-for="Longitude" type="text" value="@Model.Longitude" class="form-control" id="longitude" placeholder="Select from map" readonly required>
                     <span asp-validation-for="Longitude" class="text-danger"></span>
                 </div>
@@ -59,7 +59,7 @@
                 <div class="col-lg-6 form-group">
                     <label class="" id="checkbox">
                         <input asp-for="IsPublic" type="checkbox" autocomplete="off">
-                        <label asp-for="IsPublic">Public</label>
+                        <label asp-for="IsPublic" style="color: white" align="center">Public</label>
                         <span class="checkmark"></span>
                     </label>
                 </div>
@@ -67,7 +67,7 @@
                 <div class="col-lg-6 form-group">
                     <label class="" id="checkbox">
                         <input asp-for="IsRequiredNotification" type="checkbox" autocomplete="off">
-                        <label asp-for="IsRequiredNotification">Notifications</label>
+                        <label asp-for="IsRequiredNotification" style="color: white" align="center">Notifications</label>
                         <span class="checkmark"></span>
                     </label>
                 </div>

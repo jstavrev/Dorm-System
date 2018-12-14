@@ -1,15 +1,12 @@
 ﻿@model DashboardViewModel
-
 @{
     ViewData["Title"] = "Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <div class="row">
-    <h2>Dashboard</h2>
-    <h4 class="timestamp">Last Update: @Model.LastUpdate </h4>
+    <h2 style="color: white" align="center">Dashboard</h2>
+    <h4 class="timestamp" style="color: white" align="center">Last Update: @Model.LastUpdate </h4>
 </div>
-
 
 @foreach (var sensor in Model.Sensors)
 {
@@ -31,7 +28,6 @@
         </div>
     </div>
 }
-
 @section Scripts {
     <script src="~/js/Gauge.js"></script>
     <script src="~/js/Progressbar.js"></script>

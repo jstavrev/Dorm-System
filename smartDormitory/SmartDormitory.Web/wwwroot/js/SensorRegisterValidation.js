@@ -1,7 +1,7 @@
 ﻿$(function () {
     $('#SensorId').on('change', function (event) {
         let $id = $('#SensorId').val();
-        let urlForInfo = 'https://localhost:5001/Users/Sensor/SensorValidationInfo?sensorId=' + $id;
+        let urlForInfo = 'https://localhost:44398/Users/Sensor/SensorValidationInfo?sensorId=' + $id;
         var currentType;
 
         $.ajax({
@@ -14,7 +14,7 @@
             validator.destroy();
             console.log(1);
             $.ajax({
-                url: "https://localhost:5001/Users/Sensor/ValidationView?type=" + currentType.type,
+                url: "https://localhost:44398/Users/Sensor/ValidationView?type=" + currentType.type,
                 type: 'Get',
                 cache: false,
                 success: function (response) {
