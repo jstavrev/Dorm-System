@@ -121,6 +121,7 @@ namespace SmartDormitory.Web.Areas.Administration.Controllers
         public async Task<IActionResult> Promote(string id)
         {
             const string adminRole = "Admin";
+            const string regularUser = "User";
 
             if (!await _roleManager.RoleExistsAsync(adminRole))
             {
@@ -134,6 +135,10 @@ namespace SmartDormitory.Web.Areas.Administration.Controllers
             {
                 throw new ApplicationException(string.Format("User promotion operation was unsuccessful."));
             }
+            else
+            {
+                var removeRoleResult = await _userManager.RemoveFromRoleAsync(user, regularUser);
+            }
 
             var model = new UserDetailsViewModel(user, await _userManager.IsInRoleAsync(user, adminRole));
 
@@ -144,7 +149,7 @@ namespace SmartDormitory.Web.Areas.Administration.Controllers
         public async Task<IActionResult> Demote(string id)
         {
             const string adminRole = "Admin";
-
+            const string regularUser = "User";
             if (!await _roleManager.RoleExistsAsync(adminRole))
             {
                 throw new ApplicationException(string.Format("User demotion unsuccessful , {0} role does not exists.", adminRole));
@@ -156,6 +161,10 @@ namespace SmartDormitory.Web.Areas.Administration.Controllers
             if (!removeRoleResult.Succeeded)
             {
                 throw new ApplicationException(string.Format("User demotion operation was unsuccessful."));
+            }
+            else
+            {
+                await _userManager.AddToRoleAsync(user, regularUser);
             }
 
             var model = new UserDetailsViewModel(user, await _userManager.IsInRoleAsync(user, adminRole));
