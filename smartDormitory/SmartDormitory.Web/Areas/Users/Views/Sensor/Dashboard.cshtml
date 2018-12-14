@@ -8,22 +8,53 @@
     <h4 class="timestamp" style="color: white" align="center">Last Update: @Model.LastUpdate </h4>
 </div>
 
-@foreach (var sensor in Model.Sensors)
+@for (int i = 0; i < Model.Sensors.Count(); i++)
 {
     <div class="col-lg-4">
         <div class="card">
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">Name: @sensor.Name</li>
-                <li class="list-group-item">Sensor range: @sensor.MinValue - @sensor.MaxValue</li>
-                <li class="list-group-item">User acceptable range: @sensor.UserMinValue - @sensor.UserMaxValue</li>
+                <li class="list-group-item">Name: @Model.Sensors[i].Name</li>
+                <li class="list-group-item">Sensor range: @Model.Sensors[i].MinValue - @Model.Sensors[i].MaxValue</li>
+                @if (Model.Sensors[i].GraphicalId != "3")
+                {
+                    <li class="list-group-item">User acceptable range: @Model.Sensors[i].UserMinValue - @Model.Sensors[i].UserMaxValue</li>
+                }
+                else
+                {
+                    <li class="list-group-item">
+                        User acceptable position:
+                        @if (Model.Sensors[i].UserMinValue == 0)
+                        {
+                            @:Closed (Occupied)
+                        }
+                        else
+                        {
+                            @:Open (Not Occupied)
+                        }
+                    </li>
+                }
                 <li class="list-group-item">
                     <div class="text-center center-block">
-                        <div class="@sensor.Id" style="height: 100px;">
-                            <canvas id="@sensor.Id" style="height: 100px;"></canvas>
+                        <div class="@Model.Sensors[i].Id" style="height: 100px;">
+                            <canvas id="@Model.Sensors[i].Id" style="height: 100px;"></canvas>
                         </div>
                     </div>
                 </li>
-                <li class="list-group-item">Current value: @sensor.Value</li>
+                @if (Model.Sensors[i].GraphicalId != "3")
+                {
+                    <li value" class="list-group-item"><div id="@i">Current value: @Model.Sensors[i].Value</div></li>
+                }
+                else
+                {
+                    if (Model.Sensors[i].Value == 0)
+                    {
+                        <li class="list-group-item"><div id="@i">Current value: Closed (Occupied)</div></li>
+                    }
+                    else
+                    {
+                        <li class="list-group-item"><div id="@i">Current value: Open (Not Occupied)</div></li>
+                    }
+                }
             </ul>
         </div>
     </div>
@@ -34,14 +65,14 @@
     <script>
         var json = @Html.Raw(Json.Serialize(Model.Sensors));
         var sensorsForUpdate = '';
-        console.log(json);
         var opts, target, gauge;
         var gauges = [];
+        //var counter = 0;
 
         $.each(json, function (index, value) {
             console.log(value.graphicalId);
             if (value.graphicalId === '1') {
-                sensorsForUpdate += value.id;
+                sensorsForUpdate += ',' + value.id;
                 opts = {
                     angle: 0.07, // The span of the gauge arc
                     lineWidth: 0.2, // The line thickness
@@ -81,14 +112,16 @@
 
                 gauges[value.id] = gauge;
             } else if (value.graphicalId === '2') {
-                sensorsForUpdate += value.id;
+                sensorsForUpdate += ',' + value.id;
                 $('.' + value.id).empty();
                 $('.' + value.id).addClass("paddingGauge");
                 $('.' + value.id).LineProgressbar();
             } else if (value.graphicalId === '3') {
-                sensorsForUpdate += value.id;
+                sensorsForUpdate += ',' + value.id;
+
                 $('.' + value.id).addClass("paddingGauge");
-                if (value.value >= value.userMinValue && value.value <= value.userMaxValue) {
+
+                if (value.value === value.userMaxValue) {
 
                     $('.' + value.id).empty();
                     $('.' + value.id).append("<status-indicator positive pulse></status-indicator>");
@@ -99,10 +132,9 @@
                 }
             }
         });
-        console.log(sensorsForUpdate);
 
         $(document).ready(function () {
-            setInterval(updateSensors, 7000)
+            setInterval(updateSensors, 3000)
         });
 
         function updateSensors() {
@@ -115,24 +147,43 @@
                 console.log(userSensors);
 
                 $.each(json, function (index, value) {
-
+                    console.log(index);
                     if (value.value != userSensors[index].value) {
+
                         value.value = userSensors[index].value;
+
                         if (value.graphicalId === '1') {
                             gauges[value.id].set(value.value);
+                            $('#' + index).text('Current value: ' + value.value);
                         } else if (value.graphicalId === '2') {
+
                             $('.' + value.id).LineProgressbar({
                                 percentage: value.value
                             })
+                            $('#' + index).text('Current value: ' + value.value);
                         } else if (value.graphicalId === '3') {
+
                             $('.' + value.id).empty();
-                            if (value.defaultPosition === 0) {
+
+                            if (value.value === 0) {
+                                console.log('entered value===0');
+
+                                $('#' + index).text('Current value: Closed (Occupied)');
+                            } else  if (value.value === 1) {
+                                console.log('entered value===1');
+
+                                $('#' + index).text('Current value: Open (Not Occupied)');
+                            }
+
+                            if (value.userMaxValue === 0) {
+
                                 if (value.value === 0) {
                                     $('.' + value.id).append("<status-indicator positive pulse></status-indicator>");
                                 } else {
                                     $('.' + value.id).append("<status-indicator negative pulse></status-indicator>");
                                 }
-                            } else if (value.defaultPosition === 1) {
+                            } else if (value.userMaxValue === 1) {
+
                                 if (value.value === 1) {
                                     $('.' + value.id).append("<status-indicator positive pulse></status-indicator>");
                                 } else {
@@ -141,7 +192,10 @@
                             }
                         }
                     }
+                    //console.log(counter);
+                    //counter++;
                 });
+                //counter = 0;
             });
         }
     </script>

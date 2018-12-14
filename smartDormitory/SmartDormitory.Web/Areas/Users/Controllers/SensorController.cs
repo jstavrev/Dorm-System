@@ -248,18 +248,23 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
         [IgnoreAntiforgeryToken]
         public IActionResult UpdateDashboard(string ids)
         {
+            List<string> idsList = ids.Split(',').ToList();
+
             List<UpdateDashboardViewModel> updatedSensors = new List<UpdateDashboardViewModel>();
 
-            for (int i = 0; i < ids.Length; i++)
+            for (int i = 0; i < idsList.Count; i++)
             {
-                var userSensor = this.sensorService.GetUserSensorsById((int)Char.GetNumericValue(ids[i]));
-                var updatedSensor = new UpdateDashboardViewModel
+                if (idsList[i] != "")
                 {
-                    Value = userSensor.Value,
-                    Id = userSensor.Id,
-                    LastUpdate = userSensor.LastUpdatedOn
-                };
-                updatedSensors.Add(updatedSensor);
+                    var userSensor = this.sensorService.GetUserSensorsById(int.Parse(idsList[i]));
+                    var updatedSensor = new UpdateDashboardViewModel
+                    {
+                        Value = userSensor.Value,
+                        Id = userSensor.Id,
+                        LastUpdate = userSensor.LastUpdatedOn
+                    };
+                    updatedSensors.Add(updatedSensor);
+                }
             }
 
             return Json(updatedSensors);
