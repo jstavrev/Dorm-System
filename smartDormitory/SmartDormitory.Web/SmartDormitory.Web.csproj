@@ -26,6 +26,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Areas\Administration\Views\Sensor\_MinMaxAdminValidationView.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Administration\Views\Sensor\_TrueFalseAdminValidationView.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Areas\Administration\Views\Sensors\Details.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

@@ -8,47 +8,70 @@
 <h2 style="color: white" align="center">Sensor Administration</h2>
 <div class="row">
     <div class="col-lg-6">
-        <form asp-area="Administration" asp-action="Edit" asp-controller="Sensor" method="post">
+        <form asp-area="Administration" asp-action="Edit" asp-controller="Sensor" id="register-form-admin" method="post">
 
             <input type="hidden" value="@ViewBag.sensorId">
             <input type="hidden" value="@ViewBag.userId">
             <div class="row">
                 <div class="col-lg-6">
                     <label asp-for="Name" style="color: white" align="center">Name:</label><br />
-                    <input name="name" asp-for="Name" class="form-control" required maxlength="50" minlength="3" /><br />
+                    <input name="name" id="name" asp-for="Name" class="form-control" required maxlength="50" minlength="3" /><br />
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
                 <div class="col-lg-6">
                     <label asp-for="UpdateInterval" style="color: white" align="center">Update Interval:</label><br />
-                    <input name="updateInterval" asp-for="UpdateInterval" class="form-control" required /><br />
+                    <input name="updateInterval" asp-for="UpdateInterval" id="updateInterval" class="form-control" required /><br />
                     <span asp-validation-for="UpdateInterval" class="text-danger"></span>
                 </div>
             </div>
+            @if (Model.TypeId == 4)
+            {
+                @:<div class="row" style="color: white">
+                    <div class="form-group col-md-6">
+                        @if (Model.UserMinValue != null)
+                        {
+                            if (Model.UserMinValue == "1")
+                            {
+                                <label>Current Value: </label>
 
-            <div class="row">
-                <div class="form-group col-md-6">
-                    <label asp-for="MinValue" style="color: white" align="center">Min Value</label>
-                    <input asp-for="MinValue" type="number" value="@Model.MinValue" class="form-control" required>
-                    <span asp-validation-for="MinValue" class="text-danger"></span>
-                </div>
+                                <input type="text" value="Open (Not Occupied)" class="form-control" readonly required>
+                            }
+                            else
+                            {
+                                <label>Current Value: </label>
 
-                <div class="form-group col-md-6">
-                    <label asp-for="MaxValue" style="color: white" align="center">Max Value</label>
-                    <input asp-for="MaxValue" type="number" value="@Model.MaxValue" class="form-control" required>
-                    <span asp-validation-for="MaxValue" class="text-danger"></span>
+                                <input type="text" value="Current Value: Closed (Occupied)" class="form-control" readonly required>
+                            }
+                        }
+                    </div>
+                    <div class="form-group col-md-6">
+
+                        <div id="validation" name="validation">
+
+                        </div>
+                    </div>
+                @:</div>
+            }
+            else
+            {
+
+                <div class="row"  style="color: white" id="validation" name="validation">
+
                 </div>
-            </div>
+            }
+            <br />
+
 
             <div class="row">
                 <div class="form-group col-md-6">
                     <label asp-for="Latitude" style="color: white" align="center">Latitude</label>
-                    <input name="Latitude" asp-for="Latitude" type="text" value="@Model.Latitude" class="form-control" id="latitude" placeholder="Select from map" readonly required>
+                    <input name="Latitude" asp-for="Latitude" id="Latitude" type="text" value="@Model.Latitude" class="form-control" placeholder="Select from map" readonly required>
                     <span asp-validation-for="Latitude" class="text-danger"></span>
                 </div>
 
                 <div class="form-group col-md-6">
                     <label asp-for="Longitude" style="color: white" align="center">Longtitude</label>
-                    <input asp-for="Longitude" type="text" value="@Model.Longitude" class="form-control" id="longitude" placeholder="Select from map" readonly required>
+                    <input name="Longitude" id="Longitude" asp-for="Longitude" type="text" value="@Model.Longitude" class="form-control" placeholder="Select from map" readonly required>
                     <span asp-validation-for="Longitude" class="text-danger"></span>
                 </div>
             </div>
@@ -85,7 +108,7 @@
                 var map, marker;
                 function initMap() {
                     map = new google.maps.Map(document.getElementById('map'), {
-                        center: { lat: 42.694, lng: 23.312 },
+                        center: { lat: @Model.Latitude, lng: @Model.Longitude },
                         zoom: 8
                     });
                     google.maps.event.addListener(map, 'click', function (event) {
@@ -124,3 +147,69 @@
         padding: 0;
     }
 </style>
+
+@section Scripts
+    {
+    <script>
+        var json = @Html.Raw(Json.Serialize(Model.SensorValidations));
+
+        var sensorValues = @Html.Raw(Json.Serialize(Model));
+
+        console.log(json)
+        $(document).ready(function () {
+            $.get({
+                url: "/Administration/Sensor/AdminValidationView?typeId=" + @Model.SensorValidations.TypeId,
+                type: 'Get',
+                cache: false,
+                success: function (response) {
+                    $('#validation').html(response);
+                    $('#minValue').val(sensorValues.minValue);
+                    $('#maxValue').val(sensorValues.maxValue);
+                }
+            });
+        });
+
+
+        jQuery.validator.setDefaults({
+            errorClass: 'text-danger'
+        });
+
+        var validator = $("#register-form-admin").validate({
+            rules: {
+                name: "required",
+                description: "required",
+                updateInterval: {
+                    required: true,
+                    range: [json.updateInterval, 99999]
+                },
+                minValue: {
+                    required: true,
+                    range: [json.minValue, json.maxValue]
+                },
+                maxValue: {
+                    required: true,
+                    range: [json.minValue, json.maxValue]
+                },
+                Latitude: "required",
+                Longitude: "required"
+            },
+            messages: {
+                name: "Please enter a name for your sensor.",
+                description: "A description for your sensor is required.",
+                updateInterval: {
+                    required: "A interval for sensor updates is required",
+                    range: "Update interval cannot be smaller lower than " + json.updateInterval + " seconds."
+                },
+                minValue: {
+                    required: "Please first select a sensor.",
+                    range: "Acceptable range values cannot be outside " + json.minValue + "-" + json.maxValue + "."
+                },
+                maxValue: {
+                    required: "Please first select a sensor.",
+                    range: "Acceptable range values cannot be outside " + json.minValue + "-" + json.maxValue + "."
+                },
+                Latitude: "Latitude and Longtitude are required (select them using our map)."
+            }
+        });
+    </script>
+}

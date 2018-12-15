@@ -24,7 +24,6 @@ namespace SmartDormitory.Web.Areas.Administration.Controllers
         public async Task<IActionResult> Index()
         {
             var usersensors = await _sensorService.FilterAllSensorsAsync();
-
             var model = new SensorIndexViewModel(usersensors);
 
             return View(model);
@@ -39,28 +38,44 @@ namespace SmartDormitory.Web.Areas.Administration.Controllers
             var users = await _sensorService.FilterAllSensorsAsync(sortOrder, searchTerm, pageNumber ?? 1, pageSize ?? 10);
             var model = new SensorIndexViewModel(users);
 
-            return View("Index",model);
+            return View("Index", model);
+        }
+
+        [HttpGet]
+        [IgnoreAntiforgeryToken]
+        public IActionResult AdminValidationView(int typeId)
+        {
+            if (typeId == 4)
+            {
+                return PartialView("_TrueFalseAdminValidationView");
+            }
+            return PartialView("_MinMaxAdminValidationView");
         }
 
         [HttpGet("Administration/Sensors/Edit/{id}")]
         public async Task<IActionResult> Edit(int id)
         {
-
             var sensor = await _sensorService.FindAsync(id);
+
+            var sensorType = _sensorService.Find(sensor.SensorId);
+
             if (sensor == null)
             {
                 throw new ApplicationException($"Unable to find sensor with ID '{id}'.");
             }
+            var sensorValidation = new SensorValidationsViewModel(sensorType);
 
-            var model = new SensorDetailsViewModel(sensor);
+            var model = new SensorDetailsViewModel(sensor, sensorValidation);
 
             return View(model);
         }
 
         [HttpPost("Administration/Sensors/Edit/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(SensorEditViewModel model)
+        public async Task<IActionResult> Edit(SensorDetailsViewModel model)
         {
+           
+
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -77,9 +92,19 @@ namespace SmartDormitory.Web.Areas.Administration.Controllers
                 await _sensorService.ChangeCoordinatesAsync(model.Id, model.Longitude, model.Latitude);
             }
 
-            if (sensor.MinValue != model.MinValue || sensor.MaxValue != model.MaxValue)
+            if (model.Default == null)
             {
-                await _sensorService.ChangeMinMaxAsync(model.Id, model.MinValue, model.MaxValue);
+                if (sensor.UserMinValue != model.MinValue || sensor.UserMaxValue != model.MaxValue)
+                {
+                    await _sensorService.ChangeMinMaxAsync(model.Id, model.MinValue, model.MaxValue);
+                }
+            }
+            else
+            {
+                if (sensor.UserMinValue != int.Parse(model.Default))
+                {
+                    await _sensorService.ChangeMinMaxAsync(model.Id, int.Parse(model.Default), int.Parse(model.Default));
+                }
             }
 
             if (sensor.IsPublic != model.IsPublic)
@@ -102,9 +127,11 @@ namespace SmartDormitory.Web.Areas.Administration.Controllers
                 await _sensorService.ChangeUpdatenIntervalAsync(model.Id, model.UpdateInterval);
             }
 
+            var usersensors = await _sensorService.FilterAllSensorsAsync();
 
+            var newModel = new SensorIndexViewModel(usersensors);
 
-            return RedirectToAction(nameof(Edit));
+            return View("Index", newModel);
         }
 
         [HttpGet("Administration/Users/Registersensor/{sensorid}/{userid}")]
@@ -120,7 +147,7 @@ namespace SmartDormitory.Web.Areas.Administration.Controllers
         public IActionResult Register(RegisterSensorViewModel model)
         {
             _sensorService.RegisterSensor(model.Longitude, model.Latitude, model.MinValue, model.MaxValue, model.UpdateInterval, model.Name, model.Description,
-                model.IsPublic, model.IsRequiredNotification, "2",model.UserId, model.SensorId.ToString());
+                model.IsPublic, model.IsRequiredNotification, "2", model.UserId, model.SensorId.ToString());
 
             return RedirectToAction("Index", "Sensor");
         }

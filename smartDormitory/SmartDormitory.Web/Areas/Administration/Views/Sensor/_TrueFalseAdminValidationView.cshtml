@@ -1,0 +1,12 @@
+﻿@model SensorDetailsViewModel
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+<div style="color: white">
+    <label asp-for="Default"><strong>Select new option:</strong></label><br />
+    <select asp-for="Default" class="form-control center-block">
+        <option value="1">Open (Not occupied)</option>
+        <option value="0">Closed (Occupied)</option>
+    </select>
+</div>

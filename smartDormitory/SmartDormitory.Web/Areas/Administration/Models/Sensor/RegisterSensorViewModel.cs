@@ -29,8 +29,8 @@ namespace SmartDormitory.Web.Areas.Administration.Models.Sensor
         public int Id { get; set; }
 
         public string UserId { get; set; }
-        public int SensorId { get; set; }
 
+        public int SensorId { get; set; }
 
         public double MinValue { get; set; }
 
@@ -53,5 +53,8 @@ namespace SmartDormitory.Web.Areas.Administration.Models.Sensor
         public string NewUserId { get; set; }
 
         public string NewSensorId { get; set; }
+
+        public string Default { get; set; }
+
     }
 }

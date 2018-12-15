@@ -78,8 +78,8 @@ namespace SmartDormitory.Services.Services
         {
             var sensor = await this.context.UserSensors.FindAsync(sensorId);
 
-            sensor.MinValue = min;
-            sensor.MaxValue = max;
+            sensor.UserMinValue = min;
+            sensor.UserMaxValue = max;
             await context.SaveChangesAsync();
 
             return sensor;

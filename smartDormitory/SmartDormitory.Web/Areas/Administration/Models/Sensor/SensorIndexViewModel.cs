@@ -29,5 +29,6 @@ namespace SmartDormitory.Web.Areas.Administration.Models.Sensor
         }
 
         public TableViewModel<SensorTableViewModel> Table { get; set; }
+
     }
 }
