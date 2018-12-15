@@ -19,16 +19,6 @@ namespace SmartDormitory.Services.Services
             this.context = context;
         }
 
-        public void DeleteSensor()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void EditSensor()
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<Sensor> GetAll()
         {
             return this.context.Sensors.ToList();
@@ -38,12 +28,6 @@ namespace SmartDormitory.Services.Services
         {
             return this.context.SensorTypes.ToList();
         }
-
-        public void RegisterSensor()
-        {
-            throw new NotImplementedException();
-        }
-
 
         public async Task<IPagedList<UserSensors>> FilterUserSensorsAsync(string userId, string sortOrder = "", string filter = "", int pageNumber = 1, int pageSize = 10)
         {
@@ -217,6 +201,11 @@ namespace SmartDormitory.Services.Services
             }
 
             return userSensorsDict;
+        }
+
+        public void DeleteSensor()
+        {
+            throw new NotImplementedException();
         }
     }
 }
