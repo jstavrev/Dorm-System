@@ -26,6 +26,5 @@ namespace SmartDormitory.Services.HomeService
 
             return await query;
         }
-
     }
 }

@@ -12,10 +12,11 @@ namespace SmartDormitory.Tests.SmartDormitory.Services.Tests.SensorService.Tests
         {
             //Arrange
             var contextOptions = new DbContextOptionsBuilder<SmartDormitoryDbContext>()
-               .UseInMemoryDatabase(databaseName: "ReturnActorAddedToDatabase_SuccessMessage")
+               .UseInMemoryDatabase(databaseName: "ReturnAllSensors_When_Invoked")
                .Options;
 
             //Act
+
 
             //Assert
         }
