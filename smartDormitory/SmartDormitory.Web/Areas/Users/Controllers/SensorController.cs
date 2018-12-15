@@ -19,26 +19,36 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
         private readonly ISensorService sensorService;
         private readonly UserManager<User> _userManager;
 
-        public SensorController(ISensorService sensorService,  UserManager<User> userManager)
+        public SensorController(ISensorService sensorService, UserManager<User> userManager)
         {
             this.sensorService = sensorService;
             _userManager = userManager;
         }
 
-        public IActionResult Register()
+        [HttpGet("Users/Sensor/Register/{id?}")]
+        public IActionResult Register(string userId)
         {
             var sensors = this.sensorService.GetAll().ToList();
             var sensorTypes = this.sensorService.GetAllTypes().ToList();
             var model = new RegisterSensorViewModel(sensors, sensorTypes, sensors);
-
+            ViewBag.userId = userId;
             return View(model);
         }
 
         [HttpPost]
         public IActionResult Register(RegisterSensorViewModel model)
         {
-            string userId = this._userManager.GetUserId(User);
-            this.sensorService.RegisterSensor(model.Longitude, model.Latitude, model.MinValue, model.MaxValue, model.UpdateInterval, model.Name, model.Description, model.IsPublic, model.IsRequiredNotification, model.Default, userId, model.SensorId);
+            if (model.UserID == null)
+            {
+                model.UserID = this._userManager.GetUserId(User);
+            }
+
+            this.sensorService.RegisterSensor(model.Longitude, model.Latitude, model.MinValue, model.MaxValue, model.UpdateInterval, model.Name, model.Description, model.IsPublic, model.IsRequiredNotification, model.Default, model.UserID, model.SensorId);
+
+            if (model.UserID != this._userManager.GetUserId(User))
+            {
+                return RedirectToAction("Index", "Sensor", new { area = "Administration" });
+            }
 
             return RedirectToAction("Index", "Sensor");
         }
@@ -131,19 +141,19 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
             return PartialView(model);
         }
 
-       [HttpGet("Sensors/Filter")]
-       public async Task<IActionResult> Filter(string sortOrder, string searchTerm, int? pageSize, int? pageNumber)
-       {
-           sortOrder = sortOrder ?? string.Empty;
-           searchTerm = searchTerm ?? string.Empty;
+        [HttpGet("Sensors/Filter")]
+        public async Task<IActionResult> Filter(string sortOrder, string searchTerm, int? pageSize, int? pageNumber)
+        {
+            sortOrder = sortOrder ?? string.Empty;
+            searchTerm = searchTerm ?? string.Empty;
 
             var user = _userManager.GetUserId(User);
             var sensors = await sensorService.FilterUserSensorsAsync(user, sortOrder, searchTerm, pageNumber ?? 1, pageSize ?? 10);
 
             var model = new SensorDetailsViewModel(sensors);
 
-            return View("Index",model);
-       }
+            return View("Index", model);
+        }
 
         [HttpGet]
         [IgnoreAntiforgeryToken]
@@ -215,9 +225,21 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
                 if (userSensor.IsSelected)
                 {
                     var uS = allUserSensorsDictionary[userSensor.Id];
-                    var dashboardSensor = 
-                        new DashboardSensorViewModel { Description = uS.Description, Id = uS.Id, MaxValue = uS.MaxValue, MinValue = uS.MinValue,
-                            Name = uS.Name, Value = uS.Value, UpdateInterval = uS.UpdateInterval, UserMaxValue = uS.UserMaxValue, UserMinValue = uS.UserMinValue, LastUpdate = uS.LastUpdatedOn, DefaultPosition = uS.UserMaxValue};
+                    var dashboardSensor =
+                        new DashboardSensorViewModel
+                        {
+                            Description = uS.Description,
+                            Id = uS.Id,
+                            MaxValue = uS.MaxValue,
+                            MinValue = uS.MinValue,
+                            Name = uS.Name,
+                            Value = uS.Value,
+                            UpdateInterval = uS.UpdateInterval,
+                            UserMaxValue = uS.UserMaxValue,
+                            UserMinValue = uS.UserMinValue,
+                            LastUpdate = uS.LastUpdatedOn,
+                            DefaultPosition = uS.UserMaxValue
+                        };
                     dashboardSensor.GraphicalId = userSensor.GraphicalRepresentationId;
 
                     selectedDashboardSensors.Add(dashboardSensor);

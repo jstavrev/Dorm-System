@@ -12,6 +12,8 @@
     <div class="col-lg-6">
         <form asp-controller="Sensor" asp-action="Register" id="register-form" method="post">
 
+            <input asp-for="UserID" type="hidden" value="@ViewBag.userId">
+            
             <label asp-for="Name" style="color: white">Name:</label><br />
             <input name="name" asp-for="Name" class="form-control" /><br />
             <span asp-validation-for="Name" class="text-danger"></span>
@@ -57,7 +59,7 @@
                 </div>
             </div>
 
-            <div class="row" id="validation" name="validation"></div>
+            <div class="row" style="color: white" id="validation" name="validation"></div>
             <br />
             <div class="row">
                 <div class="col-lg-6 form-group">

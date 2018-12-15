@@ -42,17 +42,8 @@
                 {
                     <tr id="@user.Id">
                         @await Html.PartialAsync("_UserTableRowPartial", user)
-                        <td>
-                            <div class="btn-group">
-                                <a href="#" class="btn btn-primary">Register Sensor to User</a>
-                                <a href="#" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    @foreach (var item in Model.Sensor)
-                                    {
-                                    <li><a href="/Administration/Users/Registersensor/@item.Id/@user.Id">@item.Name</a></li>
-                                    }
-                                </ul>
-                            </div>
+                        <td >
+                            <a href="/Users/Sensor/Register?userId=@user.Id" class="btn btn-primary">Register Sensor</a>
                         </td>
                     </tr>
                 }
