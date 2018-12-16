@@ -38,12 +38,36 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
         [HttpPost]
         public IActionResult Register(RegisterSensorViewModel model)
         {
+            var adminRegistration = true;
+
             if (model.UserID == null)
             {
                 model.UserID = this._userManager.GetUserId(User);
+                adminRegistration = false;
             }
+            try
+            {
+                this.sensorService.RegisterSensor(model.Longitude, model.Latitude, model.MinValue, model.MaxValue, model.UpdateInterval, model.Name, model.Description, model.IsPublic, model.IsRequiredNotification, model.Default, model.UserID, model.SensorId);
+            }
+            catch
+            {
+                TempData["InvalidModel"] = "Minimum value cannot be bigger than maximum value, please try again!";
+                if (adminRegistration)
+                {
+                    return RedirectToRoute(new
+                    {
+                        controller = "Sensor",
+                        action = "Register",
+                        userId = model.UserID,
+                    });
+                }
 
-            this.sensorService.RegisterSensor(model.Longitude, model.Latitude, model.MinValue, model.MaxValue, model.UpdateInterval, model.Name, model.Description, model.IsPublic, model.IsRequiredNotification, model.Default, model.UserID, model.SensorId);
+                return RedirectToRoute(new
+                {
+                    controller = "Sensor",
+                    action = "Register"
+                });
+            }            
 
             if (model.UserID != this._userManager.GetUserId(User))
             {

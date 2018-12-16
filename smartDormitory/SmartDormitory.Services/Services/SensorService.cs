@@ -138,6 +138,11 @@ namespace SmartDormitory.Services.Services
         public void RegisterSensor(double lng, double lat, double minValue, double maxValue, int updateInterval, string name, string description,
             bool isPublic, bool notification, string defaultPosition, string userId, string sensorId)
         {
+            if (minValue > maxValue)
+            {
+                throw new Exception();
+            }
+
             var sensor = Find(int.Parse(sensorId));
 
             var userSensor = new UserSensors()
