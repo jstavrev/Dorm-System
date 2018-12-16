@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using SmartDormitory.Data.Services.Contracts;
 using SmartDormitory.Web.Models;
 
 namespace SmartDormitory.Web.Controllers

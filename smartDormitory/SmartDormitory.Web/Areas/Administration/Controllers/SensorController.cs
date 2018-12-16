@@ -12,18 +12,20 @@ namespace SmartDormitory.Web.Areas.Administration.Controllers
     public class SensorController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IUserSensorService _userSensorService;
         private readonly ISensorService _sensorService;
 
-        public SensorController(ISensorService sensorService, RoleManager<IdentityRole> roleManager, UserManager<User> userManager)
+        public SensorController(IUserSensorService userSensorService, RoleManager<IdentityRole> roleManager, UserManager<User> userManager, ISensorService sensorService)
         {
-            _sensorService = sensorService ?? throw new ArgumentNullException(nameof(sensorService));
+            _userSensorService = userSensorService ?? throw new ArgumentNullException(nameof(userSensorService));
             _roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
+            this._sensorService = sensorService;
         }
 
         [HttpGet("Administration/Sensors")]
         public async Task<IActionResult> Index()
         {
-            var usersensors = await _sensorService.FilterAllSensorsAsync();
+            var usersensors = await _userSensorService.FilterAllSensorsAsync();
             var model = new SensorIndexViewModel(usersensors);
 
             return View(model);
@@ -35,7 +37,7 @@ namespace SmartDormitory.Web.Areas.Administration.Controllers
             sortOrder = sortOrder ?? string.Empty;
             searchTerm = searchTerm ?? string.Empty;
 
-            var users = await _sensorService.FilterAllSensorsAsync(sortOrder, searchTerm, pageNumber ?? 1, pageSize ?? 10);
+            var users = await _userSensorService.FilterAllSensorsAsync(sortOrder, searchTerm, pageNumber ?? 1, pageSize ?? 10);
             var model = new SensorIndexViewModel(users);
 
             return View("Index", model);
@@ -55,7 +57,7 @@ namespace SmartDormitory.Web.Areas.Administration.Controllers
         [HttpGet("Administration/Sensors/Edit/{id}")]
         public async Task<IActionResult> Edit(int id)
         {
-            var sensor = await _sensorService.FindAsync(id);
+            var sensor = await _userSensorService.FindAsync(id);
 
             var sensorType = _sensorService.Find(sensor.SensorId);
 
@@ -81,7 +83,7 @@ namespace SmartDormitory.Web.Areas.Administration.Controllers
                 return View(model);
             }
 
-            var sensor = await _sensorService.FindAsync(model.Id);
+            var sensor = await _userSensorService.FindAsync(model.Id);
             if (sensor == null)
             {
                 throw new ApplicationException($"Unable to find sensor with ID '{model.Id}'.");
@@ -89,45 +91,45 @@ namespace SmartDormitory.Web.Areas.Administration.Controllers
 
             if (sensor.Longitude != model.Longitude || sensor.Latitude != model.Latitude)
             {
-                await _sensorService.ChangeCoordinatesAsync(model.Id, model.Longitude, model.Latitude);
+                await _userSensorService.ChangeCoordinatesAsync(model.Id, model.Longitude, model.Latitude);
             }
 
             if (model.Default == null)
             {
                 if (sensor.UserMinValue != model.MinValue || sensor.UserMaxValue != model.MaxValue)
                 {
-                    await _sensorService.ChangeMinMaxAsync(model.Id, model.MinValue, model.MaxValue);
+                    await _userSensorService.ChangeMinMaxAsync(model.Id, model.MinValue, model.MaxValue);
                 }
             }
             else
             {
                 if (sensor.UserMinValue != int.Parse(model.Default))
                 {
-                    await _sensorService.ChangeMinMaxAsync(model.Id, int.Parse(model.Default), int.Parse(model.Default));
+                    await _userSensorService.ChangeMinMaxAsync(model.Id, int.Parse(model.Default), int.Parse(model.Default));
                 }
             }
 
             if (sensor.IsPublic != model.IsPublic)
             {
-                await _sensorService.ChangeIsPublicAsync(model.Id, model.IsPublic);
+                await _userSensorService.ChangeIsPublicAsync(model.Id, model.IsPublic);
             }
 
             if (sensor.IsRequiredNotification != model.IsRequiredNotification)
             {
-                await _sensorService.ChangeIsRequiredNotificationAsync(model.Id, model.IsRequiredNotification);
+                await _userSensorService.ChangeIsRequiredNotificationAsync(model.Id, model.IsRequiredNotification);
             }
 
             if (sensor.Name != model.Name)
             {
-                await _sensorService.ChangeNameAsync(model.Id, model.Name);
+                await _userSensorService.ChangeNameAsync(model.Id, model.Name);
             }
 
             if (sensor.UpdateInterval != model.UpdateInterval)
             {
-                await _sensorService.ChangeUpdatenIntervalAsync(model.Id, model.UpdateInterval);
+                await _userSensorService.ChangeUpdatenIntervalAsync(model.Id, model.UpdateInterval);
             }
 
-            var usersensors = await _sensorService.FilterAllSensorsAsync();
+            var usersensors = await _userSensorService.FilterAllSensorsAsync();
 
             var newModel = new SensorIndexViewModel(usersensors);
 

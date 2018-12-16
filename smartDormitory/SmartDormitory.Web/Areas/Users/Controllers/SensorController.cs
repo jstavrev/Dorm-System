@@ -16,20 +16,22 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
     [Area("Users")]
     public class SensorController : Controller
     {
-        private readonly ISensorService sensorService;
+        private readonly IUserSensorService _userSensorService;
+        private readonly ISensorService _sensorService;
         private readonly UserManager<User> _userManager;
 
-        public SensorController(ISensorService sensorService, UserManager<User> userManager)
+        public SensorController(IUserSensorService userSensorService, UserManager<User> userManager, ISensorService sensorService)
         {
-            this.sensorService = sensorService;
+            this._userSensorService = userSensorService;
             _userManager = userManager;
+            this._sensorService = sensorService;
         }
 
         [HttpGet("Users/Sensor/Register/{id?}")]
         public IActionResult Register(string userId)
         {
-            var sensors = this.sensorService.GetAll().ToList();
-            var sensorTypes = this.sensorService.GetAllTypes().ToList();
+            var sensors = this._sensorService.GetAll().ToList();
+            var sensorTypes = this._sensorService.GetAllTypes().ToList();
             var model = new RegisterSensorViewModel(sensors, sensorTypes, sensors);
             ViewBag.userId = userId;
             return View(model);
@@ -47,7 +49,7 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
             }
             try
             {
-                this.sensorService.RegisterSensor(model.Longitude, model.Latitude, model.MinValue, model.MaxValue, model.UpdateInterval, model.Name, model.Description, model.IsPublic, model.IsRequiredNotification, model.Default, model.UserID, model.SensorId);
+                this._userSensorService.RegisterSensor(model.Longitude, model.Latitude, model.MinValue, model.MaxValue, model.UpdateInterval, model.Name, model.Description, model.IsPublic, model.IsRequiredNotification, model.Default, model.UserID, model.SensorId);
             }
             catch
             {
@@ -87,7 +89,7 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
         {
 
             var user = _userManager.GetUserId(User);
-            var sensors = await sensorService.FilterUserSensorsAsync(user);
+            var sensors = await _userSensorService.FilterUserSensorsAsync(user);
 
             var model = new SensorDetailsViewModel(sensors);
 
@@ -108,8 +110,8 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
         [HttpGet("Users/Sensor/Edit/{id}")]
         public async Task<IActionResult> Edit(int id)
         {
-            var sensor = await sensorService.FindAsync(id);
-            var sensorType = sensorService.Find(sensor.SensorId);
+            var sensor = await _userSensorService.FindAsync(id);
+            var sensorType = _sensorService.Find(sensor.SensorId);
 
             if (sensor == null)
             {
@@ -126,7 +128,7 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
         [Authorize]
         public async Task<IActionResult> Edit(SensorEditViewModel model)
         {
-            var sensor = await sensorService.FindAsync(model.Id);
+            var sensor = await _userSensorService.FindAsync(model.Id);
             if (sensor == null)
             {
                 throw new ApplicationException($"Unable to find sensor with ID '{model.Id}'.");
@@ -134,32 +136,32 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
 
             if (sensor.Longitude !=model.Longitude || sensor.Latitude != model.Latitude)
             {
-                await sensorService.ChangeCoordinatesAsync(model.Id, model.Longitude, model.Latitude);
+                await _userSensorService.ChangeCoordinatesAsync(model.Id, model.Longitude, model.Latitude);
             }
 
             if (sensor.UserMinValue != model.MinValue || sensor.UserMaxValue != model.MaxValue)
             {
-                await sensorService.ChangeMinMaxAsync(model.Id, model.MinValue,model.MaxValue);
+                await _userSensorService.ChangeMinMaxAsync(model.Id, model.MinValue,model.MaxValue);
             }
 
             if (sensor.IsPublic != model.IsPublic)
             {
-                await sensorService.ChangeIsPublicAsync(model.Id, model.IsPublic);
+                await _userSensorService.ChangeIsPublicAsync(model.Id, model.IsPublic);
             }
 
             if (sensor.IsRequiredNotification != model.IsRequiredNotification)
             {
-                await sensorService.ChangeIsRequiredNotificationAsync(model.Id, model.IsRequiredNotification);
+                await _userSensorService.ChangeIsRequiredNotificationAsync(model.Id, model.IsRequiredNotification);
             }
 
             if (sensor.Name != model.Name)
             {
-                await sensorService.ChangeNameAsync(model.Id, model.Name);
+                await _userSensorService.ChangeNameAsync(model.Id, model.Name);
             }
 
             if (sensor.Description != model.Description)
             {
-                await sensorService.ChangeDescriptionAsync(model.Id, model.Description);
+                await _userSensorService.ChangeDescriptionAsync(model.Id, model.Description);
             }
 
             return RedirectToAction(nameof(Index));
@@ -168,7 +170,7 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
         [HttpGet("Users/Sensor/showmap/{id}")]
         public async Task<IActionResult> ShowMap(int id)
         {
-            var sensor = await sensorService.FindAsync(id);
+            var sensor = await _userSensorService.FindAsync(id);
             if (sensor == null)
             {
                 throw new ApplicationException($"Unable to find sensor with ID '{id}'.");
@@ -185,7 +187,7 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
             searchTerm = searchTerm ?? string.Empty;
 
             var user = _userManager.GetUserId(User);
-            var sensors = await sensorService.FilterUserSensorsAsync(user, sortOrder, searchTerm, pageNumber ?? 1, pageSize ?? 10);
+            var sensors = await _userSensorService.FilterUserSensorsAsync(user, sortOrder, searchTerm, pageNumber ?? 1, pageSize ?? 10);
 
             var model = new SensorDetailsViewModel(sensors);
 
@@ -200,11 +202,11 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
 
             if (typeId == 0)
             {
-                result = this.sensorService.GetAll().Select(s => new SensorSelectViewModel { Id = s.Id, Name = s.Name }).ToList();
+                result = this._sensorService.GetAll().Select(s => new SensorSelectViewModel { Id = s.Id, Name = s.Name }).ToList();
             }
             else
             {
-                result = this.sensorService.GetAll().Where(s => s.SensorTypeId == typeId).Select(s => new SensorSelectViewModel { Id = s.Id, Name = s.Name }).ToList();
+                result = this._sensorService.GetAll().Where(s => s.SensorTypeId == typeId).Select(s => new SensorSelectViewModel { Id = s.Id, Name = s.Name }).ToList();
             }
 
             return Json(result);
@@ -214,8 +216,8 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
         [IgnoreAntiforgeryToken]
         public IActionResult SensorValidationInfo(int sensorId)
         {
-            var sensor = this.sensorService.Find(sensorId);
-            var sensorType = this.sensorService.GetAllTypes().Where(s => s.Id == sensor.SensorTypeId).FirstOrDefault();
+            var sensor = this._sensorService.Find(sensorId);
+            var sensorType = this._sensorService.GetAllTypes().Where(s => s.Id == sensor.SensorTypeId).FirstOrDefault();
             var result = new SensorValidationViewModel
             {
                 MaxValue = sensor.MaxValue,
@@ -243,7 +245,7 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
         {
             var userId = _userManager.GetUserId(User);
 
-            CreateDashboardViewModel model = new CreateDashboardViewModel(this.sensorService.GetAllUserSensorsByUser(userId)
+            CreateDashboardViewModel model = new CreateDashboardViewModel(this._userSensorService.GetAllUserSensorsByUser(userId)
                 .Select(s => new CreateDashboardSensorSelectionViewModel { Id = s.Id, Name = s.Name, Description = s.Description, Type = s.Type }).ToList());
 
             return View(model);
@@ -255,7 +257,7 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
             var userId = _userManager.GetUserId(User);
 
             var selectedDashboardSensors = new List<DashboardSensorViewModel>();
-            var allUserSensorsDictionary = this.sensorService.GetAllUserSensorsByUserDictionary(userId);
+            var allUserSensorsDictionary = this._userSensorService.GetAllUserSensorsByUserDictionary(userId);
 
             foreach (var userSensor in model.SensorSelection)
             {
@@ -315,7 +317,7 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
             {
                 if (idsList[i] != "")
                 {
-                    var userSensor = this.sensorService.GetUserSensorsById(int.Parse(idsList[i]));
+                    var userSensor = this._userSensorService.GetUserSensorsById(int.Parse(idsList[i]));
                     var updatedSensor = new UpdateDashboardViewModel
                     {
                         Value = userSensor.Value,

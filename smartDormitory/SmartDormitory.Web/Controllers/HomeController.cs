@@ -4,26 +4,26 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using SmartDormitory.Data.Services.Contracts;
 using SmartDormitory.Models.DbModels;
+using SmartDormitory.Services.Contracts;
 using SmartDormitory.Web.Models;
 
 namespace SmartDormitory.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IHomeService _homeService;
+        private readonly IUserSensorService _userSensorService;
         private readonly UserManager<User> _userManager;
 
-        public HomeController(IHomeService homeService, UserManager<User> userManager)
+        public HomeController(IUserSensorService userSensorService, UserManager<User> userManager)
         {
-            _homeService = homeService ?? throw new ArgumentNullException(nameof(homeService));
+            _userSensorService = userSensorService;
             _userManager = userManager;
         }
 
         public async Task<IActionResult> Index()
         {
-           var users = await _homeService.FilterSensorsAsync();
+           var users = await _userSensorService.GetSensorsForMapAsync();
             var newList = new List<IndexViewModel>();
             foreach (var d in users)
             {
