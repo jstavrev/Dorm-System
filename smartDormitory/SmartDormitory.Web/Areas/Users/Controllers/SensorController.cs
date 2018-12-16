@@ -102,7 +102,7 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
             {
                 return PartialView("_TrueFalseEditValidationView");
             }
-            return PartialView("_MinMaxAEditValidationView");
+            return PartialView("_MinMaxEditValidationView");
         }
 
         [HttpGet("Users/Sensor/Edit/{id}")]
