@@ -113,7 +113,7 @@
                 function initMap() {
                     map = new google.maps.Map(document.getElementById('map'), {
                         center: { lat: @Model.Latitude, lng: @Model.Longitude },
-                        zoom: 8
+                        zoom: 4
                     });
 
                     var marker = new google.maps.Marker({
@@ -125,8 +125,8 @@
                     google.maps.event.addListener(map, 'click', function (event) {
                         if (marker) {
                             marker.setPosition(event.latLng)
-                            $('#latitude').attr('value', marker.position.lat)
-                            $('#longitude').attr('value', marker.position.lng)
+                            $('#Latitude').attr('value', marker.position.lat)
+                            $('#Longitude').attr('value', marker.position.lng)
                         }
                         else {
                             marker = new google.maps.Marker({
@@ -134,8 +134,8 @@
                                 map: map,
                             });
                             marker.setAnimation(google.maps.Animation.BOUNCE);
-                            $('#latitude').attr('value', marker.position.lat)
-                            $('#longitude').attr('value', marker.position.lng)
+                            $('#Latitude').attr('value', marker.position.lat)
+                            $('#Longitude').attr('value', marker.position.lng)
                         }
                     });
                 }
