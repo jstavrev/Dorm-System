@@ -8,12 +8,12 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
-                <h2 class="title">Edit Profile</h2>
+                <h2 class="title"  style="color: white">Edit Profile</h2>
             </div>
             <div class="card-body">
                 <form method="post">
                     <div asp-validation-summary="All" class="text-danger"></div>
-                    <div class="row">
+                    <div class="row"  style="color: white">
                         <div class="col-md-5 pr-md-1">
                             <div class="form-group">
                                 <label asp-for="Email"></label>
@@ -21,7 +21,7 @@
                                 <span asp-validation-for="Email" class="text-danger"></span>
                             </div>
                         </div>
-                        <div class="col-md-3 px-md-1">
+                        <div class="col-md-3 px-md-1" >
                             <div class="form-group">
                                 <label asp-for="Username"></label>
                                 <input asp-for="Username" type="text" class="form-control" placeholder="Username" value="@Model.Username" maxlength="40" minlength="6" required>
@@ -36,7 +36,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row"  style="color: white">
                         <div class="col-md-6 pr-md-1">
                             <div class="form-group">
                                 <label asp-for="FirstName"></label>
@@ -52,7 +52,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row"  style="color: white">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label asp-for="Address"></label>
@@ -61,7 +61,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row"  style="color: white">
                         <div class="col-md-4 pr-md-1">
                             <div class="form-group">
                                 <label asp-for="City"></label>

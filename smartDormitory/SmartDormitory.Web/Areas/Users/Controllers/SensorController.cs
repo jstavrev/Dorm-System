@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SmartDormitory.Models.DbModels;
 using SmartDormitory.Services.Contracts;
+using SensorValidation = SmartDormitory.Web.Areas.Administration.Models.Sensor.SensorValidationsViewModel;
 using SmartDormitory.Web.Areas.Users.Models;
 using X.PagedList;
 
@@ -15,7 +16,6 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
     [Area("Users")]
     public class SensorController : Controller
     {
-        private int pageSize = 10;
         private readonly ISensorService sensorService;
         private readonly UserManager<User> _userManager;
 
@@ -70,22 +70,35 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
             return View(model);
         }
 
-        [HttpGet("Users/Sensor/sensoredit/{id}")]
+        [HttpGet]
+        [IgnoreAntiforgeryToken]
+        public IActionResult EditValidationView(int typeId)
+        {
+            if (typeId == 4)
+            {
+                return PartialView("_TrueFalseEditValidationView");
+            }
+            return PartialView("_MinMaxAEditValidationView");
+        }
+
+        [HttpGet("Users/Sensor/Edit/{id}")]
         public async Task<IActionResult> Edit(int id)
         {
             var sensor = await sensorService.FindAsync(id);
+            var sensorType = sensorService.Find(sensor.SensorId);
+
             if (sensor == null)
             {
                 throw new ApplicationException($"Unable to find sensor with ID '{id}'.");
             }
-
-            var model = new SensorEditViewModel(sensor);
+            var sensorValidation = new SensorValidation(sensorType);
+            var model = new SensorEditViewModel(sensor,sensorValidation);
 
             return PartialView(model);
         }
 
 
-        [HttpPost("Users/Sensor/sensoredit/{id}")]
+        [HttpPost("Users/Sensor/Edit/{id}")]
         [Authorize]
         public async Task<IActionResult> Edit(SensorEditViewModel model)
         {
@@ -95,14 +108,14 @@ namespace SmartDormitory.Web.Areas.Users.Controllers
                 throw new ApplicationException($"Unable to find sensor with ID '{model.Id}'.");
             }
 
-            if (sensor.Longitude != double.Parse(model.Longitude) || sensor.Latitude != double.Parse(model.Latitude))
+            if (sensor.Longitude !=model.Longitude || sensor.Latitude != model.Latitude)
             {
-                await sensorService.ChangeCoordinatesAsync(model.Id, double.Parse(model.Longitude), double.Parse(model.Latitude));
+                await sensorService.ChangeCoordinatesAsync(model.Id, model.Longitude, model.Latitude);
             }
 
-            if (sensor.MinValue != model.MinValue || sensor.MaxValue != model.MaxValue)
+            if (sensor.UserMinValue != model.MinValue || sensor.UserMaxValue != model.MaxValue)
             {
-                await sensorService.ChangeMinMaxAsync(model.Id, model.MinValue, model.MaxValue);
+                await sensorService.ChangeMinMaxAsync(model.Id, model.MinValue,model.MaxValue);
             }
 
             if (sensor.IsPublic != model.IsPublic)

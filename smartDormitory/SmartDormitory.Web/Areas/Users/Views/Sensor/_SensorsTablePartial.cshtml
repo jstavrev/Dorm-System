@@ -65,7 +65,7 @@
                         </td>
                         <td>
                             <div>
-                                <a asp-action="Edit" asp-controller="Sensor" asp-route-id="@sensor.Id" method="post" data-target="#modal-container" data-toggle="modal">Edit</a>
+                                <a asp-action="Edit" asp-controller="Sensor" asp-route-id="@sensor.Id">Edit</a>
                             </div>
                         </td>
                         <td>
@@ -79,14 +79,6 @@
             </tbody>
         </table>
         @await Html.PartialAsync("_PaginationPartial", Model.Pagination)
-    </div>
-</div>
-
-<div id="modal-container" class="modal fade hidden-print" tabindex="-1" role="dialog">
-    <div class="modal-dialog" >
-        <div class="modal-content">
-
-        </div>
     </div>
 </div>
 

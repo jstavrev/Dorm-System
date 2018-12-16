@@ -134,22 +134,5 @@ namespace SmartDormitory.Web.Areas.Administration.Controllers
             return View("Index", newModel);
         }
 
-        [HttpGet("Administration/Users/Registersensor/{sensorid}/{userid}")]
-        [ResponseCache(CacheProfileName = "Short")]
-        public IActionResult Register(int sensorId, string userId)
-        {
-            ViewBag.sensorId = sensorId;
-            ViewBag.userId = userId;
-            return View("RegisterSensor");
-        }
-
-        [HttpPost("Administration/Users/Registersensor/{sensorid}/{userid}")]
-        public IActionResult Register(RegisterSensorViewModel model)
-        {
-            _sensorService.RegisterSensor(model.Longitude, model.Latitude, model.MinValue, model.MaxValue, model.UpdateInterval, model.Name, model.Description,
-                model.IsPublic, model.IsRequiredNotification, "2", model.UserId, model.SensorId.ToString());
-
-            return RedirectToAction("Index", "Sensor");
-        }
     }
 }

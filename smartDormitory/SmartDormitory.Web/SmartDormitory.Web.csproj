@@ -71,7 +71,13 @@
     <Content Update="Areas\Users\Views\Sensor\Edit.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Areas\Users\Views\Sensor\_MinMaxEditValidationView.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Areas\Users\Views\Sensor\_SensorsTablePartial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Users\Views\Sensor\_TrueFalseEditValidationView.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Areas\Users\Views\User\ChangePassword.cshtml">
