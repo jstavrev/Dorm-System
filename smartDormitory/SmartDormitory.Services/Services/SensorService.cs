@@ -31,7 +31,14 @@ namespace SmartDormitory.Services.Services
 
         public Sensor Find(int sensorId)
         {
-            return this.context.Sensors.Find(sensorId);
+            var sensor =  this.context.Sensors.Find(sensorId);
+
+            if (sensor == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            return sensor;
         }
     }
 }

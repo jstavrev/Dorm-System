@@ -4,38 +4,33 @@ using SmartDormitory.Data.Data;
 using SmartDormitory.Models.DbModels;
 using SmartDormitory.Services.Services;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace SmartDormitory.Tests.SmartDormitory.ServicesTests.SensorServiceTests
 {
     [TestClass]
-    public class GetAll_Should
+    public class GetAllTypes_Should
     {
         [TestMethod]
-        public void ReturnAllSensors_When_Invoked()
+        public void ReturnAllSensorTypes_When_Invoked()
         {
             //Arrange
             var contextOptions = new DbContextOptionsBuilder<SmartDormitoryDbContext>()
-               .UseInMemoryDatabase(databaseName: "ReturnAllSensors_When_Invoked")
+               .UseInMemoryDatabase(databaseName: "ReturnAllSensorTypes_When_Invoked")
                .Options;
 
-            var ApiID = Guid.NewGuid().ToString();
             using (var arrangeContext = new SmartDormitoryDbContext(contextOptions))
             {
-                var sensorForDB = new Sensor
+                var sensorType = new SensorTypes
                 {
-                    ApiId = ApiID,
-                    CurrentValue = 10,
-                    Description = "Description",
-                    Name = "Name",
-                    MinValue = 1,
-                    MaxValue = 100,
-                    MinPollingIntervalInSeconds = 60,
-                    SensorTypeId = 1,
-                    LastUpdate = DateTime.Now,
+                    IsDeleted = false,
+                    Type = "testType",
+                    CreatedOn = DateTime.Now,
                 };
 
-                arrangeContext.Sensors.Add(sensorForDB);
+                arrangeContext.SensorTypes.Add(sensorType);
                 arrangeContext.SaveChanges();
             }
 
@@ -43,27 +38,27 @@ namespace SmartDormitory.Tests.SmartDormitory.ServicesTests.SensorServiceTests
             using (var assertContext = new SmartDormitoryDbContext(contextOptions))
             {
                 var sensorService = new SensorService(assertContext);
-                var allSensors = sensorService.GetAll().ToList();
+                var allSensorTypes = sensorService.GetAllTypes().ToList();
 
-                Assert.AreEqual(1, allSensors.Count);
+                Assert.AreEqual(1, allSensorTypes.Count);
             }
         }
 
         [TestMethod]
-        public void ReturnEmptyCollection_When_SensorsDB_IsEmpty()
+        public void ReturnEmptyCollection_When_SensorTypesDB_IsEmpty()
         {
             //Arrange
             var contextOptions = new DbContextOptionsBuilder<SmartDormitoryDbContext>()
-               .UseInMemoryDatabase(databaseName: "ReturnEmptyCollection_When_SensorsDB_IsEmpty")
+               .UseInMemoryDatabase(databaseName: "ReturnEmptyCollection_When_DB_IsEmpty")
                .Options;
 
             // Act && Asert
             using (var assertContext = new SmartDormitoryDbContext(contextOptions))
             {
                 var sensorService = new SensorService(assertContext);
-                var allSensors = sensorService.GetAll().ToList();
+                var allSensorTypes = sensorService.GetAllTypes().ToList();
 
-                Assert.AreEqual(0, allSensors.Count);
+                Assert.AreEqual(0, allSensorTypes.Count);
             }
         }
     }

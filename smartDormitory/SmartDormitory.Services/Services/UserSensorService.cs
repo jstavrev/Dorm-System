@@ -131,10 +131,35 @@ namespace SmartDormitory.Services.Services
         {
             if (minValue > maxValue)
             {
-                throw new Exception();
+                throw new ArgumentOutOfRangeException();
+            }
+
+            if (sensorId == null)
+            {
+                throw new ArgumentNullException();
             }
 
             var sensor = this.context.Sensors.Find(int.Parse(sensorId));
+
+            if (minValue < sensor.MinValue)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            if (maxValue > sensor.MaxValue)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            if (updateInterval < sensor.MinPollingIntervalInSeconds)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            if (name == null || description == null || userId == null)
+            {
+                throw new ArgumentNullException();
+            }
 
             var userSensor = new UserSensors()
             {
@@ -173,6 +198,11 @@ namespace SmartDormitory.Services.Services
 
         public IEnumerable<UserSensors> GetAllUserSensorsByUser(string Id)
         {
+            if (Id == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             //descending
             return this.context.UserSensors.Where(uS => uS.UserId == Id).OrderByDescending(x => x.Id).ToList();
         }
