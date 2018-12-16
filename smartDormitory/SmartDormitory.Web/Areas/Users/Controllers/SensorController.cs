@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SmartDormitory.Models.DbModels;
 using SmartDormitory.Services.Contracts;
-using SensorValidation = SmartDormitory.Web.Areas.Administration.Models.Sensor.SensorValidationsViewModel;
+using SensorValidation = SmartDormitory.Web.Areas.Administration.Models.Sensors.SensorValidationsViewModel;
 using SmartDormitory.Web.Areas.Users.Models;
 using X.PagedList;
 

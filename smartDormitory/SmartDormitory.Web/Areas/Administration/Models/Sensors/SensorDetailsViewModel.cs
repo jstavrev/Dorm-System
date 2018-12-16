@@ -1,16 +1,14 @@
 ﻿using SmartDormitory.Models.DbModels;
-using SmartDormitory.Web.Areas.Administration.Models.Sensors;
 
-namespace SmartDormitory.Web.Areas.Users.Models
+namespace SmartDormitory.Web.Areas.Administration.Models.Sensors
 {
-    public class SensorEditViewModel
+    public class SensorDetailsViewModel
     {
-        public SensorEditViewModel()
+        public SensorDetailsViewModel()
         {
-
         }
 
-        public SensorEditViewModel(UserSensors userSensors, SensorValidationsViewModel sensorValidations)
+        public SensorDetailsViewModel(UserSensors userSensors, SensorValidationsViewModel sensorValidations)
         {
             this.Id = userSensors.Id;
             this.UserId = userSensors.UserId;
@@ -20,14 +18,13 @@ namespace SmartDormitory.Web.Areas.Users.Models
             this.UserMaxValue = userSensors.UserMaxValue.ToString();
             this.UpdateInterval = userSensors.UpdateInterval;
             this.Name = userSensors.Name;
-            this.Description = userSensors.Description;
             this.IsPublic = userSensors.IsPublic;
             this.IsRequiredNotification = userSensors.IsRequiredNotification;
             this.Latitude = userSensors.Latitude;
             this.Longitude = userSensors.Longitude;
             this.SensorValidations = sensorValidations;
             this.TypeId = userSensors.Type;
-            if (userSensors.Type == 4)
+            if(userSensors.Type == 4)
             {
                 this.UserMinValue = userSensors.UserMinValue.ToString();
             }
@@ -48,9 +45,6 @@ namespace SmartDormitory.Web.Areas.Users.Models
         public int UpdateInterval { get; set; }
 
         public string Name { get; set; }
-
-        public string Description { get; set; }
-
 
         public string UserMinValue { get; set; }
 

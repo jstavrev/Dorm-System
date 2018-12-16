@@ -1,6 +1,6 @@
 ﻿using MySensor = SmartDormitory.Models.DbModels.Sensor;
 
-namespace SmartDormitory.Web.Areas.Administration.Models.Sensor
+namespace SmartDormitory.Web.Areas.Administration.Models.Sensors
 {
     public class SensorValidationsViewModel
     {

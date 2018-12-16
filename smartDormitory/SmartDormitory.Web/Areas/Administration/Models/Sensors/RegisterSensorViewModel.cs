@@ -1,33 +1,29 @@
 ﻿using SmartDormitory.Models.DbModels;
 
-namespace SmartDormitory.Web.Areas.Administration.Models.Sensor
+namespace SmartDormitory.Web.Areas.Administration.Models.Sensors
 {
-    public class SensorDetailsViewModel
+    public class RegisterSensorViewModel
     {
-        public SensorDetailsViewModel()
+        public RegisterSensorViewModel()
         {
         }
 
-        public SensorDetailsViewModel(UserSensors userSensors, SensorValidationsViewModel sensorValidations)
+        public RegisterSensorViewModel(UserSensors userSensors, string newUserId, string newSensorId)
         {
             this.Id = userSensors.Id;
             this.UserId = userSensors.UserId;
             this.SensorId = userSensors.SensorId;
-            this.MinValue = userSensors.UserMinValue;
-            this.MaxValue = userSensors.UserMaxValue;
-            this.UserMaxValue = userSensors.UserMaxValue.ToString();
+            this.MinValue = userSensors.MinValue;
+            this.MaxValue = userSensors.MaxValue;
             this.UpdateInterval = userSensors.UpdateInterval;
             this.Name = userSensors.Name;
             this.IsPublic = userSensors.IsPublic;
             this.IsRequiredNotification = userSensors.IsRequiredNotification;
             this.Latitude = userSensors.Latitude;
             this.Longitude = userSensors.Longitude;
-            this.SensorValidations = sensorValidations;
-            this.TypeId = userSensors.Type;
-            if(userSensors.Type == 4)
-            {
-                this.UserMinValue = userSensors.UserMinValue.ToString();
-            }
+            this.NewSensorId = newSensorId;
+            this.NewUserId = newUserId;
+            this.Description = userSensors.Description;
         }
 
         public int Id { get; set; }
@@ -40,16 +36,11 @@ namespace SmartDormitory.Web.Areas.Administration.Models.Sensor
 
         public double MaxValue { get; set; }
 
-        public int TypeId { get; set; }
-
         public int UpdateInterval { get; set; }
 
         public string Name { get; set; }
 
-        public string UserMinValue { get; set; }
-
-        public string UserMaxValue { get; set; }
-
+        public string Description { get; set; }
 
         public bool IsPublic { get; set; }
 
@@ -59,7 +50,9 @@ namespace SmartDormitory.Web.Areas.Administration.Models.Sensor
 
         public double Latitude { get; set; }
 
-        public SensorValidationsViewModel SensorValidations { get; set; }
+        public string NewUserId { get; set; }
+
+        public string NewSensorId { get; set; }
 
         public string Default { get; set; }
 

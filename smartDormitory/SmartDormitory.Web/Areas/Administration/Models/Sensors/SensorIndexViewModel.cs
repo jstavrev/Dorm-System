@@ -3,7 +3,7 @@ using SmartDormitory.Web.Models;
 using System.Linq;
 using X.PagedList;
 
-namespace SmartDormitory.Web.Areas.Administration.Models.Sensor
+namespace SmartDormitory.Web.Areas.Administration.Models.Sensors
 {
     public class SensorIndexViewModel
     {

@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SmartDormitory.Services.Api__Temporary_.Providers;
 using SmartDormitory.Services.Contracts;
 using SmartDormitory.Services.Services;
 using SmartDormitory.Web.Areas.Identity.Services;
@@ -27,8 +26,6 @@ namespace SmartDormitory.Web
 
             services.AddSingleton<HttpClient, HttpClient>();
             services.AddTransient<IEmailSender, EmailSender>();
-            services.AddSingleton<ApiHelper, ApiHelper>();
-            services.AddScoped<IApiService, ApiService>();
             services.AddScoped<IUserSensorService, UserSensorService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ISensorService, SensorService>();

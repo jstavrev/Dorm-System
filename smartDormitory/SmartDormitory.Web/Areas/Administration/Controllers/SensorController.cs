@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SmartDormitory.Models.DbModels;
 using SmartDormitory.Services.Contracts;
-using SmartDormitory.Web.Areas.Administration.Models.Sensor;
+using SmartDormitory.Web.Areas.Administration.Models.Sensors;
 
 namespace SmartDormitory.Web.Areas.Administration.Controllers
 {

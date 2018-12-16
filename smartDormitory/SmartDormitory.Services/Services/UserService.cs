@@ -96,6 +96,5 @@ namespace SmartDormitory.Services.Services
 
             return await query.ToPagedListAsync(pageNumber, pageSize);
         }
-
     }
 }
