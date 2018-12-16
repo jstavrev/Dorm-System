@@ -13,7 +13,6 @@ namespace SmartDormitory.Services.Services
     public class UserSensorService : IUserSensorService
     {
         private readonly SmartDormitoryDbContext context;
-
         public UserSensorService(SmartDormitoryDbContext context)
         {
             this.context = context;
@@ -58,7 +57,7 @@ namespace SmartDormitory.Services.Services
         {
             var sensor = await this.context.UserSensors.FindAsync(sensorId);
 
-            if(sensor==null)
+            if (sensor == null)
             {
                 throw new ArgumentNullException();
             }
@@ -89,7 +88,7 @@ namespace SmartDormitory.Services.Services
         public async Task<UserSensors> ChangeNameAsync(int sensorId, string name)
         {
 
-            if(name == null)
+            if (name == null)
             {
                 throw new ArgumentNullException();
             }
@@ -146,6 +145,11 @@ namespace SmartDormitory.Services.Services
         {
             var sensor = await this.context.UserSensors.FindAsync(sensorId);
 
+            if (sensor == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             sensor.UpdateInterval = updateInterval;
             await context.SaveChangesAsync();
 
@@ -155,6 +159,11 @@ namespace SmartDormitory.Services.Services
         public async Task<UserSensors> ChangeIsRequiredNotificationAsync(int sensorId, bool isRequiredNotification)
         {
             var sensor = await this.context.UserSensors.FindAsync(sensorId);
+
+            if (sensor == null)
+            {
+                throw new ArgumentNullException();
+            }
 
             sensor.IsRequiredNotification = isRequiredNotification;
             await context.SaveChangesAsync();
