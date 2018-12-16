@@ -58,6 +58,11 @@ namespace SmartDormitory.Services.Services
         {
             var sensor = await this.context.UserSensors.FindAsync(sensorId);
 
+            if(sensor==null)
+            {
+                throw new ArgumentNullException();
+            }
+
             sensor.Longitude = longitude;
             sensor.Latitude = latitude;
             await context.SaveChangesAsync();
@@ -69,6 +74,11 @@ namespace SmartDormitory.Services.Services
         {
             var sensor = await this.context.UserSensors.FindAsync(sensorId);
 
+            if (sensor == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             sensor.UserMinValue = min;
             sensor.UserMaxValue = max;
             await context.SaveChangesAsync();
@@ -78,8 +88,18 @@ namespace SmartDormitory.Services.Services
 
         public async Task<UserSensors> ChangeNameAsync(int sensorId, string name)
         {
+
+            if(name == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             var sensor = await this.context.UserSensors.FindAsync(sensorId);
 
+            if (sensor == null)
+            {
+                throw new ArgumentNullException();
+            }
             sensor.Name = name;
             await context.SaveChangesAsync();
 
@@ -88,9 +108,20 @@ namespace SmartDormitory.Services.Services
 
         public async Task<UserSensors> ChangeDescriptionAsync(int sensorId, string description)
         {
+            if (description == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             var sensor = await this.context.UserSensors.FindAsync(sensorId);
 
+            if (sensor == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             sensor.Description = description;
+
             await context.SaveChangesAsync();
 
             return sensor;
@@ -99,6 +130,11 @@ namespace SmartDormitory.Services.Services
         public async Task<UserSensors> ChangeIsPublicAsync(int sensorId, bool isPublic)
         {
             var sensor = await this.context.UserSensors.FindAsync(sensorId);
+
+            if (sensor == null)
+            {
+                throw new ArgumentNullException();
+            }
 
             sensor.IsPublic = isPublic;
             await context.SaveChangesAsync();
