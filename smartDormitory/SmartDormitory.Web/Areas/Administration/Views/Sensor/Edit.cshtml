@@ -24,6 +24,11 @@
                     <span asp-validation-for="UpdateInterval" class="text-danger"></span>
                 </div>
             </div>
+
+            <label asp-for="Description" style="color: white">Description:</label><br />
+            <textarea name="description" asp-for="Description" class="form-control"></textarea><br />
+            <span asp-validation-for="Description" class="text-danger"></span>
+
             @if (Model.TypeId == 4)
             {
                 @:<div class="row" style="color: white">
@@ -55,12 +60,11 @@
             else
             {
 
-                <div class="row"  style="color: white" id="validation" name="validation">
+                <div class="row" style="color: white" id="validation" name="validation">
 
                 </div>
             }
             <br />
-
 
             <div class="row">
                 <div class="form-group col-md-6">

@@ -24,6 +24,7 @@ namespace SmartDormitory.Web.Areas.Administration.Models.Sensors
             this.Longitude = userSensors.Longitude;
             this.SensorValidations = sensorValidations;
             this.TypeId = userSensors.Type;
+            this.Description = userSensors.Description;
             if(userSensors.Type == 4)
             {
                 this.UserMinValue = userSensors.UserMinValue.ToString();
@@ -50,7 +51,6 @@ namespace SmartDormitory.Web.Areas.Administration.Models.Sensors
 
         public string UserMaxValue { get; set; }
 
-
         public bool IsPublic { get; set; }
 
         public bool IsRequiredNotification { get; set; }
@@ -62,6 +62,8 @@ namespace SmartDormitory.Web.Areas.Administration.Models.Sensors
         public SensorValidationsViewModel SensorValidations { get; set; }
 
         public string Default { get; set; }
+
+        public string Description { get; set; }
 
     }
 }

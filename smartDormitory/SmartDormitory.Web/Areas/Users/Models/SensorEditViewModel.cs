@@ -51,11 +51,9 @@ namespace SmartDormitory.Web.Areas.Users.Models
 
         public string Description { get; set; }
 
-
         public string UserMinValue { get; set; }
 
         public string UserMaxValue { get; set; }
-
 
         public bool IsPublic { get; set; }
 
