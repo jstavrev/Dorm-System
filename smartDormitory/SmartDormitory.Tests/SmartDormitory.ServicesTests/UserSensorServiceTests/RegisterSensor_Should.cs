@@ -4,20 +4,20 @@ using SmartDormitory.Data.Data;
 using SmartDormitory.Models.DbModels;
 using SmartDormitory.Services.Services;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SmartDormitory.Tests.SmartDormitory.ServicesTests.UserSensorServiceTests
 {
     [TestClass]
     public class RegisterSensor_Should
     {
+        private DbContextOptions<SmartDormitoryDbContext> contextOptions;
+
         [TestMethod]
         public void SuccesfullyRegisterSensor_WhenValidData_IsPassed()
         {
             //Arrange
-            var contextOptions = new DbContextOptionsBuilder<SmartDormitoryDbContext>()
-               .UseInMemoryDatabase(databaseName: "ThrowArgumentOutOfRangeEx_When_UserMinValue_IsSmaller_Than_SensorMinValue")
+              contextOptions = new DbContextOptionsBuilder<SmartDormitoryDbContext>()
+               .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                .Options;
 
             var ApiID = Guid.NewGuid().ToString();
@@ -57,8 +57,8 @@ namespace SmartDormitory.Tests.SmartDormitory.ServicesTests.UserSensorServiceTes
         public void ThrowArgumentOutOfRangeEx_When_UserMinValue_IsBigger_Than_UserMaxValue()
         {
             //Arrange
-            var contextOptions = new DbContextOptionsBuilder<SmartDormitoryDbContext>()
-               .UseInMemoryDatabase(databaseName: "ThrowArgumentOutOfRangeEx_When_UserMinValue_IsBigger_Than_UserMaxValue")
+               contextOptions = new DbContextOptionsBuilder<SmartDormitoryDbContext>()
+               .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                .Options;
 
             // Act && Asert
@@ -76,8 +76,8 @@ namespace SmartDormitory.Tests.SmartDormitory.ServicesTests.UserSensorServiceTes
         public void ThrowArgumentNullExc_When_SensorId_IsNull()
         {
             //Arrange
-            var contextOptions = new DbContextOptionsBuilder<SmartDormitoryDbContext>()
-               .UseInMemoryDatabase(databaseName: "ThrowArgumentNullExc_When_SensorId_IsNull")
+               contextOptions = new DbContextOptionsBuilder<SmartDormitoryDbContext>()
+               .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                .Options;
 
             // Act && Asert
@@ -95,8 +95,8 @@ namespace SmartDormitory.Tests.SmartDormitory.ServicesTests.UserSensorServiceTes
         public void ThrowArgumentOutOfRangeEx_When_UserMinValue_IsSmaller_Than_SensorMinValue()
         {
             //Arrange
-            var contextOptions = new DbContextOptionsBuilder<SmartDormitoryDbContext>()
-               .UseInMemoryDatabase(databaseName: "ThrowArgumentOutOfRangeEx_When_UserMinValue_IsSmaller_Than_SensorMinValue")
+               contextOptions = new DbContextOptionsBuilder<SmartDormitoryDbContext>()
+               .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                .Options;
 
             var ApiID = Guid.NewGuid().ToString();
@@ -135,8 +135,8 @@ namespace SmartDormitory.Tests.SmartDormitory.ServicesTests.UserSensorServiceTes
         public void ThrowArgumentOutOfRangeEx_When_UserMaxValue_IsBigger_Than_SensorMaxValue()
         {
             //Arrange
-            var contextOptions = new DbContextOptionsBuilder<SmartDormitoryDbContext>()
-               .UseInMemoryDatabase(databaseName: "ThrowArgumentOutOfRangeEx_When_UserMaxValue_IsBigger_Than_SensorMaxValue")
+               contextOptions = new DbContextOptionsBuilder<SmartDormitoryDbContext>()
+               .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                .Options;
 
             var ApiID = Guid.NewGuid().ToString();
@@ -175,8 +175,8 @@ namespace SmartDormitory.Tests.SmartDormitory.ServicesTests.UserSensorServiceTes
         public void ThrowArgumentOutOfRangeEx_When_UserInterval_IsSmaller_Than_SensorPollingInterval()
         {
             //Arrange
-            var contextOptions = new DbContextOptionsBuilder<SmartDormitoryDbContext>()
-               .UseInMemoryDatabase(databaseName: "ThrowArgumentOutOfRangeEx_When_UserInterval_IsSmaller_Than_SensorPollingInterval")
+                contextOptions = new DbContextOptionsBuilder<SmartDormitoryDbContext>()
+               .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                .Options;
 
             var ApiID = Guid.NewGuid().ToString();
@@ -215,8 +215,8 @@ namespace SmartDormitory.Tests.SmartDormitory.ServicesTests.UserSensorServiceTes
         public void ThrowArgumentNullExc_When_SensorName_IsNull()
         {
             //Arrange
-            var contextOptions = new DbContextOptionsBuilder<SmartDormitoryDbContext>()
-               .UseInMemoryDatabase(databaseName: "ThrowArgumentNullExc_When_SensorName_IsNull")
+                contextOptions = new DbContextOptionsBuilder<SmartDormitoryDbContext>()
+               .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                .Options;
 
             var ApiID = Guid.NewGuid().ToString();
@@ -254,8 +254,8 @@ namespace SmartDormitory.Tests.SmartDormitory.ServicesTests.UserSensorServiceTes
         public void ThrowArgumentNullExc_When_SensorDescription_IsNull()
         {
             //Arrange
-            var contextOptions = new DbContextOptionsBuilder<SmartDormitoryDbContext>()
-               .UseInMemoryDatabase(databaseName: "ThrowArgumentNullExc_When_SensorDescription_IsNull")
+                contextOptions = new DbContextOptionsBuilder<SmartDormitoryDbContext>()
+               .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                .Options;
 
             var ApiID = "ApiId";
@@ -293,8 +293,8 @@ namespace SmartDormitory.Tests.SmartDormitory.ServicesTests.UserSensorServiceTes
         public void ThrowArgumentNullExc_When_UserId_IsNull()
         {
             //Arrange
-            var contextOptions = new DbContextOptionsBuilder<SmartDormitoryDbContext>()
-               .UseInMemoryDatabase(databaseName: "ThrowArgumentNullExc_When_UserId_IsNull")
+                contextOptions = new DbContextOptionsBuilder<SmartDormitoryDbContext>()
+               .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                .Options;
 
             var ApiID = Guid.NewGuid().ToString();

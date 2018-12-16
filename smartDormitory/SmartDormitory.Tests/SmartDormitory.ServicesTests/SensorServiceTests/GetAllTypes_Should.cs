@@ -18,7 +18,7 @@ namespace SmartDormitory.Tests.SmartDormitory.ServicesTests.SensorServiceTests
         {
             //Arrange
             var contextOptions = new DbContextOptionsBuilder<SmartDormitoryDbContext>()
-               .UseInMemoryDatabase(databaseName: "ReturnAllSensorTypes_When_Invoked")
+               .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                .Options;
 
             using (var arrangeContext = new SmartDormitoryDbContext(contextOptions))
@@ -49,7 +49,7 @@ namespace SmartDormitory.Tests.SmartDormitory.ServicesTests.SensorServiceTests
         {
             //Arrange
             var contextOptions = new DbContextOptionsBuilder<SmartDormitoryDbContext>()
-               .UseInMemoryDatabase(databaseName: "ReturnEmptyCollection_When_SensorTypesDB_IsEmpty")
+               .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                .Options;
 
             // Act && Asert

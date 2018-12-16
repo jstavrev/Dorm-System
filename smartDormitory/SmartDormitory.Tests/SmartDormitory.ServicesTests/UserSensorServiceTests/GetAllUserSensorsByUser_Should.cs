@@ -18,7 +18,7 @@ namespace SmartDormitory.Tests.SmartDormitory.ServicesTests.UserSensorServiceTes
         {
             //Arrange
             var contextOptions = new DbContextOptionsBuilder<SmartDormitoryDbContext>()
-               .UseInMemoryDatabase(databaseName: "Return_AllUserSensors_When_UserId_IsValid")
+               .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                .Options;
 
             var UserId = Guid.NewGuid().ToString();
@@ -63,7 +63,7 @@ namespace SmartDormitory.Tests.SmartDormitory.ServicesTests.UserSensorServiceTes
         {
             //Arrange
             var contextOptions = new DbContextOptionsBuilder<SmartDormitoryDbContext>()
-               .UseInMemoryDatabase(databaseName: "Return_AllUserSensors_When_UserId_IsValid")
+               .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                .Options;
 
             var UserId = Guid.NewGuid().ToString();            
@@ -83,7 +83,7 @@ namespace SmartDormitory.Tests.SmartDormitory.ServicesTests.UserSensorServiceTes
         {
             //Arrange
             var contextOptions = new DbContextOptionsBuilder<SmartDormitoryDbContext>()
-               .UseInMemoryDatabase(databaseName: "Return_AllUserSensors_When_UserId_IsValid")
+               .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                .Options;
 
             string UserId = null;

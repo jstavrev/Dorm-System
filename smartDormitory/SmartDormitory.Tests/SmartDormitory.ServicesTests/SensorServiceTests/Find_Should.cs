@@ -15,7 +15,7 @@ namespace SmartDormitory.Tests.SmartDormitory.ServicesTests.SensorServiceTests
         {
             //Arrange
             var contextOptions = new DbContextOptionsBuilder<SmartDormitoryDbContext>()
-               .UseInMemoryDatabase(databaseName: "FindSensor_When_PassedId_IsValid")
+               .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                .Options;
 
             var ApiID = "ApiId";
@@ -54,7 +54,7 @@ namespace SmartDormitory.Tests.SmartDormitory.ServicesTests.SensorServiceTests
         {
             //Arrange
             var contextOptions = new DbContextOptionsBuilder<SmartDormitoryDbContext>()
-               .UseInMemoryDatabase(databaseName: "ThrowArgumentNullExc_When_PassedId_IsInvalid")
+               .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                .Options;
 
             var ApiID = Guid.NewGuid().ToString();

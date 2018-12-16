@@ -4,53 +4,62 @@ using SmartDormitory.Data.Data;
 using SmartDormitory.Models.DbModels;
 using SmartDormitory.Services.Services;
 using System;
-using System.Linq;
+using System.Collections.Generic;
+using System.Text;
 
-namespace SmartDormitory.Tests.SmartDormitory.ServicesTests.SensorServiceTests
+namespace SmartDormitory.Tests.SmartDormitory.ServicesTests.UserSensorServiceTests
 {
     [TestClass]
-    public class GetAll_Should
+    public class GetUserSensorsById_Should
     {
         [TestMethod]
-        public void ReturnAllSensors_When_Invoked()
+        public void ReturnUserSensor_When_PassedId_IsValid()
         {
             //Arrange
             var contextOptions = new DbContextOptionsBuilder<SmartDormitoryDbContext>()
                .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                .Options;
 
-            var ApiID = Guid.NewGuid().ToString();
+            var UserId = Guid.NewGuid().ToString();
             using (var arrangeContext = new SmartDormitoryDbContext(contextOptions))
             {
-                var sensorForDB = new Sensor
+                var userSensor = new UserSensors
                 {
-                    ApiId = ApiID,
-                    CurrentValue = 10,
+                    Id = 1,
+                    UserId = UserId,
+                    Value = 10,
                     Description = "Description",
                     Name = "Name",
                     MinValue = 1,
                     MaxValue = 100,
-                    MinPollingIntervalInSeconds = 60,
-                    SensorTypeId = 1,
-                    LastUpdate = DateTime.Now,
+                    UpdateInterval = 60,
+                    Type = 1,
+                    LastUpdatedOn = DateTime.Now,
+                    IsPublic = false,
+                    IsRequiredNotification = false,
+                    Latitude = 0,
+                    Longitude = 0,
+                    UserMaxValue = 99,
+                    UserMinValue = 2,
+                    SensorId = 1
                 };
 
-                arrangeContext.Sensors.Add(sensorForDB);
+                arrangeContext.UserSensors.Add(userSensor);
                 arrangeContext.SaveChanges();
             }
 
             // Act && Asert
             using (var assertContext = new SmartDormitoryDbContext(contextOptions))
             {
-                var sensorService = new SensorService(assertContext);
-                var allSensors = sensorService.GetAll().ToList();
+                var userSensorService = new UserSensorService(assertContext);
+                var userSensor = userSensorService.GetUserSensorsById(1);
 
-                Assert.AreEqual(1, allSensors.Count);
+                Assert.AreEqual(userSensor.UserId, UserId);
             }
         }
 
         [TestMethod]
-        public void ReturnEmptyCollection_When_SensorsDB_IsEmpty()
+        public void ReturnNull_When_PassedId_IsInvalid()
         {
             //Arrange
             var contextOptions = new DbContextOptionsBuilder<SmartDormitoryDbContext>()
@@ -60,10 +69,10 @@ namespace SmartDormitory.Tests.SmartDormitory.ServicesTests.SensorServiceTests
             // Act && Asert
             using (var assertContext = new SmartDormitoryDbContext(contextOptions))
             {
-                var sensorService = new SensorService(assertContext);
-                var allSensors = sensorService.GetAll().ToList();
+                var userSensorService = new UserSensorService(assertContext);
+                var userSensor = userSensorService.GetUserSensorsById(1);
 
-                Assert.AreEqual(0, allSensors.Count);
+                Assert.IsNull(userSensor);
             }
         }
     }

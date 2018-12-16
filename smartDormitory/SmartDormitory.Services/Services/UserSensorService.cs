@@ -216,6 +216,11 @@ namespace SmartDormitory.Services.Services
 
         public IDictionary<int, UserSensors> GetAllUserSensorsByUserDictionary(string Id)
         {
+            if (Id == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             var userSensorsList = this.context.UserSensors.Where(uS => uS.UserId == Id).ToList();
             var userSensorsDict = new Dictionary<int, UserSensors>();
 
