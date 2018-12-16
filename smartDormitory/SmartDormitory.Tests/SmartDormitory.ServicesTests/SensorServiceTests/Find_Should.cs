@@ -18,11 +18,12 @@ namespace SmartDormitory.Tests.SmartDormitory.ServicesTests.SensorServiceTests
                .UseInMemoryDatabase(databaseName: "FindSensor_When_PassedId_IsValid")
                .Options;
 
-            var ApiID = Guid.NewGuid().ToString();
+            var ApiID = "ApiId";
             using (var arrangeContext = new SmartDormitoryDbContext(contextOptions))
             {
                 var sensorForDB = new Sensor
                 {
+                    Id = 1,
                     ApiId = ApiID,
                     CurrentValue = 10,
                     Description = "Description",
