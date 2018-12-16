@@ -13,6 +13,47 @@ namespace SmartDormitory.Tests.SmartDormitory.ServicesTests.UserSensorServiceTes
     public class RegisterSensor_Should
     {
         [TestMethod]
+        public void SuccesfullyRegisterSensor_WhenValidData_IsPassed()
+        {
+            //Arrange
+            var contextOptions = new DbContextOptionsBuilder<SmartDormitoryDbContext>()
+               .UseInMemoryDatabase(databaseName: "ThrowArgumentOutOfRangeEx_When_UserMinValue_IsSmaller_Than_SensorMinValue")
+               .Options;
+
+            var ApiID = Guid.NewGuid().ToString();
+            using (var arrangeContext = new SmartDormitoryDbContext(contextOptions))
+            {
+                var sensorForDB = new Sensor
+                {
+                    Id = 1,
+                    ApiId = ApiID,
+                    CurrentValue = 10,
+                    Description = "Description",
+                    Name = "Name",
+                    MinValue = 1,
+                    MaxValue = 100,
+                    MinPollingIntervalInSeconds = 60,
+                    SensorTypeId = 1,
+                    LastUpdate = DateTime.Now,
+                };
+
+                arrangeContext.Sensors.Add(sensorForDB);
+                arrangeContext.SaveChanges();
+            }
+
+            // Act && Asert
+            using (var assertContext = new SmartDormitoryDbContext(contextOptions))
+            {
+                var userSensorService = new UserSensorService(assertContext);
+                var userSensor = userSensorService.RegisterSensor(0, 0, 10, 99, 61,
+                    "name", "description", false, false,
+                        "0", "userId", "1");
+
+                Assert.IsNotNull(userSensor);
+            }
+        }
+
+        [TestMethod]
         public void ThrowArgumentOutOfRangeEx_When_UserMinValue_IsBigger_Than_UserMaxValue()
         {
             //Arrange

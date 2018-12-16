@@ -21,7 +21,7 @@ namespace SmartDormitory.Services.Contracts
 
         Task<UserSensors> ChangeIsRequiredNotificationAsync(int sensorId, bool isRequiredNotification);
 
-        void RegisterSensor(double lng, double lat, double minValue, double maxValue, int updateInterval, string name, string description,
+        UserSensors RegisterSensor(double lng, double lat, double minValue, double maxValue, int updateInterval, string name, string description,
             bool isPublic, bool notification, string defaultPosition, string userId, string sensorId);
 
         Task<IPagedList<UserSensors>> FilterAllSensorsAsync(string sortOrder = "", string filter = "", int pageNumber = 1, int pageSize = 10);

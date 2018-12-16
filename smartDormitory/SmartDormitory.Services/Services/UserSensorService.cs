@@ -126,7 +126,7 @@ namespace SmartDormitory.Services.Services
             return sensor;
         }
 
-        public void RegisterSensor(double lng, double lat, double minValue, double maxValue, int updateInterval, string name, string description,
+        public UserSensors RegisterSensor(double lng, double lat, double minValue, double maxValue, int updateInterval, string name, string description,
             bool isPublic, bool notification, string defaultPosition, string userId, string sensorId)
         {
             if (minValue > maxValue)
@@ -194,6 +194,8 @@ namespace SmartDormitory.Services.Services
 
             this.context.UserSensors.Add(userSensor);
             this.context.SaveChanges();
+
+            return userSensor;
         }
 
         public IEnumerable<UserSensors> GetAllUserSensorsByUser(string Id)
