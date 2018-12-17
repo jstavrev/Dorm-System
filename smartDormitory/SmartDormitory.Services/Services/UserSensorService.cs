@@ -25,6 +25,31 @@ namespace SmartDormitory.Services.Services
             var query = this.context.UserSensors
                 .Where(t => t.Name.Contains(filter) && t.UserId.Equals(userId)).OrderByDescending(x => x.Id);
 
+            if (userId == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            if (sortOrder == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            if (filter == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            if (pageNumber == 0)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            if (pageSize == 0)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
             switch (sortOrder)
             {
                 case "name_asc":
@@ -40,6 +65,26 @@ namespace SmartDormitory.Services.Services
 
         public async Task<IPagedList<UserSensors>> FilterAllSensorsAsync(string sortOrder = "", string filter = "", int pageNumber = 1, int pageSize = 10)
         {
+
+            if (sortOrder == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            if (filter == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            if (pageNumber == 0)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            if (pageSize == 0)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
             //descending
             var query = this.context.UserSensors.Include(u => u.User).OrderByDescending(x => x.Id);
 
@@ -50,6 +95,10 @@ namespace SmartDormitory.Services.Services
         {
             var query = await this.context.UserSensors.FindAsync(sensorId);
 
+            if (query == null)
+            {
+                throw new ArgumentNullException();
+            }
             return query;
         }
 
@@ -71,18 +120,39 @@ namespace SmartDormitory.Services.Services
 
         public async Task<UserSensors> ChangeMinMaxAsync(int sensorId, double min, double max)
         {
-            var sensor = await this.context.UserSensors.FindAsync(sensorId);
+            if (min > max)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            var userSensor = await this.context.UserSensors.FindAsync(sensorId);
+
+            if (userSensor == null)
+            {
+                throw new ArgumentNullException();
+            }
+            var sensor = this.context.Sensors.Find(userSensor.SensorId);
 
             if (sensor == null)
             {
                 throw new ArgumentNullException();
             }
 
-            sensor.UserMinValue = min;
-            sensor.UserMaxValue = max;
+            if (min < sensor.MinValue)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            if (max > sensor.MaxValue)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            userSensor.UserMinValue = min;
+            userSensor.UserMaxValue = max;
             await context.SaveChangesAsync();
 
-            return sensor;
+            return userSensor;
         }
 
         public async Task<UserSensors> ChangeNameAsync(int sensorId, string name)

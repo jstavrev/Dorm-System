@@ -11,19 +11,18 @@ namespace SmartDormitory.Tests.SmartDormitory.ServicesTests.UserSensorServiceTes
     [TestClass]
     public class ChangeMinMaxAsync_Should
     {
-
         private DbContextOptions<SmartDormitoryDbContext> contextOptions;
 
         [TestMethod]
-        public async Task ThrowException_When_SensorIsNotFound()
+        public async Task ThrowException_When_UserSensorIsNotFound()
         {
             contextOptions = new DbContextOptionsBuilder<SmartDormitoryDbContext>()
               .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
               .Options;
 
             var sensorId = 0;
-            var min = 2;
-            var max = 3;
+            var min = 0;
+            var max = 0;
 
             using (var assertContext = new SmartDormitoryDbContext(contextOptions))
             {
@@ -34,34 +33,112 @@ namespace SmartDormitory.Tests.SmartDormitory.ServicesTests.UserSensorServiceTes
         }
 
         [TestMethod]
+        public async Task ThrowException_When_MinIsGreaterThanMax()
+        {
+            contextOptions = new DbContextOptionsBuilder<SmartDormitoryDbContext>()
+              .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+              .Options;
+
+            var sensorId = 0;
+            var min = 3;
+            var max = 2;
+
+            using (var assertContext = new SmartDormitoryDbContext(contextOptions))
+            {
+                var userSensorService = new UserSensorService(assertContext);
+
+                await Assert.ThrowsExceptionAsync<ArgumentOutOfRangeException>(async () => await userSensorService.ChangeMinMaxAsync(sensorId, min, max));
+            }
+        }
+
+        [TestMethod]
+        public async Task ThrowException_When_MinIsLessThanSensorMin()
+        {
+            contextOptions = new DbContextOptionsBuilder<SmartDormitoryDbContext>()
+               .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+               .Options;
+
+            var ApiID = Guid.NewGuid().ToString();
+            using (var arrangeContext = new SmartDormitoryDbContext(contextOptions))
+            {
+                var sensorForDB = new Sensor
+                {
+                    Id = 1,
+                    ApiId = ApiID,
+                    CurrentValue = 10,
+                    Description = "Description",
+                    Name = "Name",
+                    MinValue = 1,
+                    MaxValue = 100,
+                    MinPollingIntervalInSeconds = 60,
+                    SensorTypeId = 1,
+                    LastUpdate = DateTime.Now,
+                };
+
+                var userSensorForDB = new UserSensors
+                {
+                    Id = 1,
+                    UserMinValue = 1,
+                    UserMaxValue = 100,
+                    SensorId = 1
+                };
+
+                arrangeContext.UserSensors.Add(userSensorForDB);
+                arrangeContext.Sensors.Add(sensorForDB);
+                arrangeContext.SaveChanges();
+            }
+
+            // Act && Asert
+            using (var assertContext = new SmartDormitoryDbContext(contextOptions))
+            {
+                var userSensorService = new UserSensorService(assertContext);
+
+                await Assert.ThrowsExceptionAsync<ArgumentOutOfRangeException>(async () => await userSensorService.ChangeMinMaxAsync(1, 0, 1));
+            }
+        }
+
+        [TestMethod]
         public async Task Change_Min_When_Invoked()
         {
             contextOptions = new DbContextOptionsBuilder<SmartDormitoryDbContext>()
               .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
               .Options;
 
-            var min = 3;
-            var max = 2;
+            var min = 1;
+            var max = 1;
 
-
+            var ApiID = Guid.NewGuid().ToString();
             using (var assertContext = new SmartDormitoryDbContext(contextOptions))
             {
-                var userSensor = new UserSensors
+                var sensorForDB = new Sensor
                 {
                     Id = 1,
-                    UserMinValue = 2,
-                    UserMaxValue = 2
+                    ApiId = ApiID,
+                    CurrentValue = 10,
+                    Description = "Description",
+                    Name = "Name",
+                    MinValue = 1,
+                    MaxValue = 100,
+                    MinPollingIntervalInSeconds = 60,
+                    SensorTypeId = 1,
+                    LastUpdate = DateTime.Now,
                 };
 
-                assertContext.UserSensors.Add(userSensor);
-                assertContext.SaveChanges();
+                var userSensorForDB = new UserSensors
+                {
+                    Id = 1,
+                    UserMinValue = 1,
+                    UserMaxValue = 100,
+                    SensorId = 1
+                };
 
+                assertContext.Sensors.Add(sensorForDB);
+                assertContext.UserSensors.Add(userSensorForDB);
                 var userSensorService = new UserSensorService(assertContext);
                 await userSensorService.ChangeMinMaxAsync(1, min, max);
-
-                Assert.AreEqual(min, userSensor.UserMinValue);
             }
         }
+
 
         [TestMethod]
         public async Task Change_Max_When_Invoked()
@@ -71,25 +148,84 @@ namespace SmartDormitory.Tests.SmartDormitory.ServicesTests.UserSensorServiceTes
               .Options;
 
             var min = 2;
-            var max = 3;
+            var max = 2;
 
-
+            var ApiID = Guid.NewGuid().ToString();
             using (var assertContext = new SmartDormitoryDbContext(contextOptions))
             {
-                var userSensor = new UserSensors
+                var sensorForDB = new Sensor
                 {
                     Id = 1,
-                    UserMinValue = 2,
-                    UserMaxValue = 2
+                    ApiId = ApiID,
+                    CurrentValue = 10,
+                    Description = "Description",
+                    Name = "Name",
+                    MinValue = 1,
+                    MaxValue = 100,
+                    MinPollingIntervalInSeconds = 60,
+                    SensorTypeId = 1,
+                    LastUpdate = DateTime.Now,
                 };
 
-                assertContext.UserSensors.Add(userSensor);
-                assertContext.SaveChanges();
+                var userSensorForDB = new UserSensors
+                {
+                    Id = 1,
+                    UserMinValue = 1,
+                    UserMaxValue = 100,
+                    SensorId = 1
+                };
 
+                assertContext.Sensors.Add(sensorForDB);
+                assertContext.UserSensors.Add(userSensorForDB);
                 var userSensorService = new UserSensorService(assertContext);
                 await userSensorService.ChangeMinMaxAsync(1, min, max);
 
-                Assert.AreEqual(max, userSensor.UserMaxValue);
+                Assert.AreEqual(max, userSensorForDB.UserMaxValue);
+            }
+        }
+
+        [TestMethod]
+        public async Task ThrowException_When_SensorIsNotFound()
+        {
+            contextOptions = new DbContextOptionsBuilder<SmartDormitoryDbContext>()
+               .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+               .Options;
+
+            var ApiID = Guid.NewGuid().ToString();
+            using (var arrangeContext = new SmartDormitoryDbContext(contextOptions))
+            {
+                var sensorForDB = new Sensor
+                {
+                    Id = 11,
+                    ApiId = ApiID,
+                    CurrentValue = 10,
+                    Description = "Description",
+                    Name = "Name",
+                    MinValue = 1,
+                    MaxValue = 100,
+                    MinPollingIntervalInSeconds = 60,
+                    SensorTypeId = 1,
+                    LastUpdate = DateTime.Now,
+                };
+
+                var userSensorForDB = new UserSensors
+                {
+                    Id = 1,
+                    UserMinValue = 1,
+                    UserMaxValue = 100
+                };
+
+                arrangeContext.UserSensors.Add(userSensorForDB);
+                arrangeContext.Sensors.Add(sensorForDB);
+                arrangeContext.SaveChanges();
+            }
+
+            // Act && Asert
+            using (var assertContext = new SmartDormitoryDbContext(contextOptions))
+            {
+                var userSensorService = new UserSensorService(assertContext);
+
+                await Assert.ThrowsExceptionAsync<ArgumentNullException>(async () => await userSensorService.ChangeMinMaxAsync(1, 0, 1));
             }
         }
     }
