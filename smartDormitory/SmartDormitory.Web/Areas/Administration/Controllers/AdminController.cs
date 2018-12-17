@@ -13,16 +13,16 @@ namespace SmartDormitory.Web.Areas.Administration.Controllers
     [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
-        private readonly IApiService ApiService;
+        private readonly ISensorService SensorService;
 
-        public AdminController(IApiService ApiService)
+        public AdminController(ISensorService sensorService)
         {
-            this.ApiService = ApiService;
+            this.SensorService = sensorService;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var sensors = await this.ApiService.GetAll();
+            var sensors = this.SensorService.GetAll().ToList();
             var viewModel = new AdminIndexViewModel(sensors);
 
             return View(viewModel);

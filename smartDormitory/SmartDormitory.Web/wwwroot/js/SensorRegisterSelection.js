@@ -2,9 +2,9 @@
     $('#SensorTypeId').on('change', function (event) {
 
         let $id = $('#SensorTypeId').val()
-        let urlForSensors = 'https://localhost:5001/Users/Sensor/sensorselect?typeId=' + $id;
+        let urlForSensors = '/Users/Sensor/sensorselect?typeId=' + $id;
 
-        $.ajax({
+        $.get({
             url: urlForSensors,
             method: "get"
         }).done(function (data) {

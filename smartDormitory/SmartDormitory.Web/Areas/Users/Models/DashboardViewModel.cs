@@ -20,7 +20,7 @@ namespace SmartDormitory.Web.Areas.Users.Models
 
         public bool IsEmpty { get; set; }
 
-        public IEnumerable<DashboardSensorViewModel> Sensors { get; set; }
+        public IList<DashboardSensorViewModel> Sensors { get; set; }
 
         public DateTime LastUpdate { get; set; } = DateTime.Now;
     }

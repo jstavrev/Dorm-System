@@ -86,14 +86,42 @@ a.disabled {
     margin: 0 auto;
 }
 
+/*html {
+    height: 100%;
+}*/
+
 body {
     background: url(/images/bg.jpg);
     /*padding-top: 0px;*/
-    background-size:cover;
-    /*background-size: 100% 100%;*/
+    background-size: cover;
+    background-size: 100% 100%;
     background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 html, body {
     height: 100%;
+}
+
+.paddingGauge {
+    padding-top: 9%;
+}
+
+.navbar {
+    background-color: transparent;
+    background: transparent;
+    border-color: transparent;
+}
+
+#navigationBar .nav-link {
+    color: white;
+}
+
+#navigationBar.scrolled {
+    background-color: #e95420;
+    transition: background-color 200ms linear;
+}
+
+#navigationBar.scrolled .nav-link {
+    color: black;
 }

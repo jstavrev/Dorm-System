@@ -9,7 +9,7 @@
 
 <div class="row">
     <div class="col-md-6">
-        <input type="text" id="search" class="form-control" placeholder="Search..." onkeyup="myFunction()" />
+        <input type="text" id="search" class="form-control" placeholder="Search..." onkeyup="search()" />
     </div>
 </div>
 
@@ -66,7 +66,7 @@
 
 @section Scripts {
     <script>
-        function myFunction() {
+        function search() {
             var input, filter, table, tr, td, i, txtValue;
             input = document.getElementById("search");
             filter = input.value.toUpperCase();

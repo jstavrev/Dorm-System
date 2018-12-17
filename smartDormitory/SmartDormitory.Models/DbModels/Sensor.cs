@@ -27,8 +27,6 @@ namespace SmartDormitory.Models.DbModels
 
         public DateTime LastUpdate { get; set; }
 
-        public ICollection<SensorDataHistory> DataHistory { get; set; }
-
         public ICollection<UserSensors> UserSensors { get; set; }
     }
 }

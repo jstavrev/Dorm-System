@@ -3,38 +3,79 @@
     ViewData["Title"] = "Home Page";
 }
 
-
 <style>
+
     #map {
         height: 500px;
         width: 900px;
     }
+
     html, body {
         height: 100%;
         margin: 0;
         padding: 0;
     }
 </style>
+<br />
+<br />
+<br />
+<br />
 
-<div class="row">
+<div class="jumbotron">
+    <h2 align="center">Supporting your sensors since 2018!</h2>
+    <p>
+        Welcome to smartDormitory, where you can keep track and manage your dorms sensors, from all corners of the world!
+    </p>
+    <p>
+        We currently have <b>@TempData["Users"] happy users</b>, and <b>@TempData["Sensors"] sensors</b>...
+        <a class="btn btn-primary btn-lg pull-right">Learn more</a>
+    </p>
+</div>
+
+<div class="row" align="center">
     <div id="map"></div>
+    <script src="~/lib/marker-clusterer/marker-cluster.js"></script>
     <script>
+        var json = @Html.Raw(Json.Serialize(Model));
         var map;
         function initMap() {
             map = new google.maps.Map(document.getElementById('map'), {
                 center: { lat: 42.694, lng: 23.312 },
-                zoom: 8
+                zoom: 4
             });
-            @foreach(var item in Model)
-{
-                @:var marker = new google.maps.Marker({
-                @:position: { lng: @item.Longitude, lat: @item.Latitude  },
-                @: map: map
-            @:})
-};
+
+            let markers = [];
+            console.log(json);
+
+            for (let i = 0; i < json.length; i++) {
+                let latLng = new google.maps.LatLng(json[i].latitude,
+                    json[i].longitude);
+
+                var info = `<div><b>Owner:</b> ${json[i].owner}</div>` +
+                    `<div><b>Name:</b> ${json[i].sensorName}</div>` +
+                    `<div><b>Value:</b> ${json[i].value}</div>`;
+
+                markers[i] = new google.maps.Marker({
+                    position: latLng,
+                    map: map,
+                    animation: google.maps.Animation.DROP
+                });
+
+                let infowindow = new google.maps.InfoWindow({
+                    content: info
+                });
+
+                markers[i].addListener('click', function () {
+                    infowindow.open(map, markers[i]);
+                    setTimeout(function () { infowindow.close(); }, 4000);
+                });
+            }
+            let markerCluster = new MarkerClusterer(map, markers);
         }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCDteKY2bbicMlrP2DHSJmSciuIP-E_D6k&callback=initMap"
             async defer></script>
-
 </div>
+<br />
+<br />
+<br />

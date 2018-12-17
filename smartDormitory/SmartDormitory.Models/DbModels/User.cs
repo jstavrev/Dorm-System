@@ -20,8 +20,6 @@ namespace SmartDormitory.Models.DbModels
 
         public string PostalCode { get; set; }
 
-        public ICollection<SensorDataHistory> DataHistory { get; set; }
-
         public ICollection<UserSensors> UserSensor { get; set; }
 
     }

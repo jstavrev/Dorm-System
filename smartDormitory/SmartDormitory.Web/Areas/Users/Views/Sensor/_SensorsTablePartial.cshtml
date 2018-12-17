@@ -14,13 +14,13 @@
         <form asp-area="Users" asp-controller="Sensor" asp-action="Filter"
               asp-route-pageNumber="1" asp-route-sortOrder="@Model.Pagination.SortOrder" asp-route-searchTerm="@Model.Pagination.SearchTerm"
               method="get" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#tablePartial">
-            <label>Page size:</label>
+            <label style="color: white">Page size:</label>
             <input name="pageSize" class="form-control" value="@Model.Pagination.PageSize" type="number" min="1" max="50" style="width:5em;" />
         </form>
     </div>
     <div>
-        <table class="table table table-bordered table-hover">
-            <thead class="text-primary">
+        <table class="table">
+            <thead style="color: white">
                 <tr>
                     <th>
                         Sensor Name
@@ -48,7 +48,7 @@
                     </th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody style="color: white">
                 @foreach (var sensor in Model.Items)
                 {
                     <tr>
@@ -65,7 +65,7 @@
                         </td>
                         <td>
                             <div>
-                                <a asp-action="Edit" asp-controller="Sensor" asp-route-id="@sensor.Id" method="post" data-target="#modal-container" data-toggle="modal">Edit</a>
+                                <a asp-action="Edit" asp-controller="Sensor" asp-route-id="@sensor.Id">Edit</a>
                             </div>
                         </td>
                         <td>
@@ -82,14 +82,6 @@
     </div>
 </div>
 
-<div id="modal-container" class="modal fade hidden-print" tabindex="-1" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-
-        </div>
-    </div>
-</div>
-
 <div id="modal-map" class="modal fade hidden-print" tabindex="-1" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -101,7 +93,7 @@
 @section scripts {
     <script type="text/javascript">
         $(function () {
-
+             
             $('#modal-container').on('show.bs.modal', function (event) {
                 var button = $(event.relatedTarget);
                 var url = button.attr("href");

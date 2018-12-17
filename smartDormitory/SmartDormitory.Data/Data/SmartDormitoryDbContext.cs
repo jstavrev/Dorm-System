@@ -19,8 +19,6 @@ namespace SmartDormitory.Data.Data
 
         public virtual DbSet<Sensor> Sensors { get; set; }
 
-        public virtual DbSet<SensorDataHistory> SensorsDataHistory { get; set; }
-
         public virtual DbSet<SensorTypes> SensorTypes { get; set; }
 
         public virtual DbSet<UserSensors> UserSensors { get; set; }

@@ -56,6 +56,17 @@ namespace SmartDormitory.Services.Services
         public async Task SaveAvatarImageAsync(Stream stream, string userId)
         {
             //to add validation
+
+            if(stream ==null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            if (userId == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             User user = await this.context.Users.FindAsync(userId);
 
             if (user == null)
@@ -73,7 +84,25 @@ namespace SmartDormitory.Services.Services
 
         public async Task<IPagedList<User>> FilterUsersAsync(string sortOrder = "", string filter = "", int pageNumber = 1, int pageSize = 10)
         {
-            //to add validation
+            if (sortOrder == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            if (filter == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            if (pageNumber == 0)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            if (pageSize == 0)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
 
             var query = this.context.Users
                 .Where(u => u.UserName.Contains(filter) || u.Email.Contains(filter));
@@ -96,6 +125,5 @@ namespace SmartDormitory.Services.Services
 
             return await query.ToPagedListAsync(pageNumber, pageSize);
         }
-
     }
 }

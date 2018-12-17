@@ -23,6 +23,8 @@ namespace SmartDormitory.Web.Areas.Users.Models
             this.SensorsSelect = new List<SelectListItem>();
         }
 
+        public string UserID { get; set; }
+
         public double Longitude { get; set; }
 
         public double Latitude { get; set; }

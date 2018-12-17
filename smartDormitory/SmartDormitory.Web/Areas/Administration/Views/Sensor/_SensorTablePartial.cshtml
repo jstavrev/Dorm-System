@@ -1,13 +1,11 @@
 ﻿@model TableViewModel<SensorTableViewModel>
-@{
-    Layout = "_Layout";
-}
+
 <div id="tablePartial">
     <div>
         <form asp-area="Administration" asp-controller="Sensor" asp-action="Filter"
               asp-route-pageNumber="@Model.Pagination.PageNumber" asp-route-sortOrder="@Model.Pagination.SortOrder" asp-route-searchTerm="@Model.Pagination.SearchTerm"
               method="get" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#tablePartial">
-            <label>Page size:</label>
+            <label style="color: white" align="center">Page size:</label>
             <input name="pageSize" class="form-control" value="@Model.Pagination.PageSize" type="number" min="1" max="50" style="width:5em;" />
         </form>
     </div>

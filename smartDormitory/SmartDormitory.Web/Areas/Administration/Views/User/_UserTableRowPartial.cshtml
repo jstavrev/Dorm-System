@@ -7,7 +7,7 @@
 <td>@Model.PhoneNumber</td>
 
 <td>
-    <div class="dark-theme">
-        <a class="page-link" asp-area="Administration" asp-controller="User" asp-action="Details" asp-route-id="@Model.Id">Edit</a>
+    <div >
+            <a href="/Administration/Users/Details/@Model.Id" class="btn btn-primary  form-control">Edit</a>
     </div>
 </td>

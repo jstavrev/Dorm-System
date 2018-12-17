@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "User Details";
 }
-<h2>Users Administration</h2>
+<h2 style="color: white" align="center">Users Administration</h2>
 <form asp-area="Administration" asp-action="Details" asp-controller="User" method="post">
     <input type="hidden" value="@Model.Id">
     <div class="row">
@@ -12,13 +12,13 @@
                     <div class="row">
                         <div class="col-md-5 pr-md-1">
                             <div class="form-group">
-                                <label asp-for="Email"></label>
+                                <label asp-for="Email" style="color: white" align="center"></label>
                                 <input asp-for="Email" type="email" class="form-control" value="@Model.Email" maxlength="40" minlength="6" required>
                             </div>
                         </div>
                         <div class="col-md-5 pr-md-1">
                             <div class="form-group">
-                                <label asp-for="Username"></label>
+                                <label asp-for="Username" style="color: white" align="center"></label>
                                 <input asp-for="Username" type="text" class="form-control" value="@Model.Username" maxlength="40" minlength="6" required>
                             </div>
                         </div>
@@ -26,13 +26,13 @@
                     <div class="row">
                         <div class="col-md-5 pr-md-1">
                             <div class="form-group">
-                                <label asp-for="FirstName">First Name</label>
+                                <label asp-for="FirstName" style="color: white" align="center">First Name</label>
                                 <input asp-for="FirstName" type="text" class="form-control" value="@Model.FirstName" maxlength="25" minlength="3">
                             </div>
                         </div>
                         <div class="col-md-5 pr-md-1">
                             <div class="form-group">
-                                <label asp-for="LastName">Last Name</label>
+                                <label asp-for="LastName" style="color: white" align="center">Last Name</label>
                                 <input asp-for="LastName" type="text" class="form-control" value="@Model.LastName" maxlength="25" minlength="3">
                             </div>
                         </div>

@@ -15,8 +15,8 @@ namespace SmartDormitory.Web.Areas.Users.Models
             this.SensorId = sensors.SensorId;
             this.Longitude = sensors.Longitude;
             this.Latitude = sensors.Latitude;
-            this.MinValue = sensors.MinValue;
-            this.MaxValue = sensors.MaxValue;
+            this.MinValue = sensors.UserMinValue;
+            this.MaxValue = sensors.UserMaxValue;
             this.UpdateInterval = sensors.UpdateInterval;
             this.Name = sensors.Name;
             this.IsPublic = sensors.IsPublic;

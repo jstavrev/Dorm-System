@@ -1,0 +1,34 @@
+﻿
+@{
+    ViewData["Title"] = "PageNotFound";
+    Layout = null;
+}
+
+<html>
+<head>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <style>
+        body {
+            padding-top: 50px;
+            padding-bottom: 20px;
+            background: url(/images/404.jpg);
+            /*padding-top: 0px;*/
+            background-size: cover;
+            background-size: 100% 100%;
+            background-attachment: fixed;
+        }
+
+        div.errorbutton {
+            position: absolute;
+            width: 50%;
+            bottom: 90px;
+            right: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="errorbutton">
+        <a href="/" class="btn btn-primary btn-lg">Go back Home</a>
+    </div>
+</body>
+</html>

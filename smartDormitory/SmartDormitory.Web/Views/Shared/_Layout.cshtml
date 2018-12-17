@@ -7,16 +7,20 @@
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
+        <link href="~/css/StateIndicator.css" rel="stylesheet" />
+        <link href="~/css/Progressbar.css" rel="stylesheet" />
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <link href="~/css/StateIndicator.css" rel="stylesheet" />
+        <link href="~/css/Progressbar.css" rel="stylesheet" />
     </environment>
 </head>
 <body>
-    <nav class="navbar navbar-default navbar-fixed-top">
+    <nav class="navbar navbar-default navbar-fixed-top" id="navigationBar">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -25,7 +29,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">WebApplication1</a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">smartDormitory</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -81,5 +85,14 @@
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
     </environment>
     @RenderSection("Scripts", required: false)
+    <script>
+        $(function () {
+            $(document).scroll(function () {
+                var $nav = $("#navigationBar");
+                $nav.toggleClass('scrolled', $(this).scrollTop() > $nav.height());
+            });
+        });
+    </script>
+
 </body>
 </html>

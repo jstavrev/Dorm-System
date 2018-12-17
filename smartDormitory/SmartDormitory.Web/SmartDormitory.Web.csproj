@@ -16,6 +16,7 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
+    <PackageReference Include="Owin.Security.Providers.LinkedIn" Version="2.25.0" />
     <PackageReference Include="X.PagedList" Version="7.6.0" />
   </ItemGroup>
 
@@ -25,6 +26,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Areas\Administration\Views\Sensor\_MinMaxAdminValidationView.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Administration\Views\Sensor\_TrueFalseAdminValidationView.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Areas\Administration\Views\Sensors\Details.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
@@ -64,13 +71,22 @@
     <Content Update="Areas\Users\Views\Sensor\Edit.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Areas\Users\Views\Sensor\_MinMaxEditValidationView.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Areas\Users\Views\Sensor\_SensorsTablePartial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Users\Views\Sensor\_TrueFalseEditValidationView.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Areas\Users\Views\User\ChangePassword.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Areas\Users\Views\_ViewImports.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Error\Index.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Shared\_PaginationPartial.cshtml">
