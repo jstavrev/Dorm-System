@@ -70,5 +70,41 @@ namespace SmartDormitory.Tests.SmartDormitory.ServicesTests.UserServiceTests
                 await Assert.ThrowsExceptionAsync<ArgumentNullException>(async () => await userService.SaveAvatarImageAsync(stream, userId));
             }
         }
+
+        [TestMethod]
+        public async Task SuccesfullySaveAvatar_WhenValidData_IsPassed()
+        {
+
+            contextOptions = new DbContextOptionsBuilder<SmartDormitoryDbContext>()
+               .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+               .Options;
+
+            string userId = "test";
+            Stream stream = new MemoryStream(Encoding.UTF8.GetBytes("test"));
+
+            using (var assertContext = new SmartDormitoryDbContext(contextOptions))
+            {
+
+                var usersForDB = new User
+                {
+                    Id = "test",
+                    AvatarImage = null
+                   
+                };
+
+                assertContext.Users.Add(usersForDB);
+                assertContext.SaveChanges();
+
+                byte[] binaryStream;
+                using (BinaryReader br = new BinaryReader(stream))
+                {
+                    binaryStream = br.ReadBytes((int)stream.Length);
+                }
+
+                var userService = new UserService(assertContext);
+                await userService.SaveAvatarImageAsync(stream, userId);
+                Assert.AreEqual(binaryStream, usersForDB.AvatarImage);
+            }
+        }
     }
 }

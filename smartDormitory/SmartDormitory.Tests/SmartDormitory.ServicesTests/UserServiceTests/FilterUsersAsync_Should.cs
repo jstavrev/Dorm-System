@@ -4,6 +4,7 @@ using SmartDormitory.Data.Data;
 using SmartDormitory.Services.Services;
 using System;
 using System.Threading.Tasks;
+
 namespace SmartDormitory.Tests.SmartDormitory.ServicesTests.UserServiceTests
 {
     [TestClass]

@@ -26,38 +26,17 @@ namespace SmartDormitory.Services.Services
             return users;
         }
 
-        public IEnumerable<User> GetUsersContainingText(string text, int page = 1, int pageSize = 10)
-        {
-            var users = this.context.Users.Where(u => u.UserName.Contains(text, StringComparison.InvariantCultureIgnoreCase))
-                .Skip((page - 1) * pageSize)
-                    .Take(pageSize)
-                        .ToList();
-
-            return users;
-        }
-
-        public IEnumerable<User> GetUsersWithPaging(int page = 1, int pageSize = 10)
-        {
-            var users = this.context.Users.Skip((page - 1) * pageSize).Take(pageSize).ToList();
-
-            return users;
-        }
-
         public int Total()
         {
             return this.context.Users.Count();
         }
 
-        public int TotalContainingText(string searchText)
-        {
-            return this.context.Users.Where(u => u.UserName.Contains(searchText, StringComparison.InvariantCultureIgnoreCase)).ToList().Count();
-        }
 
         public async Task SaveAvatarImageAsync(Stream stream, string userId)
         {
             //to add validation
 
-            if(stream ==null)
+            if (stream == null)
             {
                 throw new ArgumentNullException();
             }
@@ -106,6 +85,11 @@ namespace SmartDormitory.Services.Services
 
             var query = this.context.Users
                 .Where(u => u.UserName.Contains(filter) || u.Email.Contains(filter));
+
+            if (query == null)
+            {
+                throw new ArgumentNullException();
+            }
 
             switch (sortOrder)
             {
