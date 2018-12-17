@@ -129,6 +129,11 @@ namespace SmartDormitory.Web.Areas.Administration.Controllers
                 await _userSensorService.ChangeUpdatenIntervalAsync(model.Id, model.UpdateInterval);
             }
 
+            if (sensor.Description != model.Description)
+            {
+                await _userSensorService.ChangeDescriptionAsync(model.Id, model.Description);
+            }
+
             var usersensors = await _userSensorService.FilterAllSensorsAsync();
 
             var newModel = new SensorIndexViewModel(usersensors);
