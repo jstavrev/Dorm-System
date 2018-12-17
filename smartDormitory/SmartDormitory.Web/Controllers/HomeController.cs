@@ -14,11 +14,13 @@ namespace SmartDormitory.Web.Controllers
     {
         private readonly IUserSensorService _userSensorService;
         private readonly UserManager<User> _userManager;
+        private readonly IUserService _userService;
 
-        public HomeController(IUserSensorService userSensorService, UserManager<User> userManager)
+        public HomeController(IUserSensorService userSensorService, UserManager<User> userManager, IUserService userService)
         {
-            _userSensorService = userSensorService;
-            _userManager = userManager;
+            this._userSensorService = userSensorService;
+            this._userManager = userManager;
+            this._userService = userService;
         }
 
         public async Task<IActionResult> Index()
@@ -42,6 +44,8 @@ namespace SmartDormitory.Web.Controllers
                 newList.Add(vm);
             }
 
+            TempData["Sensors"] = this._userSensorService.UserSensorsCount();
+            TempData["Users"] = this._userService.Total();
             return View(newList);
         }
 

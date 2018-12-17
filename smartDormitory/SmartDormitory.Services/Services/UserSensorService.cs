@@ -354,5 +354,10 @@ namespace SmartDormitory.Services.Services
 
             return await query;
         }
+
+        public int UserSensorsCount()
+        {
+            return this.context.UserSensors.Count();
+        }
     }
 }

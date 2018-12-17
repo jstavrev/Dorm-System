@@ -39,5 +39,7 @@ namespace SmartDormitory.Services.Contracts
         IDictionary<int, UserSensors> GetAllUserSensorsByUserDictionary(string Id);
 
         Task<IEnumerable<UserSensors>> GetSensorsForMapAsync();
+
+        int UserSensorsCount();
     }
 }
