@@ -125,3 +125,7 @@ html, body {
 #navigationBar.scrolled .nav-link {
     color: black;
 }
+
+.error {
+    color: #f92222;
+}

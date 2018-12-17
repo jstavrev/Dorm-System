@@ -15,11 +15,11 @@
 
             <label asp-for="Name" style="color: white">Name:</label><br />
             <input name="name" asp-for="Name" class="form-control" /><br />
-            <span asp-validation-for="Name" class="text-danger"></span>
+            <span asp-validation-for="Name"></span>
 
             <label asp-for="Description" style="color: white">Description:</label><br />
             <textarea name="description" asp-for="Description" class="form-control"></textarea><br />
-            <span asp-validation-for="Description" class="text-danger"></span>
+            <span asp-validation-for="Description"></span>
 
             <div class="row">
                 <div class="col-lg-6">
@@ -133,7 +133,7 @@
 @section Scripts {
     <script>
         jQuery.validator.setDefaults({
-            errorClass: 'text-danger'
+            errorClass: 'error'
         });
 
         var validator = $("#register-form").validate({
