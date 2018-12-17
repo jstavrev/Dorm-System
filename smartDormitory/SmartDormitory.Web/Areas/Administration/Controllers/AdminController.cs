@@ -22,10 +22,16 @@ namespace SmartDormitory.Web.Areas.Administration.Controllers
 
         public IActionResult Index()
         {
-            var sensors = this.SensorService.GetAll().ToList();
-            var viewModel = new AdminIndexViewModel(sensors);
-
-            return View(viewModel);
+            try
+            {
+                var sensors = this.SensorService.GetAll().ToList();
+                var viewModel = new AdminIndexViewModel(sensors);
+                return View(viewModel);
+            }
+            catch
+            {
+                return View("PageNotFound");
+            }
         }
     }
 }

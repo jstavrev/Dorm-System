@@ -40,134 +40,174 @@ namespace ESportStatistics.Web.Areas.Identity.Controllers
 
         [HttpGet("Profile")]
         [ResponseCache(CacheProfileName = "Short")]
+        [Authorize]
         public async Task<IActionResult> Index()
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            try
             {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                var user = await _userManager.GetUserAsync(User);
+                if (user == null)
+                {
+                    throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                }
+
+                var model = new ManageViewModel(user, StatusMessage);
+
+                return View(model);
             }
-
-            var model = new ManageViewModel(user, StatusMessage);
-
-            return View(model);
+            catch
+            {
+                return View("PageNotFound");
+            }
         }
 
         [HttpPost("profile")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Index(ManageViewModel model)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return View(model);
-            }
-
-            var user = await _userManager.GetUserAsync(User);
-
-            if (user == null)
-            {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            }
-
-            var email = user.Email;
-            if (model.Email != email)
-            {
-                var setEmailResult = await _userManager.SetEmailAsync(user, model.Email);
-                if (!setEmailResult.Succeeded)
+                if (!ModelState.IsValid)
                 {
-                    throw new ApplicationException($"Unexpected error occurred setting email for user with ID '{user.Id}'.");
+                    return View(model);
                 }
-            }
 
-            var phoneNumber = user.PhoneNumber;
-            if (model.PhoneNumber != phoneNumber)
-            {
-                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, model.PhoneNumber);
-                if (!setPhoneResult.Succeeded)
+                var user = await _userManager.GetUserAsync(User);
+
+                if (user == null)
                 {
-                    throw new ApplicationException($"Unexpected error occurred setting phone number for user with ID '{user.Id}'.");
+                    throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
                 }
+
+                var email = user.Email;
+                if (model.Email != email)
+                {
+                    var setEmailResult = await _userManager.SetEmailAsync(user, model.Email);
+                    if (!setEmailResult.Succeeded)
+                    {
+                        throw new ApplicationException($"Unexpected error occurred setting email for user with ID '{user.Id}'.");
+                    }
+                }
+
+                var phoneNumber = user.PhoneNumber;
+                if (model.PhoneNumber != phoneNumber)
+                {
+                    var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, model.PhoneNumber);
+                    if (!setPhoneResult.Succeeded)
+                    {
+                        throw new ApplicationException($"Unexpected error occurred setting phone number for user with ID '{user.Id}'.");
+                    }
+                }
+
+                user.FirstName = model.FirstName;
+                user.LastName = model.LastName;
+                user.Address = model.Address;
+                user.City = model.City;
+                user.Country = model.Country;
+                user.PostalCode = model.PostalCode;
+
+                await _userManager.UpdateAsync(user);
+
+                StatusMessage = "Your profile has been updated";
+                return RedirectToAction(nameof(Index));
             }
-
-            user.FirstName = model.FirstName;
-            user.LastName = model.LastName;
-            user.Address = model.Address;
-            user.City = model.City;
-            user.Country = model.Country;
-            user.PostalCode = model.PostalCode;
-
-            await _userManager.UpdateAsync(user);
-
-            StatusMessage = "Your profile has been updated";
-            return RedirectToAction(nameof(Index));
+            catch
+            {
+                return View("PageNotFound");
+            }
         }
 
         [HttpGet("change-password")]
         [ResponseCache(CacheProfileName = "Short")]
+        [Authorize]
         public async Task<IActionResult> ChangePassword()
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            try
             {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            }
+                var user = await _userManager.GetUserAsync(User);
+                if (user == null)
+                {
+                    throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                }
 
-            var model = new ChangePasswordViewModel { StatusMessage = StatusMessage };
-            return View(model);
+                var model = new ChangePasswordViewModel { StatusMessage = StatusMessage };
+                return View(model);
+            }
+            catch
+            {
+                return View("PageNotFound");
+            }
         }
 
         [ValidateAntiForgeryToken]
         [HttpPost("change-password")]
+        [Authorize]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return View(model);
-            }
+                if (!ModelState.IsValid)
+                {
+                    return View(model);
+                }
 
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+                var user = await _userManager.GetUserAsync(User);
+                if (user == null)
+                {
+                    throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                }
+
+                var changePasswordResult = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+                if (!changePasswordResult.Succeeded)
+                {
+                    AddErrors(changePasswordResult);
+                    return View(model);
+                }
+
+                await _signInManager.SignInAsync(user, isPersistent: false);
+                _logger.LogInformation("User changed their password successfully.");
+                StatusMessage = "Your password has been changed.";
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch
             {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return View("PageNotFound");
             }
-
-            var changePasswordResult = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
-            if (!changePasswordResult.Succeeded)
-            {
-                AddErrors(changePasswordResult);
-                return View(model);
-            }
-
-            await _signInManager.SignInAsync(user, isPersistent: false);
-            _logger.LogInformation("User changed their password successfully.");
-            StatusMessage = "Your password has been changed.";
-
-            return RedirectToAction(nameof(Index));
         }
 
         [ValidateAntiForgeryToken]
         [HttpPost("Users/[controller]/[action]")]
+        [Authorize]
         public async Task<IActionResult> Avatar(IFormFile avatarImage)
         {
-            if (avatarImage == null)
+            try
             {
-                this.StatusMessage = "Error: Please provide an image!";
+                if (avatarImage == null)
+                {
+                    this.StatusMessage = "Error: Please provide an image!";
+                    return this.RedirectToAction(nameof(Index));
+                }
+
+                if (!this.IsValidImage(avatarImage))
+                {
+                    this.StatusMessage = "Error: Image is too large or incorrect forma!";
+                    return this.RedirectToAction(nameof(Index));
+                }
+
+                await this._userService.SaveAvatarImageAsync(
+                    avatarImage.OpenReadStream(),
+                    this.User.GetId());
+
+                this.StatusMessage = "Profile image successfully updated.";
+
                 return this.RedirectToAction(nameof(Index));
             }
-
-            if (!this.IsValidImage(avatarImage))
+            catch
             {
-                this.StatusMessage = "Error: Image is too large or incorrect forma!";
-                return this.RedirectToAction(nameof(Index));
+                return View("PageNotFound");
             }
-
-            await this._userService.SaveAvatarImageAsync(
-                avatarImage.OpenReadStream(),
-                this.User.GetId());
-
-            this.StatusMessage = "Profile image successfully updated.";
-
-            return this.RedirectToAction(nameof(Index));
         }
 
         [NonAction]

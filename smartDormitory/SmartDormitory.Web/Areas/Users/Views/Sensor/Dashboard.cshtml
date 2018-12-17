@@ -117,7 +117,7 @@
                 $('.' + value.id).empty();
                 $('.' + value.id).addClass("paddingGauge");
                 $('.' + value.id).LineProgressbar({
-                    percentage: (value.value / value.maxValue) * 100
+                    percentage: ((value.value - value.minValue) / (value.maxValue - value.minValue)) * 100
                 });
             } else if (value.graphicalId === '3') {
                 sensorsForUpdate += ',' + value.id;
@@ -161,7 +161,7 @@
                         } else if (value.graphicalId === '2') {
 
                             $('.' + value.id).LineProgressbar({
-                                percentage: (value.value / value.maxValue) * 100
+                                percentage: ((value.value - value.minValue) / (value.maxValue - value.minValue)) * 100
                             })
                             $('#' + index).text('Current value: ' + value.value);
                         } else if (value.graphicalId === '3') {

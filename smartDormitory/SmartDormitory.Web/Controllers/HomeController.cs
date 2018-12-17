@@ -25,28 +25,36 @@ namespace SmartDormitory.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-           var users = await _userSensorService.GetSensorsForMapAsync();
-            var newList = new List<IndexViewModel>();
-            foreach (var d in users)
+            try
             {
-                var vm = new IndexViewModel {
-                    Latitude = d.Latitude,
-                    SensorName = d.Name,
-                    Longitude = d.Longitude,
-                    UserMaxValue = d.UserMaxValue,
-                    UserMinValue = d.UserMinValue,
-                    Value = d.Value
-                };
+                var users = await _userSensorService.GetSensorsForMapAsync();
+                var newList = new List<IndexViewModel>();
+                foreach (var d in users)
+                {
+                    var vm = new IndexViewModel
+                    {
+                        Latitude = d.Latitude,
+                        SensorName = d.Name,
+                        Longitude = d.Longitude,
+                        UserMaxValue = d.UserMaxValue,
+                        UserMinValue = d.UserMinValue,
+                        Value = d.Value
+                    };
 
-                var user = await this._userManager.FindByIdAsync(d.UserId);
-                vm.Owner = user.UserName;
+                    var user = await this._userManager.FindByIdAsync(d.UserId);
+                    vm.Owner = user.UserName;
 
-                newList.Add(vm);
+                    newList.Add(vm);
+                }
+
+                TempData["Sensors"] = this._userSensorService.UserSensorsCount();
+                TempData["Users"] = this._userService.Total();
+                return View(newList);
             }
-
-            TempData["Sensors"] = this._userSensorService.UserSensorsCount();
-            TempData["Users"] = this._userService.Total();
-            return View(newList);
+            catch
+            {
+                return View("PageNotFound");
+            }
         }
 
         public IActionResult About()
