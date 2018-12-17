@@ -205,38 +205,6 @@ namespace SmartDormitory.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SensorsDataHistory",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    DeletedOn = table.Column<DateTime>(nullable: true),
-                    CreatedOn = table.Column<DateTime>(nullable: true),
-                    ModifiedOn = table.Column<DateTime>(nullable: true),
-                    AddedOn = table.Column<DateTime>(nullable: false),
-                    SensorId = table.Column<int>(nullable: false),
-                    Value = table.Column<double>(nullable: false),
-                    UserId = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SensorsDataHistory", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_SensorsDataHistory_Sensors_SensorId",
-                        column: x => x.SensorId,
-                        principalTable: "Sensors",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_SensorsDataHistory_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "UserSensors",
                 columns: table => new
                 {
@@ -257,7 +225,7 @@ namespace SmartDormitory.Data.Migrations
                     IsRequiredNotification = table.Column<bool>(nullable: false),
                     LastUpdatedOn = table.Column<DateTime>(nullable: false),
                     Value = table.Column<double>(nullable: false),
-                    Type = table.Column<string>(nullable: true)
+                    Type = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -289,12 +257,12 @@ namespace SmartDormitory.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "Address", "AvatarImage", "City", "ConcurrencyStamp", "Country", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PostalCode", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "e613f2f6-c8b0-47e9-912b-e77fd1020126", 0, null, null, null, "cdc5ee45-7590-46bf-bfe1-9ab4708e2b4c", null, "ICBAdmin@mail.com", true, null, null, false, null, "ICBADMIN@MAIL.COM", "ICBADMIN", "AQAAAAEAACcQAAAAED6ZU/kD5MlrALaGtSeMVMplLM2UEP/y8i4Mk6nIAMz8rS+c1xBM3urAANyfLjJ7wQ==", "+55555", true, null, "e5e8ebcb-a1a4-42a2-8c3e-8c909a3185a9", false, "ICBAdmin" });
+                values: new object[] { "d66da30a-c13b-4abc-a2bc-41f53f7ea53f", 0, null, null, null, "e7cf6b2f-3e99-4052-aac7-793a5b432dba", null, "ICBAdmin@mail.com", true, null, null, false, null, "ICBADMIN@MAIL.COM", "ICBADMIN", "AQAAAAEAACcQAAAAED2qZuyOQYtPa5+qqmjYY1SvPan7BVwk8U2USgtZp1vFezFQAtJKOKTMJmg+uLC4hg==", "+55555", true, null, "89a389ab-5cd6-4e10-94f4-37eb94e12cb9", false, "ICBAdmin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "UserId", "RoleId" },
-                values: new object[] { "e613f2f6-c8b0-47e9-912b-e77fd1020126", "1" });
+                values: new object[] { "d66da30a-c13b-4abc-a2bc-41f53f7ea53f", "1" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -341,16 +309,6 @@ namespace SmartDormitory.Data.Migrations
                 column: "SensorTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SensorsDataHistory_SensorId",
-                table: "SensorsDataHistory",
-                column: "SensorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SensorsDataHistory_UserId",
-                table: "SensorsDataHistory",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_UserSensors_SensorId",
                 table: "UserSensors",
                 column: "SensorId");
@@ -377,9 +335,6 @@ namespace SmartDormitory.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
-
-            migrationBuilder.DropTable(
-                name: "SensorsDataHistory");
 
             migrationBuilder.DropTable(
                 name: "UserSensors");
