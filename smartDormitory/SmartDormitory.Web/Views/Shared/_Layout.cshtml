@@ -39,7 +39,7 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Sensors <span class="caret"></span></a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">Sensors <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a asp-area="Users" asp-controller="Sensor" asp-action="Register">Register Sensor</a></li>
                                 <li><a asp-area="Users" asp-controller="Sensor" asp-action="Index">My Sensors</a></li>
