@@ -187,8 +187,14 @@
 
         var validator = $("#register-form-admin").validate({
             rules: {
-                name: "required",
-                description: "required",
+                name: {
+                    required: true,
+                    maxlength: 20
+                },
+                description: {
+                    required: true,
+                    maxlength: 100
+                },
                 updateInterval: {
                     required: true,
                     range: [json.updateInterval, 99999]
@@ -205,8 +211,14 @@
                 Longitude: "required"
             },
             messages: {
-                name: "Please enter a name for your sensor.",
-                description: "A description for your sensor is required.",
+                name: {
+                    required: "Please enter a name for your sensor.",
+                    maxlength: "Name maximum length is 20 symbols."
+                },
+                description: {
+                    required: "A description for your sensor is required.",
+                    maxlength: "Description maximum length is 100 symbols."
+                },
                 updateInterval: {
                     required: "A interval for sensor updates is required",
                     range: "Update interval cannot be smaller lower than " + json.updateInterval + " seconds."
