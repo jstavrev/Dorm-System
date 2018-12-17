@@ -70,7 +70,6 @@
         //var counter = 0;
 
         $.each(json, function (index, value) {
-            console.log(value.graphicalId);
             if (value.graphicalId === '1') {
                 sensorsForUpdate += ',' + value.id;
                 opts = {
@@ -146,11 +145,8 @@
                 method: "get",
             }).done(function (data) {
                 var userSensors = jQuery.parseJSON(JSON.stringify(data));
-                console.log(json);
-                console.log(userSensors);
 
                 $.each(json, function (index, value) {
-                    console.log(index);
                     if (value.value != userSensors[index].value) {
 
                         value.value = userSensors[index].value;
@@ -169,11 +165,9 @@
                             $('.' + value.id).empty();
 
                             if (value.value === 0) {
-                                console.log('entered value===0');
 
                                 $('#' + index).text('Current value: Closed (Occupied)');
                             } else  if (value.value === 1) {
-                                console.log('entered value===1');
 
                                 $('#' + index).text('Current value: Open (Not Occupied)');
                             }
@@ -196,6 +190,7 @@
                         }
                     }
                 });
+                $('.timestamp').html('Last Update: ' + new Date().toLocaleString());
             });
         }
     </script>
