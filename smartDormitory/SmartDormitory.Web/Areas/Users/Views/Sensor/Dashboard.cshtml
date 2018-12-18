@@ -81,8 +81,8 @@
                         strokeWidth: 0.035,
                         color: '#000000'
                     },
-                    limitMax: false, //Dynamicly change MAX, according to data, will edit gauge view
-                    limitMin: false, //Dynamicly change MIN, according to data, will edit gauge view
+                    limitMax: true, //Dynamicly change MAX, according to data, will edit gauge view
+                    limitMin: true, //Dynamicly change MIN, according to data, will edit gauge view
                     colorStart: '#6FADCF',
                     colorStop: '#8FC0DA',
                     strokeColor: '#E0E0E0',
@@ -148,7 +148,6 @@
 
                 $.each(json, function (index, value) {
                     if (value.value != userSensors[index].value) {
-
                         value.value = userSensors[index].value;
 
                         if (value.graphicalId === '1') {
