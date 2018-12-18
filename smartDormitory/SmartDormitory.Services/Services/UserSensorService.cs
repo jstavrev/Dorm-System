@@ -138,12 +138,12 @@ namespace SmartDormitory.Services.Services
                 throw new ArgumentNullException();
             }
 
-            if (min < sensor.MinValue)
+            if (min < userSensor.MinValue)
             {
                 throw new ArgumentOutOfRangeException();
             }
 
-            if (max > sensor.MaxValue)
+            if (max > userSensor.MaxValue)
             {
                 throw new ArgumentOutOfRangeException();
             }

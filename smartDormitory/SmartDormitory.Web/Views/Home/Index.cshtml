@@ -7,7 +7,7 @@
 
     #map {
         height: 500px;
-        width: 900px;
+        width: 100%;
     }
 
     html, body {
@@ -28,11 +28,11 @@
     </p>
     <p>
         We currently have <b>@TempData["Users"] happy users</b>, and <b>@TempData["Sensors"] sensors</b>...
-        <a class="btn btn-primary btn-lg pull-right">Learn more</a>
+        <a a asp-area="" asp-controller="Home" asp-action="About" class="btn btn-primary btn-lg pull-right">Learn more</a>
     </p>
 </div>
 
-<div class="row" align="center">
+<div class="row" align="center" style="background-size:100% auto;">
     <div id="map"></div>
     <script src="~/lib/marker-clusterer/marker-cluster.js"></script>
     <script>
